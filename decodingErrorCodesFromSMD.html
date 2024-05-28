@@ -608,10 +608,6 @@
             { id: 8, Description: 'Неисправен модуль ZigBee', Recommendations: ''},
             { id: 9, Description: 'Неисправен модуль RF', Recommendations: '' }];
 
-        function hex2bin(hex) {
-            return parseInt(hex, 16).toString(2);
-        } 
-
         const getErrorByID = (array, id) => {
             if (array) {
                 for (let i = 0; i < array.length; i++) {
@@ -662,7 +658,7 @@
             if (error_code !="") {
                 if (modelsSelect.value == "Iskraemeco") {
                     let ErrorCodeToPrint = 'Ошибка 0x' + error_code;
-                    error_code = hex2bin(error_code);
+                    error_code = parseInt(error_code, 16).toString(2);
                     PrintResult(ErrorCodeToPrint + '(0b' + error_code + ')\n');
                     error_code = error_code.split('').reverse().join('');
                     var isError = false;
