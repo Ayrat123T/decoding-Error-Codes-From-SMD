@@ -4,7 +4,7 @@ The error code is deciphered in accordance with the current operating instructio
 
 Instructions:
 1. Download to your smartphone, PC or laptop
-2. Open using any browser.
+2. Open using a browser (does not work on Safari on iPhone).
 
 Rus:
 Форма для расшифровки кода ошибки прибора учёта электроэнергии, которая отображается на его экране, в текстовый вид.
@@ -13,4 +13,4 @@ Rus:
 Инструкция:
 
 1. Скачать на смартфон, ПК или ноутбук
-2. Открыть с помощью любого браузера.
+2. Открыть с помощью браузера (не работает на сафари на айфоне).
