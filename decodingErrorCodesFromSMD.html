@@ -2,6 +2,8 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="user-scalable=no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
         <style>
             html {
                 height: 100%;
@@ -20,44 +22,46 @@
                 align-items: baseline;
                 justify-content: space-between;
                 font-weight: bold;
-                font-size: 48px;
+                font-size: 22pt;
             }
 
             .footer {
-                font-size: 16px;
-                color: #ffffff;;
-                margin: 0;
-                bottom: 36px;
+                font-size: 12pt;
+                color: #ffffff;
                 text-align: right;
             }
 
             .output {
-                font-size: 60px;
+                font-size: 18pt;
                 height: 100px;
                 text-align: left;
             }
 
             .input {
-                font-size: 60px;
-                height: 100px;
+                font-size: 20pt;
+                height: 100%;
+                display: inline-block;
+            }
+
+            .inputErr {
+                font-size: 22pt;
+                height: 100%;
+                width: 200px;
                 display: inline-block;
             }
 
             .inputRadio {
-                font-size: 60px;
-                height: 100px;
-                width: 60px;
-                height: 60px;
+                font-size: 20pt;
             }
 
             .button {     
-                border-radius: 15px;
-                height: 100px;
-                margin: 30px;
+                border-radius: 5px;
+                height: 100%;
+                margin: 1%;
                 box-sizing: border-box;
                 border: 3px;
                 text-align: center;
-                font-size: 60px;
+                font-size: 22pt;
                 cursor: pointer;
                 color: white;
                 background-color: rgb(0,145,215);
@@ -86,14 +90,14 @@
                     </optgroup>
                 </select></p>
                 <p><div id="VPOverCE"></div><div id="preErrorCode" class="input"></div>
-                    <input id="errorCode" type="number" class="input" name="errorCode" placeholder="Введите код ошибки" min="0"/></p>
+                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18"/></p>
                 <p><button id="send" type="submit" class="button" name="send">Расшифровать</button>
                     <button type="reset" onclick="clearALL()" class="button">Сброс</button></p>
         </form>
         <div id="copy"></div>
-        <div class="output" id="printBlock"></div>
-        <div class="footer"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
+        <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
+        <div class="output" id="printBlock"></div>
     </form>
     </body>
     <script>
