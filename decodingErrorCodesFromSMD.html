@@ -54,7 +54,7 @@
                 font-size: 20pt;
             }
 
-            .button {     
+            .button {
                 border-radius: 5px;
                 height: 100%;
                 margin: 1%;
@@ -65,6 +65,35 @@
                 cursor: pointer;
                 color: white;
                 background-color: rgb(0,145,215);
+            }
+
+
+            .page {
+                display: inline-flex;
+            }
+
+            ol {
+                list-style: none;
+                margin: 100px 0;
+            }
+
+            li {
+                margin: 100px 0;
+                display: flex;
+            }
+
+            span {
+                margin-left: 50px;
+                margin-right: -50px;
+            }
+
+            .text {
+                margin-left: 130px;
+            }
+
+            .menu:hover {
+                position: relative;
+                left: 100px;
             }
         </style>
     </head>
@@ -89,15 +118,40 @@
                         <option value="milur_307" label="307">
                     </optgroup>
                 </select></p>
-                <p><div id="VPOverCE"></div><div id="preErrorCode" class="input"></div>
+                <p><div id="VPO" class="inputRadio" style="display: none">
+                    <input type = "radio" name= "VPO" value="VPO_6x" label="Iskraemeco" >ВПО 6.x</radio>
+                    <input type = "radio" name= "VPO" value="VPO_9_10x">ВПО 9/10.x</radio>
+                </div></p>
+                    <select id="ErrorTypeSelectCE" class="input" name = 'ErrorTypeSelect' style="display: none">
+                        <option value="Err" label="Err" selected="selected">
+                        <option value="At" label="At">
+                        <option value="Info" label="Info">
+                    </select>
+                    <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
                     <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18"/></p>
                 <p><button id="send" type="submit" class="button" name="send">Расшифровать</button>
                     <button type="reset" onclick="clearALL()" class="button">Сброс</button></p>
+            <button id = "copyResultButton"
+                name = "copyResultButton"
+                class = "button"
+                style="display: none">Скопировать результат</button>
         </form>
-        <div id="copy"></div>
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
         <div class="output" id="printBlock"></div>
+
+        <div class="page">
+            <div class="menu">
+                <ol>
+                    <li><img src="🔑" alt=""><span>Test1</span></li>
+                    <li><img src="📺" alt=""><span>Test2</span></li>
+                </ol>
+            </div>   
+            <div class="text">
+            <pre>
+                  много текста
+            </pre>
+        </div>
     </form>
     </body>
     <script>
@@ -646,20 +700,22 @@
                 if (errorDecode.Recommendations != '') {
                     PrintResult('\n(' + errorDecode.Recommendations + ')');
                 }
-                createCopyButton();
+                document.search.copyResultButton.style.display = "";
             } else {
                 alert('Ошибки не существует');
             }
         }
 
         const modelsSelect = document.search.model; // получаем значение поля model
+        const printButton = document.search.send;
+        printButton.addEventListener("click", printForm);
 
         function printForm(e) {
             e.preventDefault();
             deletePrintBlock();
-            deleteCopyButton();
             var error_code = document.search.errorCode.value;
             if (error_code !="") {
+                document.search.copyResultButton.style.display = "";
                 if (modelsSelect.value == "Iskraemeco") {
                     let ErrorCodeToPrint = 'Ошибка 0x' + error_code;
                     error_code = parseInt(error_code, 16).toString(2);
@@ -678,7 +734,6 @@
                     if (!isError) {
                         alert('Ошибки не существует');
                     }
-                    createCopyButton();
                 } else if (modelsSelect.value == "milur_307") {
                     PrintErrorDecode(milur_307_Err, error_code);
                 } else if (modelsSelect.value == "milur_107s") {
@@ -733,46 +788,18 @@
             document.getElementById("printBlock").innerHTML = "";
         }
 
-        function deleteCopyButton() {
-            if (document.getElementById('buttonId') != null) {
-                document.getElementById('buttonId').remove();
-            }
-        }
-
-        function deletePreErrorCode() {
-            while (document.getElementById('preErrorCode_Meter_Model') != null) {
-                document.getElementById('preErrorCode_Meter_Model').remove();
-            }
-        }
-
-        function deleteVPOPreErrorCode() {
-            while (document.getElementById('VPOpreErrorCode_Meter_Model') != null) {
-                document.getElementById('VPOpreErrorCode_Meter_Model').remove();
-            }
-        }
-
         function clearALL() {
             deletePrintBlock();
-            deleteCopyButton();
-            deletePreErrorCode();
+            document.search.copyResultButton.style.display = "none";
+            document.getElementById("VPO").style["display"] = "none";
+            document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
         }
 
-        function createCopyButton() {
-            if (!document.getElementById('buttonId')) {
-                let button = document.createElement('button');
-                button.type = 'button';
-                button.classList.add('button');
-                button.id = 'buttonId';
-                button.textContent = 'Скопировать результат';
-                button.onclick = copyResult;
-                copy.appendChild(button);
-            }
-        }
-       
-        const printButton = document.search.send;
-        printButton.addEventListener("click", printForm);
+        const writeBtn = document.search.copyResultButton;
+        writeBtn.addEventListener("click", copyResult);
 
-        function copyResult() {
+        function copyResult(e) {
+            e.preventDefault();
             /*//для десктопов
             const writeBtn = document.getElementById('buttonId');
             const inputEl = document.querySelector('.output');
@@ -792,7 +819,7 @@
                     console.log('Something went wrong', err);
                 })
             }*/
-            const writeBtn = document.getElementById('buttonId');
+            const writeBtn = document.search.copyResultButton;
             var inp = document.createElement('input')
             inp.value = document.querySelector('.output').innerText;
             document.body.appendChild(inp)
@@ -804,78 +831,36 @@
                     setTimeout(() => {
                         writeBtn.innerText = originalText;
                     }, 1500);
-                    }
+                }
+               
             } else {
                 console.log("Failed...")
             }
             document.body.removeChild(inp)
         }
 
-        function createCE_Meter_Model_VPO(VPOvalue, VPOname) {
-            if (!document.querySelector('input[name="VPO"]:checked')) {
-                var CE_Meter_Model_VPO = document.createElement('input');
-                CE_Meter_Model_VPO.id = 'VPOpreErrorCode_Meter_Model';
-                CE_Meter_Model_VPO.classList.add('inputRadio');
-                CE_Meter_Model_VPO.type = 'radio';
-                CE_Meter_Model_VPO.name='VPO';
-                CE_Meter_Model_VPO.value=VPOvalue;
-                VPOverCE.appendChild(CE_Meter_Model_VPO);
-                const VPO = document.createElement("label");
-                VPO.classList.add('inputRadio');
-                VPO.id = 'VPOpreErrorCode_Meter_Model';
-                VPO.name='VPO';
-                VPO.type = 'text';
-                VPO.textContent = VPOname;
-                VPOverCE.appendChild(VPO);
-            }
-        }
-
-        const preErrorCode = document.getElementById("preErrorCode");
-        const VPOverCE = document.getElementById("VPOverCE");
+        const preErrorCode_Meter_Model =  document.getElementById("preErrorCode_Meter_Model");
 
         function changeOption() {
-            deletePreErrorCode();
-            deleteVPOPreErrorCode();
-            if (modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "incotex_230" || modelsSelect.value == "energomera_CE_303") {
-                const preErrorCode_Meter_Model = document.createElement("label");
-                preErrorCode_Meter_Model.classList.add('input');
-                preErrorCode_Meter_Model.id = 'preErrorCode_Meter_Model';
-                //preErrorCode_Meter_Model.name = 'preSimpleErrorCode_Meter_Model';
+            preErrorCode_Meter_Model.textContent = "";
+            if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
+                if (document.getElementById("ErrorTypeSelectCE").value != 'At') document.getElementById("VPO").style["display"] = "";
+                document.getElementById("ErrorTypeSelectCE").style["display"] = "";
+            } else {
+                document.getElementById("VPO").style["display"] = "none";
+                document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
                 if (modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "incotex_230") preErrorCode_Meter_Model.textContent = "E-";
                 else if (modelsSelect.value == "energomera_CE_303") preErrorCode_Meter_Model.textContent = "Err ";
-                preErrorCode.appendChild(preErrorCode_Meter_Model);
-            } else if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
-                let selectPreErrorCodeCE = document.createElement('select');
-                selectPreErrorCodeCE.classList.add('input');
-                selectPreErrorCodeCE.id = 'preErrorCode_Meter_Model';
-                selectPreErrorCodeCE.name = 'ErrorTypeSelect';
-                const newOptionErr = new Option('Err', 'Err');
-                const newOptionAt = new Option('At', 'At');
-                const newOptioninfo = new Option('Info', 'Info');
-                selectPreErrorCodeCE.options[selectPreErrorCodeCE.options.length]=newOptionErr;
-                selectPreErrorCodeCE.options[selectPreErrorCodeCE.options.length]=newOptionAt;
-                selectPreErrorCodeCE.options[selectPreErrorCodeCE.options.length]=newOptioninfo;
-                preErrorCode.appendChild(selectPreErrorCodeCE);
-                createCE_Meter_Model_VPO('VPO_6x', 'ВПО 6.x');
-                createCE_Meter_Model_VPO('VPO_9_10x', 'ВПО 9/10.x');
-            } else {
-                deletePreErrorCode();
-                deleteVPOPreErrorCode();
             }
         }
         modelsSelect.addEventListener("change", changeOption);
 
         function changeOptionCodeTypeEnergomera() {
             if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
-                const CodeTypeEnergomeraSelect = document.search.ErrorTypeSelect;
+                const CodeTypeEnergomeraSelect = document.getElementById("ErrorTypeSelectCE");
                 function changeOptionCodeTypeEnergomera2() {
-                    if (!document.querySelector('input[name="VPO"]:checked')) deleteVPOPreErrorCode();
-                    if (CodeTypeEnergomeraSelect.value != 'At') {
-                        createCE_Meter_Model_VPO('VPO_6x', 'ВПО 6.x');
-                        createCE_Meter_Model_VPO('VPO_9_10x', 'ВПО 9/10.x');
-                    } else {
-                        deleteVPOPreErrorCode();
-                    }
+                    if (CodeTypeEnergomeraSelect.value != 'At') document.getElementById("VPO").style["display"] = "";
+                    else document.getElementById("VPO").style["display"] = "none";
                 }
                 CodeTypeEnergomeraSelect.addEventListener("change", changeOptionCodeTypeEnergomera2);
             }
