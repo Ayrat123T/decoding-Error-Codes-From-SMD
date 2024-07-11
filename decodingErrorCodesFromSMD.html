@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
         <style>
             html {
@@ -28,7 +29,9 @@
             .footer {
                 font-size: 12pt;
                 color: #ffffff;
-                text-align: right;
+                text-align: center;
+                display: inline-block;
+                position: relative;
             }
 
             .output {
@@ -40,7 +43,7 @@
             .input {
                 font-size: 20pt;
                 height: 100%;
-                display: inline-block;
+                display:inline-table;
             }
 
             .inputErr {
@@ -48,6 +51,13 @@
                 height: 100%;
                 width: 200px;
                 display: inline-block;
+            }
+
+            .inputModelDecoding {
+                font-size: 20pt;
+                padding: 0%;
+                margin: 0%;
+                text-align: center;
             }
 
             .inputRadio {
@@ -67,42 +77,84 @@
                 background-color: rgb(0,145,215);
             }
 
-
-            .page {
-                display: inline-flex;
+            /* Кнопка выпадающего списка */
+            .dropbtn {
+                background-color: rgb(0,145,215);
+                color: white;
+                padding: 16px;
+                font-size: 16pt;
+                border: none;
+                text-align: left;
+                min-width: 240px;
             }
 
-            ol {
-                list-style: none;
-                margin: 100px 0;
-            }
-
-            li {
-                margin: 100px 0;
-                display: flex;
-            }
-
-            span {
-                margin-left: 50px;
-                margin-right: -50px;
-            }
-
-            .text {
-                margin-left: 130px;
-            }
-
-            .menu:hover {
+            /* Контейнер <div> - необходим для размещения выпадающего содержимого */
+            .dropdown {
                 position: relative;
-                left: 100px;
+                display: inline-block;
             }
+
+            /* Выпадающее содержимое (скрыто по умолчанию) */
+            .dropdown-content {
+                font-size: 15pt;
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                text-align: left;
+            }
+
+            .visible-dropdown-content {
+                font-size: 16pt;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            /* Ссылки внутри выпадающего списка */
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            /* Изменение цвета выпадающих ссылок при наведении курсора */
+            .dropdown-content a:hover {background-color: #ddd;}
+
+            /* Показать выпадающее меню при наведении курсора */
+            .dropdown:hover .dropdown-content {display: block;}
+
+            /* Изменение цвета фона кнопки раскрывающегося списка при отображении содержимого раскрывающегося списка */
+            .dropdown:hover .dropbtn {background-color: #646464;}
+
         </style>
     </head>
     <body>
-        <form name="search">
+          <div class="dropdown">
+            <button class="dropbtn">📱 Меню</button>
+            <div class="dropdown-content">
+              <a href="#" id="showErrorDecodingForm">🔑 Расшифровка кодов ошибок ИПУ</a>
+              <a href="#" id="showModelDecodingForm">📟 Расшифровка модели ИПУ</a>
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        <form name="ErrorDecoding">
             <p class="header">🔑 Расшифровка кодов ошибок ИПУ</p>
             <p><label for="model" class="input">модель: </label>
                 <select id="model" name="model" class="input" type="text">
-                    <option value="Iskraemeco" label="Iskraemeco" selected="selected">
+                    <option value="Iskraemeco" label="Iskraemeco" selected="selected"></option>
                     <option value="mir_C04" label="МИР С-04"></option>
                     <optgroup label="Меркурий">
                         <option value="incotex_204_208_234_238" label="204/208/234/238">
@@ -136,23 +188,78 @@
                 class = "button"
                 style="display: none">Скопировать результат</button>
         </form>
+
+        <form name="ModelDecoding" style="display: none">
+            <p class="header">📟 Расшифровка модели ИПУ</p>
+            <select id="modelName" name="modelName" class="input" type="text">
+                <!--<option value="Iskraemeco" selected="selected">Iskraemeco</option>-->
+                <option value="incotex" selected>Меркурий</option>
+            </select>
+            <span id = "incotexProp" name="incotexProp">
+                <select id="incotexMeterSeries" name="incotexMeterSeries" class="input" type="text">
+                    <option value="230" label="230" selected="selected"></option>
+                </select>--
+                <table class="input" id="incotexFunc">
+                    <tr>
+                        <td>A</td> <td>R</td> <td>T</td> <td>2</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="A"></input></td>
+                        <td><input type="checkbox" name="Rr"></input></td>
+                        <td><input type="checkbox" name="T"></input></td>
+                        <td><input type="checkbox" name="To"></input></td>
+                    </tr>
+                </table>--
+                <section id="incotexDenomination" class="input">
+                    <text id="incotexDenomination" class="input">0</text>
+                    <select name="incotexDenomination" type="text" class="input">
+                        <option value="0" label="0" selected="selected"></option>
+                        <option value="1" label="1"></option>
+                        <option value="2" label="2"></option>
+                        <option value="3" label="3"></option>
+                    </select>
+                </section>--
+                <table class="input" id="incotexMainFunc">
+                    <tr>
+                        <td>F</td> <td>P</td> <td>Q</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="F"></input></td>
+                        <td><input type="checkbox" name="P"></input></td>
+                        <td><input type="checkbox" name="Q"></input></td>
+                    </tr>
+                </table>--
+                <table class="input" id="incotexInterface">
+                    <tr>
+                        <td>C</td> <td>R</td> <td>S</td> <td>I</td> <td>L</td> <td>G</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="C"></input></td>
+                        <td><input type="checkbox" name="R"></input></td>
+                        <td><input type="checkbox" name="S"></input></td>
+                        <td><input type="checkbox" name="I"></input></td>
+                        <td><input type="checkbox" name="L"></input></td>
+                        <td><input type="checkbox" name="G"></input></td>
+                    </tr>
+                </table>--
+                <table class="input" id="incotexAdditFunc">
+                    <tr>
+                        <td>D</td> <td>N</td> <td>B</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name="D"></input></td>
+                        <td><input type="checkbox" name="N"></input></td>
+                        <td><input type="checkbox" name="B"></input></td>
+                    </tr>
+                </table>
+            </span>
+            <p><button id="decodModel" type="submit" class="button" name="decodModel">Расшифровать</button>
+                <button type="reset" onclick="hideAll()" class="button">Сброс</button></p>
+        </form>
+        <br>
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
         <div class="output" id="printBlock"></div>
-
-        <!--<div class="page">
-            <div class="menu">
-                <ol>
-                    <li><img src="🔑" alt=""><span>Test1</span></li>
-                    <li><img src="📺" alt=""><span>Test2</span></li>
-                </ol>
-            </div>   
-            <div class="text">
-            <pre>
-                  много текста
-            </pre>
-        </div>-->
-    </form>
     </body>
     <script>
         let IskraemecoErrors = [
@@ -682,16 +789,16 @@
             const pElement = document.createElement("p"); // создаем новый параграф
             pElement.textContent = textResult; // устанавливаем у него текст
             printBlock.appendChild(pElement); // добавляем параграф в printBlock
-            document.search.errorCode.value = "";
+            document.ErrorDecoding.errorCode.value = "";
         }
 
         function PrintErrorDecode(arrayErrorDecode, error_code) {
             const errorDecode = getErrorByID(arrayErrorDecode, error_code);
             if (errorDecode) {
                 if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
-                    PrintResult ('Ошибка ' + document.search.ErrorTypeSelect.value + ' ' + error_code + ': ' + errorDecode.Description);
+                    PrintResult ('Ошибка ' + document.ErrorDecoding.ErrorTypeSelect.value + ' ' + error_code + ': ' + errorDecode.Description + '\n');
                 } else if (modelsSelect.value == "incotex_230" || modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "energomera_CE_303") {
-                    PrintResult('Ошибка ' + document.getElementById("preErrorCode_Meter_Model").innerHTML + error_code + ': ' + errorDecode.Description);
+                    PrintResult('Ошибка ' + document.getElementById("preErrorCode_Meter_Model").innerHTML + error_code + ': ' + errorDecode.Description + '\n');
                 } else if (modelsSelect.value == "milur_107s" || modelsSelect.value == "milur_307") {
                     PrintResult('Ошибка ' + error_code +'(dec) / 0xb' + parseInt(error_code, 10).toString(2) + ': ' + errorDecode.Description);
                 } else {
@@ -700,22 +807,22 @@
                 if (errorDecode.Recommendations != '') {
                     PrintResult('\n(' + errorDecode.Recommendations + ')');
                 }
-                document.search.copyResultButton.style.display = "";
+                document.ErrorDecoding.copyResultButton.style.display = "";
             } else {
                 alert('Ошибки не существует');
             }
         }
 
-        const modelsSelect = document.search.model; // получаем значение поля model
-        const printButton = document.search.send;
+        const modelsSelect = document.ErrorDecoding.model; // получаем значение поля model
+        const printButton = document.ErrorDecoding.send;
         printButton.addEventListener("click", printForm);
 
         function printForm(e) {
             e.preventDefault();
-            deletePrintBlock();
-            var error_code = document.search.errorCode.value;
+            document.getElementById("printBlock").innerHTML = "";
+            var error_code = document.ErrorDecoding.errorCode.value;
             if (error_code !="") {
-                document.search.copyResultButton.style.display = "";
+                document.ErrorDecoding.copyResultButton.style.display = "";
                 if (modelsSelect.value == "Iskraemeco") {
                     let ErrorCodeToPrint = 'Ошибка 0x' + error_code;
                     error_code = parseInt(error_code, 16).toString(2);
@@ -725,9 +832,9 @@
                     for (let i =  0; i < error_code.length; i++) {
                         if (error_code[i] == 1) {
                             isError = true;
-                            PrintResult('Бит ' + i + ': ' + IskraemecoErrors[i].Description + '\n');
+                            PrintResult('Бит ' + i + ': ' + IskraemecoErrors[i].Description + '\n\r');
                             if (IskraemecoErrors[i].Recommendations != '') {
-                                PrintResult('(' + IskraemecoErrors[i].Recommendations + ')\n');
+                                PrintResult('(' + IskraemecoErrors[i].Recommendations + ')\n\r');
                             }
                         }
                     }
@@ -748,7 +855,7 @@
                     PrintErrorDecode(energomera_CE_303_Err, error_code);
                 } else if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
                     const selectedVPO = document.querySelector('input[name="VPO"]:checked');
-                    const CodeTypeEnergomeraSelect = document.search.ErrorTypeSelect;
+                    const CodeTypeEnergomeraSelect = document.ErrorDecoding.ErrorTypeSelect;
                     if (CodeTypeEnergomeraSelect.value != 'At') {
                         if (selectedVPO) {
                             if (CodeTypeEnergomeraSelect.value == 'Err') {
@@ -784,19 +891,12 @@
             }
         }
 
-        function deletePrintBlock() {
-            document.getElementById("printBlock").innerHTML = "";
-        }
-
         function clearALL() {
-            deletePrintBlock();
-            document.search.copyResultButton.style.display = "none";
+            document.getElementById("printBlock").innerHTML = "";
+            document.ErrorDecoding.copyResultButton.style.display = "none";
             document.getElementById("VPO").style["display"] = "none";
             document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
         }
-
-        const writeBtn = document.search.copyResultButton;
-        writeBtn.addEventListener("click", copyResult);
 
         function copyResult(e) {
             e.preventDefault();
@@ -819,7 +919,6 @@
                     console.log('Something went wrong', err);
                 })
             }*/
-            const writeBtn = document.search.copyResultButton;
             var inp = document.createElement('input')
             inp.value = document.querySelector('.output').innerText;
             document.body.appendChild(inp)
@@ -832,39 +931,151 @@
                         writeBtn.innerText = originalText;
                     }, 1500);
                 }
-               
             } else {
                 console.log("Failed...")
             }
             document.body.removeChild(inp)
         }
 
-        const preErrorCode_Meter_Model =  document.getElementById("preErrorCode_Meter_Model");
+        const writeBtn = document.ErrorDecoding.copyResultButton;
+        writeBtn.addEventListener("click", copyResult);
 
         function changeOption() {
-            preErrorCode_Meter_Model.textContent = "";
+            document.getElementById("preErrorCode_Meter_Model").textContent = "";
             if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
                 if (document.getElementById("ErrorTypeSelectCE").value != 'At') document.getElementById("VPO").style["display"] = "";
                 document.getElementById("ErrorTypeSelectCE").style["display"] = "";
             } else {
                 document.getElementById("VPO").style["display"] = "none";
                 document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
-                if (modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "incotex_230") preErrorCode_Meter_Model.textContent = "E-";
-                else if (modelsSelect.value == "energomera_CE_303") preErrorCode_Meter_Model.textContent = "Err ";
+                if (modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "incotex_230") document.getElementById("preErrorCode_Meter_Model").textContent = "E-";
+                else if (modelsSelect.value == "energomera_CE_303") document.getElementById("preErrorCode_Meter_Model").textContent = "Err ";
             }
         }
+
         modelsSelect.addEventListener("change", changeOption);
 
         function changeOptionCodeTypeEnergomera() {
             if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
-                const CodeTypeEnergomeraSelect = document.getElementById("ErrorTypeSelectCE");
                 function changeOptionCodeTypeEnergomera2() {
-                    if (CodeTypeEnergomeraSelect.value != 'At') document.getElementById("VPO").style["display"] = "";
+                    if (document.getElementById("ErrorTypeSelectCE").value != 'At') document.getElementById("VPO").style["display"] = "";
                     else document.getElementById("VPO").style["display"] = "none";
                 }
-                CodeTypeEnergomeraSelect.addEventListener("change", changeOptionCodeTypeEnergomera2);
+                document.getElementById("ErrorTypeSelectCE").addEventListener("change", changeOptionCodeTypeEnergomera2);
             }
         }
+
         modelsSelect.addEventListener("change", changeOptionCodeTypeEnergomera);
+
+        const appErrorDecodingForm = document.getElementById("showErrorDecodingForm");
+        appErrorDecodingForm.addEventListener("click", changeAppFormToErrorDecodingForm);
+
+        function changeAppFormToErrorDecodingForm () {
+                document.ErrorDecoding.style["display"] = "";
+                document.ModelDecoding.style["display"] = "none";
+        }
+
+        const appModelDecodingForm = document.getElementById("showModelDecodingForm");
+        appModelDecodingForm.addEventListener("click", changeAppFormToModelDecodingForm);
+
+        function changeAppFormToModelDecodingForm () {
+            document.ErrorDecoding.style["display"] = "none";
+            document.ModelDecoding.style["display"] = "";
+        }
+
+        function showMeterProp() {
+            if (modelName.value == "incotex") {
+                document.getElementById("incotexProp").style["display"] = "";
+            } else {
+                document.getElementById("incotexProp").style["display"] = "none";
+            }
+        }
+
+        let brandToModelName = [{ModelName: "incotex", brand: "Меркурий"},
+        {ModelName: "Iskraemeco", brand: "Iskraemeco"}
+        ];
+
+        const getbrandByModelName = (array, ModelName) => {
+            if (array) {
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i].ModelName == ModelName) {
+                        return array[i];
+                    }
+                }
+            }
+            return null
+        }
+
+        function decodMeterModel(e) {
+            e.preventDefault();
+            document.getElementById("printBlock").innerHTML = "";
+            if (modelName.value == "incotex") {
+                PrintResult(getbrandByModelName(brandToModelName, modelName.value).brand + '-'
+                + document.ModelDecoding.incotexMeterSeries.value + '-'
+                + (document.ModelDecoding.A.checked ? 'A' :'')
+                + (document.ModelDecoding.Rr.checked ? 'R' :'')
+                + (document.ModelDecoding.T.checked ? 'T' :'')
+                + (document.ModelDecoding.To.checked ? '2' :'') + '-0'
+                + document.ModelDecoding.incotexDenomination.options[document.ModelDecoding.incotexDenomination.selectedIndex].value + '-'
+                + (document.ModelDecoding.F.checked ? 'F' :'')
+                + (document.ModelDecoding.P.checked ? 'P' :'')
+                + (document.ModelDecoding.Q.checked ? 'Q' :'') + '-'
+                + (document.ModelDecoding.C.checked ? 'C' :'')
+                + (document.ModelDecoding.R.checked ? 'R' :'')
+                + (document.ModelDecoding.S.checked ? 'S' :'')
+                + (document.ModelDecoding.I.checked ? 'I' :'')
+                + (document.ModelDecoding.L.checked ? 'L' :'')
+                + (document.ModelDecoding.G.checked ? 'G' :'') + '-'
+                + (document.ModelDecoding.D.checked ? 'D' :'')
+                + (document.ModelDecoding.N.checked ? 'N' :'')
+                + (document.ModelDecoding.B.checked ? 'B' :'') + '\n\r');
+                PrintResult(document.ModelDecoding.A.checked ? 'A – учет активной энергии' :'');
+                PrintResult(document.ModelDecoding.Rr.checked ? 'R – учет реактивной энергии' :'');
+                PrintResult(document.ModelDecoding.T.checked ? 'T – встроенный тарификатор' :'');
+                PrintResult(document.ModelDecoding.To.checked ? '2 – двунаправленный' : 'однонаправленный');
+                switch(document.ModelDecoding.incotexDenomination.options[document.ModelDecoding.incotexDenomination.selectedIndex].value) {
+                    case '0':
+                        PrintResult("Номинальный ток - 5 A, базовый(максимальный) ток - 7,5 A");
+                        PrintResult("Номинальное напряжение - 3×57,7 В, максимальное напряжение - 100 В");
+                        PrintResult("Класс точности при измерении активной энергии - 0,5S, реактивной энергии - 1,0");
+                        break;
+                    case '1':
+                        PrintResult("Номинальный ток - 5 A, базовый(максимальный) ток - 60 A");
+                        PrintResult("Номинальное напряжение - 3×230 В, максимальное напряжение - 400 В");
+                        PrintResult("Класс точности при измерении активной энергии - 1,0, реактивной энергии - 2,0");
+                        break;
+                    case '2':
+                        PrintResult("Номинальный ток - 10 A, базовый(максимальный) ток - 100 A");
+                        PrintResult("Номинальное напряжение - 3×230 В, максимальное напряжение - 400 В");
+                        PrintResult("Класс точности при измерении активной энергии - 1,0, реактивной энергии - 2,0");
+                        break;
+                    case '3':
+                        PrintResult("Номинальный ток - 5 A, базовый(максимальный) то - 7,5 A");
+                        PrintResult("Номинальное напряжение - 3×230 В, максимальное напряжение - 400 В");
+                        PrintResult("Класс точности при измерении активной энергии - 0,5S, реактивной энергии - 1,0");
+                        break;
+                }
+                PrintResult(document.ModelDecoding.C.checked ? 'C – CAN' :'');
+                PrintResult(document.ModelDecoding.R.checked ? 'R – RS485' :'');
+                PrintResult(document.ModelDecoding.S.checked ? 'S – встроенное питание RS485, CAN' :'');
+                PrintResult(document.ModelDecoding.I.checked ? 'I – IRDA' :'');
+                PrintResult(document.ModelDecoding.L.checked ? 'L – PLC I' :'');
+                PrintResult(document.ModelDecoding.G.checked ? 'G – GSM/GPRS' :'');
+                PrintResult(document.ModelDecoding.D.checked ? 'D – возможность резервного питания' :'');
+                PrintResult(document.ModelDecoding.N.checked ? 'N – наличие электронной пломбы' :'');
+                PrintResult(document.ModelDecoding.B.checked ? 'B – подсветка ЖКИ' :'');
+            }
+        }
+
+        const decodModelBtn = document.ModelDecoding.decodModel;
+        decodModelBtn.addEventListener("click", decodMeterModel);
+
+        function hideAll () {
+            document.getElementById("incotexProp").style["display"] = "none";
+        }
+        
+        const modelName = document.getElementById("modelName");
+        modelName.addEventListener("change", showMeterProp);
+
     </script>
 </html>
