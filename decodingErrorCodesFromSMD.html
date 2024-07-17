@@ -79,19 +79,19 @@
 
             /* Кнопка выпадающего списка */
             .dropbtn {
+                padding: auto;
                 background-color: rgb(0,145,215);
                 color: white;
                 padding: 16px;
                 font-size: 16pt;
                 border: none;
                 text-align: left;
-                min-width: 240px;
             }
 
             /* Контейнер <div> - необходим для размещения выпадающего содержимого */
             .dropdown {
                 position: relative;
-                display: inline-block;
+                float: left;
             }
 
             /* Выпадающее содержимое (скрыто по умолчанию) */
@@ -100,7 +100,7 @@
                 display: none;
                 position: absolute;
                 background-color: #f1f1f1;
-                min-width: 160px;
+                min-width: 240px;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                 z-index: 1;
                 text-align: left;
@@ -142,13 +142,6 @@
               <a href="#" id="showModelDecodingForm">📟 Расшифровка модели ИПУ</a>
             </div>
           </div>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
           <br>
         <form name="ErrorDecoding">
             <p class="header">🔑 Расшифровка кодов ошибок ИПУ</p>
@@ -197,17 +190,26 @@
             </select>
             <span id = "incotexProp" name="incotexProp">
                 <select id="incotexMeterSeries" name="incotexMeterSeries" class="input" type="text">
+                    <option value="204" label="204"></option>
+                    <option value="208" label="208"></option>
+                    <option value="234" label="234"></option>
                     <option value="230" label="230" selected="selected"></option>
+                    <option value="238" label="238"></option>
                 </select>--
                 <table class="input" id="incotexFunc">
                     <tr>
-                        <td>A</td> <td>R</td> <td>T</td> <td>2</td>
+                        <td>A</td> <td>R</td> <td>T</td>
+                        <td id="tdIncotexFuncM" style="display: none">M</td>
+                        <td id="tdIncotexFuncX" style="display: none">X</td>
+                        <td>2</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" name="A"></input></td>
-                        <td><input type="checkbox" name="Rr"></input></td>
-                        <td><input type="checkbox" name="T"></input></td>
-                        <td><input type="checkbox" name="To"></input></td>
+                        <td><input type="checkbox" name="A" checked></input></td>
+                        <td><input type="checkbox" name="Rr" checked></input></td>
+                        <td><input type="checkbox" name="T" checked></input></td>
+                        <td id="inputIncotexFuncM" style="display: none"><input type="checkbox" name="M" checked></input></td>
+                        <td id="inputIncotexFuncX" style="display: none"><input type="checkbox" name="X" checked></input></td>
+                        <td><input type="checkbox" name="To" checked></input></td>
                     </tr>
                 </table>--
                 <section id="incotexDenomination" class="input">
@@ -217,16 +219,22 @@
                         <option value="1" label="1"></option>
                         <option value="2" label="2"></option>
                         <option value="3" label="3"></option>
+                            <option value="4" label="4" id="incotexDenomination4" style="display: none"></option>
+                            <option value="5" label="5" id="incotexDenomination5" style="display: none"></option>
+                            <option value="6" label="6" id="incotexDenomination6" style="display: none"></option>
+                            <option value="7" label="7" id="incotexDenomination7" style="display: none"></option>
+                            <option value="8" label="8" id="incotexDenomination8" style="display: none"></option>
+                            <option value="9" label="9" id="incotexDenomination9" style="display: none"></option>
                     </select>
-                </section>--
+                </section>
                 <table class="input" id="incotexMainFunc">
                     <tr>
-                        <td>F</td> <td>P</td> <td>Q</td>
+                        <td id="incotexMainFuncF">F</td> <td>P</td> <td>Q</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" name="F"></input></td>
-                        <td><input type="checkbox" name="P"></input></td>
-                        <td><input type="checkbox" name="Q"></input></td>
+                        <td id="inputIncotexMainFuncF"><input type="checkbox" name="F" checked></input></td>
+                        <td><input type="checkbox" name="P" checked></input></td>
+                        <td><input type="checkbox" name="Q" checked></input></td>
                     </tr>
                 </table>--
                 <table class="input" id="incotexInterface">
@@ -234,12 +242,12 @@
                         <td>C</td> <td>R</td> <td>S</td> <td>I</td> <td>L</td> <td>G</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" name="C"></input></td>
-                        <td><input type="checkbox" name="R"></input></td>
-                        <td><input type="checkbox" name="S"></input></td>
-                        <td><input type="checkbox" name="I"></input></td>
-                        <td><input type="checkbox" name="L"></input></td>
-                        <td><input type="checkbox" name="G"></input></td>
+                        <td><input type="checkbox" name="C" checked></input></td>
+                        <td><input type="checkbox" name="R" checked></input></td>
+                        <td><input type="checkbox" name="S" checked></input></td>
+                        <td><input type="checkbox" name="I" checked></input></td>
+                        <td><input type="checkbox" name="L" checked></input></td>
+                        <td><input type="checkbox" name="G" checked></input></td>
                     </tr>
                 </table>--
                 <table class="input" id="incotexAdditFunc">
@@ -247,9 +255,9 @@
                         <td>D</td> <td>N</td> <td>B</td>
                     </tr>
                     <tr>
-                        <td><input type="checkbox" name="D"></input></td>
-                        <td><input type="checkbox" name="N"></input></td>
-                        <td><input type="checkbox" name="B"></input></td>
+                        <td><input type="checkbox" name="D" checked></input></td>
+                        <td><input type="checkbox" name="N" checked></input></td>
+                        <td><input type="checkbox" name="B" checked></input></td>
                     </tr>
                 </table>
             </span>
@@ -1072,10 +1080,45 @@
 
         function hideAll () {
             //document.getElementById("incotexProp").style["display"] = "none";
+            incotexMeterSeries.value = "230";
         }
         
         const modelName = document.getElementById("modelName");
         modelName.addEventListener("change", showMeterProp);
+
+        function incotexMeterSeriesChange() {
+            if (incotexMeterSeries.value != "230") {
+                document.getElementById("tdIncotexFuncM").style["display"] = "";
+                document.getElementById("inputIncotexFuncM").style["display"] = "";
+                document.getElementById("tdIncotexFuncX").style["display"] = "";
+                document.getElementById("inputIncotexFuncX").style["display"] = "";
+                document.getElementById("incotexDenomination4").style["display"] = "";
+                document.getElementById("incotexDenomination5").style["display"] = "";
+                document.getElementById("incotexDenomination6").style["display"] = "";
+                document.getElementById("incotexDenomination7").style["display"] = "";
+                document.getElementById("incotexDenomination8").style["display"] = "";
+                document.getElementById("incotexDenomination9").style["display"] = "";
+                document.getElementById("incotexMainFuncF").style["display"] = "none";
+                document.getElementById("inputIncotexMainFuncF").style["display"] = "none";
+            } else {
+                document.getElementById("tdIncotexFuncM").style["display"] = "none";
+                document.getElementById("inputIncotexFuncM").style["display"] = "none";
+                document.getElementById("tdIncotexFuncX").style["display"] = "none";
+                document.getElementById("inputIncotexFuncX").style["display"] = "none";
+                document.getElementById("incotexDenomination4").style["display"] = "none";
+                document.getElementById("incotexDenomination5").style["display"] = "none";
+                document.getElementById("incotexDenomination6").style["display"] = "none";
+                document.getElementById("incotexDenomination7").style["display"] = "none";
+                document.getElementById("incotexDenomination8").style["display"] = "none";
+                document.getElementById("incotexDenomination9").style["display"] = "none";
+                document.getElementById("incotexMainFuncF").style["display"] = "";
+                document.getElementById("inputIncotexMainFuncF").style["display"] = "";
+            }
+        }
+
+
+        const incotexMeterSeries = document.getElementById("incotexMeterSeries");
+        incotexMeterSeries.addEventListener("change", incotexMeterSeriesChange);
 
     </script>
 </html>
