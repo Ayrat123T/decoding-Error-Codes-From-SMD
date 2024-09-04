@@ -49,6 +49,20 @@
                 display: inline-table;
             }
 
+            .labelMeterCheck {
+                font-size: 20pt;
+                height: 100%;
+                display: inline-table;
+                font-family:'Times New Roman', Times, serif;
+            }
+
+            .inputMeterCheck {
+                max-width: 150px;
+                width: 30vw;
+                font-size: 22pt;
+                display: inline-block;
+            }
+
             .inputErr {
                 font-size: 22pt;
                 height: 100%;
@@ -78,7 +92,10 @@
                 cursor: pointer;
                 color: white;
                 background-color: rgb(0,145,215);
-            
+            }
+
+            #StartMeterCheck {
+                background-color: #77dd77;
             }
 
             /* Кнопка выпадающего списка */
@@ -142,8 +159,9 @@
           <div class="dropdown">
             <button class="dropbtn">📱 Меню</button>
             <div class="dropdown-content">
-              <a href="#" id="showErrorDecodingForm">🔑 Расшифровка кодов ошибок ИПУ</a>
-              <a href="#" id="showModelDecodingForm">📟 Расшифровка модели ИПУ</a>
+              <a href="#" id="showErrorDecodingForm" onclick="changeAppToErrorDecodingForm()">🔑 Расшифровка кодов ошибок ИПУ</a>
+              <a href="#" id="showModelDecodingForm" onclick="changeAppToModelDecodingForm()">📟 Расшифровка модели ИПУ</a>
+              <a href="#" id="showMeterCheckForm" onclick="changeAppToMeterCheckForm()">✅ Проверка ИПУ</a>
             </div>
           </div>
         <form name="ErrorDecoding">
@@ -176,8 +194,8 @@
                         <option value="Info" label="Info">
                     </select>
                     <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
-                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18"/></p>
-                <p><button id="send" type="submit" class="button" name="send">Расшифровать</button>
+                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required/></p>
+                <p><button id="send" type="submit" onclick="printForm()" class="button" name="send">Расшифровать</button>
                     <button type="reset" onclick="clearALL()" class="button">Сброс</button></p>
         </form>
         <form name="ModelDecoding" style="display: none">
@@ -373,6 +391,42 @@
             <p><button id="decodModel" type="submit" class="button" name="decodModel">Расшифровать</button>
                 <button type="reset" onclick="hideAll()" class="button">Сброс</button></p>
         </form>
+        <form name="MeterCheck" style="display: none">
+            <p class="header">✅ Проверка ИПУ</p>
+            <p><label for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
+                <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></p>
+            <p><label for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
+                <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></p>           
+            
+            <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт</button>
+                <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">Сброс</button></p>
+            <div id = "realMeterPar" style="display: none">
+                <p><span id="timer" class="input">00:00:00.0</span></p>
+                <p><span class="input">Pрасч = </span>
+                    <span id="CalcPower" class="input">0.0</span>
+                    <span class="input">Вт</span></p>
+                <p><span class="input">Wрасч = </span>
+                    <span id="CalcEnergy" class="input">0.0</span>
+                    <span class="input">кВт*ч</span></p>
+                <p><label for="ImpsMeterCheck" class="labelMeterCheck">A, [имп/кВ*ч] = </label>
+                    <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></p>
+                    <datalist id="impsList">
+                        <option value="250"></option>
+                        <option value="500"></option>
+                        <option value="1000"></option>
+                        <option value="1600"></option>
+                        <option value="3200"></option>
+                        <option value="5000"></option>
+                        <option value="10000"></option>
+                    </datalist>
+                <p><label for="ImpNumMeterCheck" class="labelMeterCheck">n, [имп] = </label>
+                    <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0" /></p>
+                    <p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>
+                <div id = "resultMeterCheck" style="display: none">
+                    <p><span id="RealMeterPower" class="input"></span></p>
+                    <p><span id="MeterAccuracy" class="input"></span></p></div>
+            </div>
+        </form>
         <button id = "copyResultButton"
         name = "copyResultButton"
         class = "button"
@@ -383,6 +437,12 @@
         <div class="output" id="printBlock"></div>
     </body>
     <script>
+        function changeAppToErrorDecodingForm() {
+                document.ErrorDecoding.style["display"] = "";
+                document.ModelDecoding.style["display"] = "none";
+                document.MeterCheck.style["display"] = "none";
+        }
+
         let IskraemecoErrors = [
             { id: 0, Description: 'Часы неисправны', Recommendations: 'Программная память проверяется путем проверки целостности сохраненного\
                                                                         программного кода. Программный код подписывается алгоритмом ECDSA во время\
@@ -935,11 +995,8 @@
         }
 
         const modelsSelect = document.ErrorDecoding.model; // получаем значение поля model
-        const printButton = document.ErrorDecoding.send;
-        printButton.addEventListener("click", printForm);
 
-        function printForm(e) {
-            e.preventDefault();
+        function printForm() {
             document.getElementById("printBlock").innerHTML = "";
             var error_code = document.ErrorDecoding.errorCode.value;
             if (error_code !="") {
@@ -1003,13 +1060,11 @@
                         } else {
                             alert('Выберите версию ВПО');
                         }
-                } else {
-                    PrintErrorDecode(energomeraAt, error_code);
+                    } else {
+                        PrintErrorDecode(energomeraAt, error_code);
+                    }
                 }
-            }
-            } else {
-                alert('введите код ошибки');
-            }
+            } 
         }
 
         function clearALL() {
@@ -1042,6 +1097,17 @@
             }*/
             var inp = document.createElement('input')
             inp.value = document.querySelector('.output').innerText;
+            if (document.MeterCheck.style["display"] == "") {
+                inp.value = 'Время: ' + timer.textContent + 
+                    ' \n\rНапряжение U, [В]: ' +voltageMeterCheck.value.toString() + 
+                    ' \n\rТок I, [А]: ' + currentMeterCheck.value.toString() +
+                    ' \n\rPрасч: ' + calcPower.textContent + ' Вт' +
+                    ' \n\rWрасч: ' + calcEnergy.textContent + ' кВт' +
+                    ' \n\rA, [имп/кВ*ч]: ' + impsMeterCheck.value.toString() +
+                    ' \n\rn, [имп]: ' + impNumMeterCheck.value.toString() +
+                    ' \n\rPфакт, [имп]: ' + document.getElementById('RealMeterPower').textContent + ' Вт' +
+                    ' \n\rПогрешность = : ' + document.getElementById('MeterAccuracy').textContent + ' %';
+            }
             document.body.appendChild(inp)
             inp.select()
             if (document.execCommand('copy')) {
@@ -1087,21 +1153,12 @@
         }
 
         modelsSelect.addEventListener("change", changeOptionCodeTypeEnergomera);
-
-        const appErrorDecodingForm = document.getElementById("showErrorDecodingForm");
-        appErrorDecodingForm.addEventListener("click", changeAppFormToErrorDecodingForm);
-
-        function changeAppFormToErrorDecodingForm () {
-                document.ErrorDecoding.style["display"] = "";
-                document.ModelDecoding.style["display"] = "none";
-        }
-
-        const appModelDecodingForm = document.getElementById("showModelDecodingForm");
-        appModelDecodingForm.addEventListener("click", changeAppFormToModelDecodingForm);
-
-        function changeAppFormToModelDecodingForm () {
+    </script>
+    <script>
+        function changeAppToModelDecodingForm() {
             document.ErrorDecoding.style["display"] = "none";
             document.ModelDecoding.style["display"] = "";
+            document.MeterCheck.style["display"] = "none";
         }
 
         function showMeterProp() {
@@ -1479,6 +1536,107 @@
         }
 
         btn.addEventListener("click", checkUncheckAll);
+    </script>
+    <script>
+        function changeAppToMeterCheckForm() {
+                document.MeterCheck.style["display"] = "";
+                document.ErrorDecoding.style["display"] = "none";
+                document.ModelDecoding.style["display"] = "none";
+        }
+
+        const StartMeterCheckBtn = document.MeterCheck.StartMeterCheck;
+        StartMeterCheckBtn.addEventListener('click', startMeterCheck);
+
+        const voltageMeterCheck = document.getElementById('VoltageMeterCheck');
+        const currentMeterCheck = document.getElementById('CurrentMeterCheck');
+        const impsMeterCheck = document.getElementById('ImpsMeterCheck');
+        const impNumMeterCheck = document.getElementById('ImpNumMeterCheck');
+
+        function startMeterCheck(e) {
+            if (voltageMeterCheck.value != '' && currentMeterCheck.value != '') {
+                if (impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
+                    e.preventDefault();
+                }
+                if (StartMeterCheckBtn.innerText == 'Старт') {
+                    document.getElementById('realMeterPar').style["display"] = "";
+                    interval = setInterval(updateTimeAndEnergy, 100);
+                    StartMeterCheckBtn.innerText = 'Стоп';
+                    StartMeterCheckBtn.style["background-color"] = "red";
+                } else {
+                    clearInterval(interval);
+                    StartMeterCheckBtn.innerText = 'Старт';
+                    StartMeterCheckBtn.style["background-color"] = "#77dd77";
+                }
+            }
+        }
+
+        let timer = document.getElementById('timer');
+        let resetBtn = document.getElementById('resetMeterCheck');
+        let calcEnergy = document.getElementById('CalcEnergy');
+        let calcPower = document.getElementById('CalcPower');
+        let power;
+
+        let seconds = 0.0;
+        let minutes = 0;
+        let hours = 0;
+        let energy = 0.0;
+        let interval;
+
+        function updateTimeAndEnergy() {
+            seconds += 0.1;
+            if (seconds === 60) {
+                minutes++;
+                seconds = 0;
+            }
+            if (minutes === 60) {
+                hours++;
+                minutes = 0;
+            }
+            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toFixed(1).toString().padStart(2, '0')}`;
+            power = voltageMeterCheck.value * currentMeterCheck.value;
+            energy += power / 1000 * (hours + minutes / 60 + seconds / 3600);
+            calcPower.textContent = power.toFixed(1).toString();
+            calcEnergy.textContent = energy.toFixed(1).toString();
+
+        }
+
+        resetBtn.addEventListener('click', () => {
+        clearInterval(interval);
+            seconds = 0.0;
+            minutes = 0;
+            hours = 0;
+            timer.textContent = '00:00:00.0';
+            StartMeterCheckBtn.innerText = 'Старт';
+            StartMeterCheckBtn.style["background-color"] = "#77dd77";
+        });
+
+        const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
+        calcMeterAccuracyBtn.addEventListener('click', calcMeterAccuracyAndShowRes);
+
+        voltageMeterCheck.addEventListener("change", calcMeterAccuracy);
+        currentMeterCheck.addEventListener("change", calcMeterAccuracy);
+        impsMeterCheck.addEventListener("change", calcMeterAccuracy);
+        impNumMeterCheck.addEventListener("change", calcMeterAccuracy);
+
+        function calcMeterAccuracy(e) {
+            power = voltageMeterCheck.value * currentMeterCheck.value;
+            const realPower = impNumMeterCheck.value / impsMeterCheck.value / (hours + minutes / 60 + seconds / 3600) * 1000;
+            const accuracy = Math.abs(realPower - power) / power * 100;
+            document.getElementById('RealMeterPower').textContent = 'Pфакт = ' + realPower.toFixed(1).toString() + ' Вт';
+            document.getElementById('MeterAccuracy').textContent = 'Погрешность = ' + accuracy.toFixed(1).toString() + ' %';
+        }
+
+        function calcMeterAccuracyAndShowRes(e) {
+            if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' && impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
+                e.preventDefault();
+                document.getElementById('resultMeterCheck').style["display"] = "";
+                writeBtn.style.display = "";
+            }
+            clearInterval(interval);
+            StartMeterCheckBtn.innerText = 'Старт';
+            StartMeterCheckBtn.style["background-color"] = "#77dd77";
+            calcMeterAccuracy(e);
+        }
 
     </script>
 </html>
