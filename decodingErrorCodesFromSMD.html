@@ -1098,15 +1098,15 @@
             var inp = document.createElement('input')
             inp.value = document.querySelector('.output').innerText;
             if (document.MeterCheck.style["display"] == "") {
-                inp.value = 'Время: ' + timer.textContent + 
-                    ' \n\rНапряжение U, [В]: ' +voltageMeterCheck.value.toString() + 
-                    ' \n\rТок I, [А]: ' + currentMeterCheck.value.toString() +
-                    ' \n\rPрасч: ' + calcPower.textContent + ' Вт' +
-                    ' \n\rWрасч: ' + calcEnergy.textContent + ' кВт' +
-                    ' \n\rA, [имп/кВ*ч]: ' + impsMeterCheck.value.toString() +
-                    ' \n\rn, [имп]: ' + impNumMeterCheck.value.toString() +
-                    ' \n\rPфакт, [имп]: ' + document.getElementById('RealMeterPower').textContent + ' Вт' +
-                    ' \n\rПогрешность = : ' + document.getElementById('MeterAccuracy').textContent + ' %';
+                inp.value = 'Время: ' + timer.textContent + ';  \n\r\
+    U = ' +voltageMeterCheck.value.toString() + ' В;\n\r\
+    I = ' + currentMeterCheck.value.toString() + ' A;\n\r\
+    Pрасч = ' + calcPower.textContent + ' Вт;\n\r\
+    Wрасч = ' + calcEnergy.textContent + ' кВт;\n\r\
+    A = ' + impsMeterCheck.value.toString() + ' имп/кВ*ч;\n\r\
+    n = ' + impNumMeterCheck.value.toString() + ' имп;  \n\r'
+    + document.getElementById('RealMeterPower').textContent + ';    \n\r'
+    + document.getElementById('MeterAccuracy').textContent;
             }
             document.body.appendChild(inp)
             inp.select()
