@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
+        <title>Помощник умного учёта</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +11,7 @@
                 height: 100%;
                 margin: 0;
                 -webkit-font-smoothing: antialiased;
-                font-family: 'Arial';
+                font-family: 'bahnschrift';
                 text-align: center;
             }
 
@@ -47,6 +48,7 @@
                 font-size: 20pt;
                 height: 100%;
                 display: inline-table;
+                font-family: 'bahnschrift';
             }
 
             .labelMeterCheck {
@@ -60,7 +62,8 @@
                 max-width: 150px;
                 width: 30vw;
                 font-size: 22pt;
-                display: inline-block;
+                display: inline-table;
+                font-family: 'bahnschrift';
             }
 
             .inputErr {
@@ -68,6 +71,7 @@
                 height: 100%;
                 width: 200px;
                 display: inline-block;
+                font-family: 'bahnschrift';
             }
 
             .inputModelDecoding {
@@ -82,7 +86,7 @@
             }
 
             .button {
-                border-radius: 5px;
+                border-radius: 10px;
                 height: 100%;
                 margin: 1%;
                 box-sizing: border-box;
@@ -92,10 +96,13 @@
                 cursor: pointer;
                 color: white;
                 background-color: rgb(0,145,215);
+                font-family: 'bahnschrift';
             }
 
             #StartMeterCheck {
                 background-color: #77dd77;
+                font-size: 30pt;
+                padding:2%
             }
 
             /* Кнопка выпадающего списка */
@@ -393,14 +400,13 @@
         </form>
         <form name="MeterCheck" style="display: none">
             <p class="header">✅ Проверка ИПУ</p>
-            <p><label for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
-                <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></p>
-            <p><label for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
-                <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></p>           
-            
-            <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт</button>
+            <p><table class="input"><tr><td><label for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
+                    <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
+                <table class="input"><td><td><label for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
+                    <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></td></tr></table></p>      
+            <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт▶️</button>
                 <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">Сброс</button></p>
-            <div id = "realMeterPar" style="display: none">
+            <div id = "realMeterPar">
                 <p><span id="timer" class="input">00:00:00.0</span></p>
                 <p><span class="input">Pрасч = </span>
                     <span id="CalcPower" class="input">0.0</span>
@@ -424,7 +430,8 @@
                     <p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>
                 <div id = "resultMeterCheck" style="display: none">
                     <p><span id="RealMeterPower" class="input"></span></p>
-                    <p><span id="MeterAccuracy" class="input"></span></p></div>
+                    <p><span id="MeterAccuracy" class="input"></span></p>
+                </div>
             </div>
         </form>
         <button id = "copyResultButton"
@@ -1557,14 +1564,18 @@
                 if (impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
                     e.preventDefault();
                 }
-                if (StartMeterCheckBtn.innerText == 'Старт') {
-                    document.getElementById('realMeterPar').style["display"] = "";
+                if (StartMeterCheckBtn.innerText == 'Старт▶️') {
+                    seconds = 0.0;
+                    minutes = 0;
+                    hours = 0;
+                    energy = 0.0;
+                    //document.getElementById('realMeterPar').style["display"] = "";
                     interval = setInterval(updateTimeAndEnergy, 100);
-                    StartMeterCheckBtn.innerText = 'Стоп';
+                    StartMeterCheckBtn.innerText = 'Стоп⛔️';
                     StartMeterCheckBtn.style["background-color"] = "red";
                 } else {
                     clearInterval(interval);
-                    StartMeterCheckBtn.innerText = 'Старт';
+                    StartMeterCheckBtn.innerText = 'Старт▶️';
                     StartMeterCheckBtn.style["background-color"] = "#77dd77";
                 }
             }
@@ -1593,21 +1604,33 @@
                 minutes = 0;
             }
             timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toFixed(1).toString().padStart(2, '0')}`;
-            power = voltageMeterCheck.value * currentMeterCheck.value;
-            energy += power / 1000 * (hours + minutes / 60 + seconds / 3600);
-            calcPower.textContent = power.toFixed(1).toString();
-            calcEnergy.textContent = energy.toFixed(1).toString();
+            updatePower();
+            updateEnergy();
+        }
 
+        function updatePower() {
+            power = voltageMeterCheck.value * currentMeterCheck.value;
+            calcPower.textContent = power.toFixed(1).toString();
+        }
+
+        function updateEnergy() {
+            energy += power / 1000 * (hours + minutes / 60 + seconds / 3600);
+            calcEnergy.textContent = energy.toFixed(1).toString();
         }
 
         resetBtn.addEventListener('click', () => {
-        clearInterval(interval);
+            clearInterval(interval);
             seconds = 0.0;
             minutes = 0;
             hours = 0;
+            power = 0.0;
+            calcPower.textContent = power.toFixed(1).toString();
+            energy = 0.0;
+            calcEnergy.textContent = energy.toFixed(1).toString();
             timer.textContent = '00:00:00.0';
-            StartMeterCheckBtn.innerText = 'Старт';
+            StartMeterCheckBtn.innerText = 'Старт▶️';
             StartMeterCheckBtn.style["background-color"] = "#77dd77";
+            document.getElementById('resultMeterCheck').style["display"] = "none";
         });
 
         const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
@@ -1619,7 +1642,7 @@
         impNumMeterCheck.addEventListener("change", calcMeterAccuracy);
 
         function calcMeterAccuracy(e) {
-            power = voltageMeterCheck.value * currentMeterCheck.value;
+            updatePower();
             const realPower = impNumMeterCheck.value / impsMeterCheck.value / (hours + minutes / 60 + seconds / 3600) * 1000;
             const accuracy = Math.abs(realPower - power) / power * 100;
             document.getElementById('RealMeterPower').textContent = 'Pфакт = ' + realPower.toFixed(1).toString() + ' Вт';
@@ -1627,13 +1650,16 @@
         }
 
         function calcMeterAccuracyAndShowRes(e) {
+            if (seconds == 0.0 && minutes == 0 && hours == 0.0) {
+                alert('Нажмите \"Старт\"');
+            }
             if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' && impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
                 e.preventDefault();
                 document.getElementById('resultMeterCheck').style["display"] = "";
                 writeBtn.style.display = "";
             }
             clearInterval(interval);
-            StartMeterCheckBtn.innerText = 'Старт';
+            StartMeterCheckBtn.innerText = 'Старт▶️';
             StartMeterCheckBtn.style["background-color"] = "#77dd77";
             calcMeterAccuracy(e);
         }
