@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <link rel="icon" href="https://img.icons8.com/?size=100&id=bJv0DqLMJT71&format=png&color=000000" type="image/x-icon">
+        <title>Помощник умного учёта</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+        <linkrel="stylesheet" href="style.css">
+    </head>
+    <body class="main_body">
+          <div class="dropdown">
+            <button class="dropbtn">📱 Меню</button>
+            <div class="dropdown-content">
+              <a href="#" id="showErrorDecodingForm" onclick="changeAppToErrorDecodingForm()">🔑 Расшифровка кодов ошибок ИПУ</a>
+              <a href="#" id="showModelDecodingForm" onclick="changeAppToModelDecodingForm()">📟 Расшифровка модели ИПУ</a>
+              <a href="#" id="showMeterCheckForm" onclick="changeAppToMeterCheckForm()">✅ Проверка ИПУ</a>
+            </div>
+          </div>
+        <form name="ErrorDecoding" style="display: none">
+            <p class="header">🔑 Расшифровка кодов ошибок ИПУ</p>
+            <p><label for="model" class="input">модель: </label>
+                <select id="model" name="model" class="input" type="text">
+                    <option value="Iskraemeco" label="Iskraemeco" selected="selected"></option>
+                    <option value="mir_C04" label="МИР С-04"></option>
+                    <optgroup label="Меркурий">
+                        <option value="incotex_204_208_234_238" label="204/208/234/238">
+                        <option value="incotex_230" label="230/236">
+                    </optgroup>
+                    <optgroup label="Энергомера">
+                        <option value="energomera_CE_208" label="CE 208">
+                        <option value="energomera_CE_303" label="CE 303">>
+                        <option value="energomera_CE_308" label="CE 308">
+                    </optgroup>
+                    <optgroup label="Милур">
+                        <option value="milur_107s" label="107s">
+                        <option value="milur_307" label="307">
+                    </optgroup>
+                </select></p>
+                <p><div id="VPO" class="inputRadio" style="display: none">
+                    <input type = "radio" name= "VPO" value="VPO_6x" label="Iskraemeco" >ВПО 6.x</radio>
+                    <input type = "radio" name= "VPO" value="VPO_9_10x">ВПО 9/10.x</radio>
+                </div></p>
+                    <select id="ErrorTypeSelectCE" class="input" name = 'ErrorTypeSelect' style="display: none">
+                        <option value="Err" label="Err" selected="selected">
+                        <option value="At" label="At">
+                        <option value="Info" label="Info">
+                    </select>
+                    <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
+                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required/></p>
+                <p><button id="send" type="submit" onclick="printForm()" class="button" name="send">Расшифровать</button>
+                    <button type="reset" onclick="clearALL()" class="button">Сброс</button></p>
+        </form>
+        <form name="ModelDecoding" style="display: none">
+            <p class="header">📟 Расшифровка модели ИПУ</p>
+            <select id="modelName" name="modelName" class="input" type="text">
+                <!--<option value="Iskraemeco" selected="selected">Iskraemeco</option>-->
+                <option value="incotex" selected>Меркурий</option>
+            </select>
+            <span id = "incotexProp" name="incotexProp">
+                <select id="incotexMeterSeries" name="incotexMeterSeries" class="input" type="text">
+                    <option value="204" label="204"></option>
+                    <option value="208" label="208"></option>
+                    <option value="234" label="234"></option>
+                    <option value="230" label="230"selected="selected"></option>
+                    <option value="238" label="238"></option>
+                </select>--
+                <span id="incotex230Prop">
+                    <table class="input" id="incotexFunc">
+                        <tr>
+                            <td>A</td> <td>R</td> <td>T</td><td>2</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="A" checked></input></td>
+                            <td><input type="checkbox" name="R" checked></input></td>
+                            <td><input type="checkbox" name="T" checked></input></td>
+                            <td><input type="checkbox" name="TO" checked></input></td>
+                        </tr>
+                    </table>--
+                    <section id="incotexDenomination" class="input">
+                        <text id="incotexDenomination" class="input">0</text>
+                        <select name="incotexDenomination" type="text" class="input">
+                            <option value="0" label="0" selected="selected"></option>
+                            <option value="1" label="1"></option>
+                            <option value="2" label="2"></option>
+                            <option value="3" label="3"></option>
+                                <option value="4" label="4" id="incotexDenomination4" style="display: none"></option>
+                                <option value="5" label="5" id="incotexDenomination5" style="display: none"></option>
+                                <option value="6" label="6" id="incotexDenomination6" style="display: none"></option>
+                                <option value="7" label="7" id="incotexDenomination7" style="display: none"></option>
+                                <option value="8" label="8" id="incotexDenomination8" style="display: none"></option>
+                                <option value="9" label="9" id="incotexDenomination9" style="display: none"></option>
+                        </select>
+                    </section>--
+                    <table class="input" id="incotex230MainFunc">
+                        <tr>
+                            <td>F</td>
+                            <td>P</td>
+                            <td>Q</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="F" checked></input></td>
+                            <td><input type="checkbox" name="P" checked></input></td>
+                            <td><input type="checkbox" name="Q" checked></input></td>
+                        </tr>
+                    </table>--
+                    <table class="input" id="incotex230Interface">
+                        <tr>
+                            <td>C</td> <td>R</td> <td>S</td> <td>I</td> <td>L</td> <td>G</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="C" checked></input></td>
+                            <td><input type="checkbox" name="RS" checked></input></td>
+                            <td><input type="checkbox" name="S" checked></input></td>
+                            <td><input type="checkbox" name="I" checked></input></td>
+                            <td><input type="checkbox" name="L" checked></input></td>
+                            <td><input type="checkbox" name="G" checked></input></td>
+                        </tr>
+                    </table>--
+                    <table class="input" id="incotexAdditFunc">
+                        <tr>
+                            <td>D</td> <td>N</td> <td>B</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="D" checked></input></td>
+                            <td><input type="checkbox" name="N" checked></input></td>
+                            <td><input type="checkbox" name="B" checked></input></td>
+                        </tr>
+                    </table>
+                </span>
+                <span id="incotexNot230Prop" style="display: none">
+                    <table class="input" id="incotexFunc">
+                        <tr>
+                            <td>A</td> <td>R</td> <td>T</td>
+                            <td>M</td>
+                            <td>X</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="Anot230" checked></input></td>
+                            <td><input type="checkbox" name="Rnot230" checked></input></td>
+                            <td><input type="checkbox" name="Tnot230" checked></input></td>
+                            <td><input type="checkbox" name="Mnot230" checked></input></td>
+                            <td><input type="checkbox" name="Xnot230" checked></input></td>
+                            <td><input type="checkbox" name="TOnot230" checked></input></td>
+                        </tr>
+                    </table>--
+                    <section class="input">
+                        <text class="input">0</text>
+                        <select name="incotexNot230Denomination" type="text" class="input">
+                            <option value="0" label="0" selected></option>
+                            <option value="1" label="1"></option>
+                            <option value="2" label="2"></option>
+                            <option value="3" label="3"></option>
+                            <option value="4" label="4"></option>
+                            <option value="5" label="5"></option>
+                            <option value="6" label="6"></option>
+                            <option value="7" label="7"></option>
+                            <option value="8" label="8"></option>
+                            <option value="9" label="9"></option>
+                        </select>
+                    </section>--
+                    <table class="input" id="incotexNo230Func">
+                        <tr>
+                            <td>D</td> <td>P</td> <td>O</td> <td>K</td>
+                            <td><select name="ModNumber" type="text" class="input">
+                                <option value="1" label="1" selected></option>
+                                <option value="2" label="2"></option>
+                                <option value="3" label="3"></option>
+                                <option value="4" label="4"></option>
+                                <option value="5" label="5"></option>
+                                <option value="6" label="6"></option>
+                                <option value="7" label="7"></option>
+                                <option value="8" label="8"></option>
+                                <option value="9" label="9"></option>
+                            </select></td>
+                            <td>B</td> <td>H</td> <td>W</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="Dnot230" checked></input></td>
+                            <td><input type="checkbox" name="Pnot230" checked></input></td>
+                            <td><input type="checkbox" name="Onot230" checked></input></td>
+                            <td><input type="checkbox" name="Knot230" checked></input></td>
+                            <td></td>
+                            <td><input type="checkbox" name="Bnot230" checked></input></td>
+                            <td><input type="checkbox" name="Hnot230" checked></input></td>
+                            <td><input type="checkbox" name="Wnot230" checked></input></td>
+                        </tr>
+                    </table>--
+                    <table class="input" id="incotexNot230Interface">
+                        <tr>
+                            <td>R</td>
+                            <td>L</td><td><select name="PLSstandart" type="text" class="input">
+                                <option value="2" label="2" selected></option>
+                                <option value="3" label="3"></option>
+                                <option value="4" label="4"></option>
+                            </select></td>
+                            <td>G</td><td><select name="MobileStandart" type="text" class="input">
+                                <option value="0" label="-" selected></option>
+                                <option value="1" label="1"></option>
+                                <option value="3" label="3"></option>
+                                <option value="4" label="4"></option>
+                                <option value="5" label="5"></option>
+                                <option value="6" label="6"></option>
+                                <option value="7" label="7"></option>
+                            </select></td>
+                            <td>e</td>
+                            <td>s</td>
+                            <td>E</td>
+                            <td>F</td><td><select name="RFstandart" type="text" class="input">
+                                <option value="03" label="03" selected></option>
+                                <option value="04" label="04"></option>
+                                <option value="05" label="05"></option>
+                                <option value="06" label="06"></option>
+                                <option value="07" label="07"></option>
+                                <option value="08" label="08"></option>
+                                <option value="09" label="09"></option>
+                                <option value="10" label="10"></option>
+                            </select></td>
+                            <td>C</td>
+                            <td>Q</td><td><select name="MultiModNums" type="text" class="input">
+                                <option value="1" label="1" selected></option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="RSnot230" checked></input></td>
+                            <td><input type="checkbox" name="Lnot230" checked></input></td>
+                            <td></td>
+                            <td><input type="checkbox" name="Gnot230" checked></input></td>
+                            <td></td>
+                            <td><input type="checkbox" name="enot230" checked></input></td>
+                            <td><input type="checkbox" name="snot230" checked></input></td>
+                            <td><input type="checkbox" name="Enot230" checked></input></td>
+                            <td><input type="checkbox" name="Fnot230" checked></input></td>
+                            <td></td>
+                            <td><input type="checkbox" name="Cnot230" checked></input></td>
+                            <td><input type="checkbox" name="Qnot230multi" checked></input></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </span>
+            </span>
+            <p><button class="button" id="checkAll">Выбрать/отменить всё</button></p>
+            <p><button id="decodModel" type="submit" class="button" name="decodModel">Расшифровать</button>
+                <button type="reset" onclick="hideAll()" class="button">Сброс</button></p>
+        </form>
+        <form name="MeterCheck">
+            <p class="header">✅ Проверка ИПУ</p>
+            <input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-фазный режим</input>
+            <p><table class="input"><tr><td><label for="VoltageMeterCheck" class="labelMeterCheck">Ua, [В] = </label>
+                <input id="VoltageAMeterCheck" type="number" class="inputMeterCheck" name="VoltageAMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
+                <table class="input"><tr><td><label for="CurrentMeterCheck" class="labelMeterCheck">Ia, [А] = </label>
+                    <input id="CurrentAMeterCheck" type="number" class="inputMeterCheck" name="CurrentAMeterCheck" placeholder="1" required min="0"/></td></tr></table></p>      
+            <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт▶</button>
+                <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">Сброс</button></p>
+                <p><span id="timer" class="input">00:00:00.0</span></p>
+                <p><span id="CalcPower" class="input">Pрасч = 0.0 Вт;   </span>
+                    <span id="CalcEnergy" class="input">Wрасч = 0.0 кВт*ч</span></p>
+                <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A, [имп/кВ*ч] = </label>
+                        <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></td></tr></table>
+                        <datalist id="impsList">
+                            <option value="250"></option>
+                            <option value="500"></option>
+                            <option value="1000"></option>
+                            <option value="1600"></option>
+                            <option value="3200"></option>
+                            <option value="5000"></option>
+                            <option value="10000"></option>
+                    </datalist>
+                    <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n, [имп] = </label>
+                        <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0"/>
+                        <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
+                    </td></tr></table>
+                        </p>
+                        <p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>
+                <div id = "resultMeterCheck" style="display: none">
+                    <span id="RealMeterPower" class="input"></span>
+                        <span id="MeterAccuracy" class="input"></span>
+                </div>
+        </form>
+        <button id = "copyResultButton"
+        name = "copyResultButton"
+        class = "button"
+        style="display: none">Скопировать результат</button>
+        <br>
+        <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
+            <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
+        <div class="output" id="printBlock"></div>
+    </body>
+    <script src=”ErrorDecodingScript.js></script>
+    <script src=”MeterCheckScript.js”></script>
+    <script src=”ModelDecodingScript.js”></script>
+</html>
