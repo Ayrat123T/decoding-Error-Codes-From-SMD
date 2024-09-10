@@ -1140,7 +1140,7 @@
 + (threePhaseMeterCheckBox.checked ? (
 'Ua = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
 Ia = ' + currentMeterCheck.value.toString() + ' A;    \n\r\
-Ub = ' + voltageMeterCheck_B.value.toString() + ' В;     \n\r\
+Ub = ' + voltageMeterCheck_B.value.toString() + ' В;    \n\r\
 Ib = ' + currentMeterCheck_B.value.toString() + ' A;    \n\r\
 Uc = ' + voltageMeterCheck_C.value.toString() + ' В;    \n\r\
 Ic = ' + currentMeterCheck_C.value.toString() + ' A;    \n\r') : ('U = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
@@ -1631,6 +1631,8 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                     interval = setInterval(updateTimeAndEnergy, 100);
                     StartMeterCheckBtn.innerText = 'Стоп⛔️';
                     StartMeterCheckBtn.style["background-color"] = "red";
+                    document.getElementById('resultMeterCheck').style["display"] = "none";
+                    writeBtn.style["display"] = "none";
                 } else {
                     clearInterval(interval);
                     StartMeterCheckBtn.innerText = 'Старт▶';
@@ -1644,7 +1646,6 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         let calcEnergy = document.getElementById('CalcEnergy');
         let calcPower = document.getElementById('CalcPower');
         let power;
-
         let seconds = 0.0;
         let minutes = 0;
         let hours = 0;
@@ -1672,7 +1673,6 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                 power += voltageMeterCheck_B.value * currentMeterCheck_B.value + 
                 voltageMeterCheck_C.value * currentMeterCheck_C.value;
             }
-
             calcPower.textContent = 'Pрасч = ' +  power.toFixed(1).toString() + ' Вт;  ';
         }
 
@@ -1724,7 +1724,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                     (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != '')) {
                     e.preventDefault();
                     document.getElementById('resultMeterCheck').style["display"] = "";
-                    writeBtn.style.display = "";
+                    writeBtn.style["display"] = "";
                 }
 
             }
