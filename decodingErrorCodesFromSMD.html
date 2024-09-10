@@ -418,25 +418,19 @@
         <form name="MeterCheck">
             <p class="header">✅ Проверка ИПУ</p>
             <input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-фазный режим</input>
-            <div id="SinglePhaseMeter">
-                <p><table class="input"><tr><td><label for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
-                    <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
-                    <table class="input"><tr><td><label for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
-                        <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></td></tr></table></p>
-            </div>
+            <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
+                <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
+                <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
+                    <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></td></tr></table></p>
             <div id="ThreePhaseMeter" style="display: none">
-                <p><table class="input"><tr><td><label for="VoltageMeterCheck_A" class="labelMeterCheck">Ua, [В] = </label>
-                    <input id="VoltageMeterCheck_A" type="number" class="inputMeterCheck" name="VoltageMeterCheck_A" placeholder="220" value="220" required min="0"/></td></tr></table>
-                    <table class="input"><tr><td><label for="CurrentMeterCheck_A" class="labelMeterCheck">Ia, [А] = </label>
-                        <input id="CurrentAMeterCheck_A" type="number" class="inputMeterCheck" name="CurrentAMeterCheck_A" placeholder="1" required min="0"/></td></tr></table></p>
                 <p><table class="input"><tr><td><label for="VoltageMeterCheck_B" class="labelMeterCheck">Ub, [В] = </label>
                     <input id="VoltageMeterCheck_B" type="number" class="inputMeterCheck" name="VoltageMeterCheck_B" placeholder="220" value="220" required min="0"/></td></tr></table>
                     <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ib, [А] = </label>
-                        <input id="CurrentAMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentAMeterCheck_B" placeholder="1" required min="0"/></td></tr></table></p>
+                        <input id="CurrentMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentMeterCheck_B" placeholder="1" required min="0"/></td></tr></table></p>
                 <p><table class="input"><tr><td><label for="VoltageMeterCheck_C" class="labelMeterCheck">Uc, [В] = </label>
                     <input id="VoltageMeterCheck_C" type="number" class="inputMeterCheck" name="VoltageMeterCheck_C" placeholder="220" value="220" required min="0"/></td></tr></table>
                     <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic, [А] = </label>
-                        <input id="CurrentAMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentAMeterCheck_C" placeholder="1" required min="0"/></td></tr></table></p>     
+                        <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"/></td></tr></table></p>     
             </div>
                         <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт▶</button>
                 <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">Сброс</button></p>
@@ -1110,6 +1104,9 @@
             writeBtn.style.display = "none";
             document.getElementById("VPO").style["display"] = "none";
             document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
+            threePhaseMeterBlock.style["display"] = "none";
+            document.getElementById('FirstVoltageMeterLabel').innerText = 'U = [В]';
+            document.getElementById('FirstCurrentMeterLabel').innerText = 'I = [А]';
         }
 
         function copyResult(e) {
@@ -1589,24 +1586,8 @@
         const threePhaseMeterBlock = document.getElementById('ThreePhaseMeter');
         const threePhaseMeterCheckBox = document.MeterCheck.ThreePhaseMeterCheckBox;
         
-        threePhaseMeterCheckBox.addEventListener("click", () => {
-            if (threePhaseMeterCheckBox.checked) {
-                singlePhaseMeterBlock.style["display"] = "none";
-                threePhaseMeterBlock.style["display"] = "";
-            } else {
-                singlePhaseMeterBlock.style["display"] = "";
-                threePhaseMeterBlock.style["display"] = "none";
-            }
-        });
-
-
-        const StartMeterCheckBtn = document.MeterCheck.StartMeterCheck;
-        StartMeterCheckBtn.addEventListener('click', startMeterCheck);
-
         const voltageMeterCheck = document.getElementById('VoltageMeterCheck');
         const currentMeterCheck = document.getElementById('CurrentMeterCheck');
-        const voltageMeterCheck_A = document.getElementById('VoltageMeterCheck_A');
-        const currentMeterCheck_A = document.getElementById('CurrentMeterCheck_A');
         const voltageMeterCheck_B = document.getElementById('VoltageMeterCheck_B');
         const currentMeterCheck_B = document.getElementById('CurrentMeterCheck_B');
         const voltageMeterCheck_C = document.getElementById('VoltageMeterCheck_C');
@@ -1614,8 +1595,25 @@
         const impsMeterCheck = document.getElementById('ImpsMeterCheck');
         const impNumMeterCheck = document.getElementById('ImpNumMeterCheck');
 
+        threePhaseMeterCheckBox.addEventListener("click", () => {
+            if (threePhaseMeterCheckBox.checked) {
+                threePhaseMeterBlock.style["display"] = "";
+                document.getElementById('FirstVoltageMeterLabel').innerText = 'Ua, [В] = ';
+                document.getElementById('FirstCurrentMeterLabel').innerText = 'Ia, [А] = ';
+            } else {
+                threePhaseMeterBlock.style["display"] = "none";
+                document.getElementById('FirstVoltageMeterLabel').innerText = 'U, [В] = ';
+                document.getElementById('FirstCurrentMeterLabel').innerText = 'I, [А] = ';
+            }
+        });
+
+        const StartMeterCheckBtn = document.MeterCheck.StartMeterCheck;
+        StartMeterCheckBtn.addEventListener('click', startMeterCheck);
+
         function startMeterCheck(e) {
-            if (voltageMeterCheck.value != '' && currentMeterCheck.value != '') {
+            if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
+            (!threePhaseMeterCheckBox.checked ||
+            (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
                 if (impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
                     e.preventDefault();
                 }
@@ -1664,6 +1662,11 @@
 
         function updatePower() {
             power = voltageMeterCheck.value * currentMeterCheck.value;
+            if (threePhaseMeterCheckBox.checked) {
+                power += voltageMeterCheck_B.value * currentMeterCheck_B.value + 
+                voltageMeterCheck_C.value * currentMeterCheck_C.value;
+            }
+
             calcPower.textContent = 'Pрасч = ' +  power.toFixed(1).toString() + ' Вт;  ';
         }
 
@@ -1689,9 +1692,12 @@
 
         const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
         calcMeterAccuracyBtn.addEventListener('click', calcMeterAccuracyAndShowRes);
-
         voltageMeterCheck.addEventListener("change", calcMeterAccuracy);
         currentMeterCheck.addEventListener("change", calcMeterAccuracy);
+        voltageMeterCheck_B.addEventListener("change", calcMeterAccuracy);
+        currentMeterCheck_B.addEventListener("change", calcMeterAccuracy);
+        voltageMeterCheck_C.addEventListener("change", calcMeterAccuracy);
+        currentMeterCheck_C.addEventListener("change", calcMeterAccuracy);
         impsMeterCheck.addEventListener("change", calcMeterAccuracy);
         impNumMeterCheck.addEventListener("change", calcMeterAccuracy);
 
@@ -1708,9 +1714,13 @@
                 alert('Нажмите \"Старт\"');
             }
             if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' && impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
-                e.preventDefault();
-                document.getElementById('resultMeterCheck').style["display"] = "";
-                writeBtn.style.display = "";
+                if (!threePhaseMeterCheckBox.checked ||
+                    (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != '')) {
+                    e.preventDefault();
+                    document.getElementById('resultMeterCheck').style["display"] = "";
+                    writeBtn.style.display = "";
+                }
+
             }
             clearInterval(interval);
             StartMeterCheckBtn.innerText = 'Старт▶';
