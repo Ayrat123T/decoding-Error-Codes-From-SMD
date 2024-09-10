@@ -1105,8 +1105,8 @@
             document.getElementById("VPO").style["display"] = "none";
             document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
             threePhaseMeterBlock.style["display"] = "none";
-            document.getElementById('FirstVoltageMeterLabel').innerText = 'U = [В]';
-            document.getElementById('FirstCurrentMeterLabel').innerText = 'I = [А]';
+            document.getElementById('FirstVoltageMeterLabel').innerText = 'U, [В] = ';
+            document.getElementById('FirstCurrentMeterLabel').innerText = 'I, [А] = ';
         }
 
         function copyResult(e) {
@@ -1134,17 +1134,23 @@
             inp.value = document.querySelector('.output').innerText;
             if (document.MeterCheck.style["display"] == "") {
                 var now = new Date();
-                inp.value = now + ';  \n\r\
-    Номер ИПУ: ' + document.getElementById('SMDSerialNumMeterCheck').value + ';  \n\r\
-    Время: ' + timer.textContent + ';  \n\r\
-    U = ' +voltageMeterCheck.value.toString() + ' В;    \n\r\
-    I = ' + currentMeterCheck.value.toString() + ' A;   \n\r'
-    + calcPower.textContent + '   \n\r'
-    + calcEnergy.textContent + ';   \n\r\
-    A = ' + impsMeterCheck.value.toString() + ' имп/кВ*ч;\n\r\
-    n = ' + impNumMeterCheck.value.toString() + ' имп;  \n\r'
-    + document.getElementById('RealMeterPower').textContent + '    \n\r'
-    + document.getElementById('MeterAccuracy').textContent;
+                inp.value = now + ';    \n\r\
+Номер ИПУ: ' + document.getElementById('SMDSerialNumMeterCheck').value + ';    \n\r\
+Время: ' + timer.textContent + ';    \n\r'
++ (threePhaseMeterCheckBox.checked ? (
+'Ua = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
+Ia = ' + currentMeterCheck.value.toString() + ' A;    \n\r\
+Ub = ' + voltageMeterCheck_B.value.toString() + ' В;     \n\r\
+Ib = ' + currentMeterCheck_B.value.toString() + ' A;    \n\r\
+Uc = ' + voltageMeterCheck_C.value.toString() + ' В;    \n\r\
+Ic = ' + currentMeterCheck_C.value.toString() + ' A;    \n\r') : ('U = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
+I = ' + currentMeterCheck.value.toString() + ' A;    \n\r'))
++ calcPower.textContent + '    \n\r'
++ calcEnergy.textContent + ';    \n\r\
+A = ' + impsMeterCheck.value.toString() + ' имп/кВ*ч;   \n\r\
+n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
++ document.getElementById('RealMeterPower').textContent + '    \n\r'
++ document.getElementById('MeterAccuracy').textContent;
             }
             document.body.appendChild(inp)
             inp.select()
