@@ -417,7 +417,9 @@
         </form>
         <form name="MeterCheck">
             <p class="header">✅ Проверка ИПУ</p>
-            <input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-фазный режим</input>
+            <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт, [о.е.] = </label>
+                <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="220" value="1" required min="0"/></td></tr></table>
+            <table class="input"><tr><td><input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-х фазный режим</input></td></tr></table>
             <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
                 <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
                 <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
@@ -1591,7 +1593,8 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         const singlePhaseMeterBlock = document.getElementById('SinglePhaseMeter');
         const threePhaseMeterBlock = document.getElementById('ThreePhaseMeter');
         const threePhaseMeterCheckBox = document.MeterCheck.ThreePhaseMeterCheckBox;
-        
+
+        const сurrentTransformerTransformationRatio = document.getElementById('CurrentTransformerTransformationRatio');
         const voltageMeterCheck = document.getElementById('VoltageMeterCheck');
         const currentMeterCheck = document.getElementById('CurrentMeterCheck');
         const voltageMeterCheck_B = document.getElementById('VoltageMeterCheck_B');
@@ -1624,15 +1627,19 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                     e.preventDefault();
                 }
                 if (StartMeterCheckBtn.innerText == 'Старт▶') {
-                    seconds = 0.0;
-                    minutes = 0;
-                    hours = 0;
-                    energy = 0.0;
-                    interval = setInterval(updateTimeAndEnergy, 100);
-                    StartMeterCheckBtn.innerText = 'Стоп⛔️';
-                    StartMeterCheckBtn.style["background-color"] = "red";
-                    document.getElementById('resultMeterCheck').style["display"] = "none";
-                    writeBtn.style["display"] = "none";
+                    if (сurrentTransformerTransformationRatio.value == 0) {
+                        alert('Ктт не должен быть равен 0');
+                    } else {
+                        seconds = 0.0;
+                        minutes = 0;
+                        hours = 0;
+                        energy = 0.0;
+                        interval = setInterval(updateTimeAndEnergy, 100);
+                        StartMeterCheckBtn.innerText = 'Стоп⛔️';
+                        StartMeterCheckBtn.style["background-color"] = "red";
+                        document.getElementById('resultMeterCheck').style["display"] = "none";
+                        writeBtn.style["display"] = "none";
+                    }
                 } else {
                     clearInterval(interval);
                     StartMeterCheckBtn.innerText = 'Старт▶';
@@ -1673,6 +1680,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                 power += voltageMeterCheck_B.value * currentMeterCheck_B.value + 
                 voltageMeterCheck_C.value * currentMeterCheck_C.value;
             }
+            power *= сurrentTransformerTransformationRatio.value;
             calcPower.textContent = 'Pрасч = ' +  power.toFixed(1).toString() + ' Вт;  ';
         }
 
@@ -1698,6 +1706,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
 
         const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
         calcMeterAccuracyBtn.addEventListener('click', calcMeterAccuracyAndShowRes);
+        сurrentTransformerTransformationRatio.addEventListener("change", calcMeterAccuracy);
         voltageMeterCheck.addEventListener("change", calcMeterAccuracy);
         currentMeterCheck.addEventListener("change", calcMeterAccuracy);
         voltageMeterCheck_B.addEventListener("change", calcMeterAccuracy);
@@ -1726,7 +1735,6 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                     document.getElementById('resultMeterCheck').style["display"] = "";
                     writeBtn.style["display"] = "";
                 }
-
             }
             clearInterval(interval);
             StartMeterCheckBtn.innerText = 'Старт▶';
