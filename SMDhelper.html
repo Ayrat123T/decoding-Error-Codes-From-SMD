@@ -183,9 +183,9 @@
           <div class="dropdown">
             <button class="dropbtn">📱 Меню</button>
             <div class="dropdown-content">
-              <a href="#" id="showErrorDecodingForm" onclick="changeAppToErrorDecodingForm()">🔑 Расшифровка кодов ошибок ИПУ</a>
-              <a href="#" id="showModelDecodingForm" onclick="changeAppToModelDecodingForm()">📟 Расшифровка модели ИПУ</a>
-              <a href="#" id="showMeterCheckForm" onclick="changeAppToMeterCheckForm()">✅ Проверка ИПУ</a>
+                <a href="#" id="showMeterCheckForm" onclick="changeAppToMeterCheckForm()">✅ Проверка ИПУ</a>
+                <a href="#" id="showErrorDecodingForm" onclick="changeAppToErrorDecodingForm()">🔑 Расшифровка кодов ошибок ИПУ</a>
+                <a href="#" id="showModelDecodingForm" onclick="changeAppToModelDecodingForm()">📟 Расшифровка модели ИПУ</a>
             </div>
           </div>
         <form name="ErrorDecoding" style="display: none">
@@ -1138,7 +1138,8 @@
                 var now = new Date();
                 inp.value = now + ';    \n\r\
 Номер ИПУ: ' + document.getElementById('SMDSerialNumMeterCheck').value + ';    \n\r\
-Время: ' + timer.textContent + ';    \n\r'
+Время: ' + timer.textContent + ';    \n\r\
+Ктт = ' + сurrentTransformerTransformationRatio.value + ' о.е.;    \n\r'
 + (threePhaseMeterCheckBox.checked ? (
 'Ua = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
 Ia = ' + currentMeterCheck.value.toString() + ' A;    \n\r\
