@@ -418,7 +418,9 @@
         <form name="MeterCheck">
             <p class="header">✅ Проверка ИПУ</p>
             <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт, [о.е.] = </label>
-                <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="220" value="1" required min="0"/></td></tr></table>
+                <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" value="1" required min="0"/></td></tr></table>
+            <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos φ, [о.е.] = </label>
+                <input id="PowerFactor" type="number" class="inputMeterCheck" name="PowerFactor" placeholder="1" value="1" required min="0" max="1"/></td></tr></table>
             <table class="input"><tr><td><input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-х фазный режим</input></td></tr></table>
             <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
                 <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
@@ -434,28 +436,27 @@
                     <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic, [А] = </label>
                         <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"/></td></tr></table></p>     
             </div>
+            <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A, [имп/кВ*ч] = </label>
+                <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></td></tr></table>
+                <datalist id="impsList">
+                    <option value="250"></option>
+                    <option value="500"></option>
+                    <option value="1000"></option>
+                    <option value="1600"></option>
+                    <option value="3200"></option>
+                    <option value="5000"></option>
+                    <option value="10000"></option>
+            </datalist>
+            <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n, [имп] = </label>
+                <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0"/>
+                <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
+            </td></tr></table></p>
                         <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт▶</button>
                 <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">Сброс</button></p>
                 <p><span id="timer" class="input">00:00:00.0</span></p>
                 <p><span id="CalcPower" class="input">Pрасч = 0.0 Вт;   </span>
                     <span id="CalcEnergy" class="input">Wрасч = 0.0 кВт*ч</span></p>
-                <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A, [имп/кВ*ч] = </label>
-                        <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></td></tr></table>
-                        <datalist id="impsList">
-                            <option value="250"></option>
-                            <option value="500"></option>
-                            <option value="1000"></option>
-                            <option value="1600"></option>
-                            <option value="3200"></option>
-                            <option value="5000"></option>
-                            <option value="10000"></option>
-                    </datalist>
-                    <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n, [имп] = </label>
-                        <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0"/>
-                        <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
-                    </td></tr></table>
-                        </p>
-                        <p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>
+                        <!--<p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>-->
                 <div id = "resultMeterCheck" style="display: none">
                     <span id="RealMeterPower" class="input"></span>
                         <span id="MeterAccuracy" class="input"></span>
@@ -1596,6 +1597,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         const threePhaseMeterCheckBox = document.MeterCheck.ThreePhaseMeterCheckBox;
 
         const сurrentTransformerTransformationRatio = document.getElementById('CurrentTransformerTransformationRatio');
+        const powerFactor = document.getElementById('PowerFactor');
         const voltageMeterCheck = document.getElementById('VoltageMeterCheck');
         const currentMeterCheck = document.getElementById('CurrentMeterCheck');
         const voltageMeterCheck_B = document.getElementById('VoltageMeterCheck_B');
@@ -1621,12 +1623,10 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         StartMeterCheckBtn.addEventListener('click', startMeterCheck);
 
         function startMeterCheck(e) {
-            if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
-            (!threePhaseMeterCheckBox.checked ||
-            (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
-                if (impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
-                    e.preventDefault();
-                }
+            if (impNumMeterCheck.value != '' && impsMeterCheck.value != '' && voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
+                (!threePhaseMeterCheckBox.checked ||
+                (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
+                e.preventDefault();
                 if (StartMeterCheckBtn.innerText == 'Старт▶') {
                     if (сurrentTransformerTransformationRatio.value == 0) {
                         alert('Ктт не должен быть равен 0');
@@ -1645,6 +1645,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                     clearInterval(interval);
                     StartMeterCheckBtn.innerText = 'Старт▶';
                     StartMeterCheckBtn.style["background-color"] = "#77dd77";
+                    calcMeterAccuracyAndShowRes(e);
                 }
             }
         }
@@ -1662,11 +1663,11 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
 
         function updateTimeAndEnergy() {
             seconds += 0.1;
-            if (seconds === 60) {
+            if (seconds >= 60.0) {
                 minutes++;
-                seconds = 0;
+                seconds = 0.0;
             }
-            if (minutes === 60) {
+            if (minutes == 60) {
                 hours++;
                 minutes = 0;
             }
@@ -1681,7 +1682,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
                 power += voltageMeterCheck_B.value * currentMeterCheck_B.value + 
                 voltageMeterCheck_C.value * currentMeterCheck_C.value;
             }
-            power *= сurrentTransformerTransformationRatio.value;
+            power *= сurrentTransformerTransformationRatio.value * powerFactor.value;
             calcPower.textContent = 'Pрасч = ' +  power.toFixed(1).toString() + ' Вт;  ';
         }
 
@@ -1705,8 +1706,8 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
             document.getElementById('resultMeterCheck').style["display"] = "none";
         });
 
-        const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
-        calcMeterAccuracyBtn.addEventListener('click', calcMeterAccuracyAndShowRes);
+        //const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
+        //calcMeterAccuracyBtn.addEventListener('click', calcMeterAccuracyAndShowRes);
         сurrentTransformerTransformationRatio.addEventListener("change", calcMeterAccuracy);
         voltageMeterCheck.addEventListener("change", calcMeterAccuracy);
         currentMeterCheck.addEventListener("change", calcMeterAccuracy);
