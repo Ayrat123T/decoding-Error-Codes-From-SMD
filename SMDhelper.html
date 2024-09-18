@@ -183,7 +183,7 @@
           <div class="dropdown">
             <button class="dropbtn">📱 Меню</button>
             <div class="dropdown-content">
-                <a href="#" id="showMeterCheckForm" onclick="changeAppToMeterCheckForm()">✅ Проверка ИПУ</a>
+                <a href="#" id="showMeterCheckForm" onclick="changeAppToMeterCheckForm()">✔️ Проверка ИПУ</a>
                 <a href="#" id="showErrorDecodingForm" onclick="changeAppToErrorDecodingForm()">🔑 Расшифровка кодов ошибок ИПУ</a>
                 <a href="#" id="showModelDecodingForm" onclick="changeAppToModelDecodingForm()">📟 Расшифровка модели ИПУ</a>
             </div>
@@ -416,7 +416,7 @@
                 <button type="reset" onclick="hideAll()" class="button">↩︎ Сброс</button></p>
         </form>
         <form name="MeterCheck">
-            <p class="header">✅ Проверка ИПУ</p>
+            <p class="header">✔️ Проверка ИПУ</p>
             <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт, [о.е.] = </label>
                 <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" value="1" required min="0"/></td></tr></table>
             <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos φ, [о.е.] = </label>
