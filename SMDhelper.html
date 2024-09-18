@@ -219,8 +219,8 @@
                     </select>
                     <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
                     <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required/></p>
-                <p><button id="send" type="submit" onclick="printForm()" class="button" name="send">Расшифровать</button>
-                    <button type="reset" onclick="clearALL()" class="button">Сброс</button></p>
+                <p><button id="send" type="submit" onclick="printForm()" class="button" name="send">🔐 Расшифровать</button>
+                    <button type="reset" onclick="clearALL()" class="button">↩︎ Сброс</button></p>
         </form>
         <form name="ModelDecoding" style="display: none">
             <p class="header">📟 Расшифровка модели ИПУ</p>
@@ -411,9 +411,9 @@
                     </table>
                 </span>
             </span>
-            <p><button class="button" id="checkAll">Выбрать/отменить всё</button></p>
-            <p><button id="decodModel" type="submit" class="button" name="decodModel">Расшифровать</button>
-                <button type="reset" onclick="hideAll()" class="button">Сброс</button></p>
+            <p><button class="button" id="СheckUncheckAll">◻︎ Отменить всё</button></p>
+            <p><button id="decodModel" type="submit" class="button" name="decodModel">📜 Расшифровать</button>
+                <button type="reset" onclick="hideAll()" class="button">↩︎ Сброс</button></p>
         </form>
         <form name="MeterCheck">
             <p class="header">✅ Проверка ИПУ</p>
@@ -452,7 +452,7 @@
                 <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
             </td></tr></table></p>
                         <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт▶</button>
-                <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">Сброс</button></p>
+                <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">↩︎ Сброс</button></p>
                 <p><span id="timer" class="input">00:00:00.0</span></p>
                 <p><span id="CalcPower" class="input">Pрасч = 0.0 Вт;   </span>
                     <span id="CalcEnergy" class="input">Wрасч = 0.0 кВт*ч</span></p>
@@ -465,7 +465,7 @@
         <button id = "copyResultButton"
         name = "copyResultButton"
         class = "button"
-        style="display: none">Скопировать результат</button>
+        style="display: none">📋 Скопировать результат</button>
         <br>
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
@@ -1546,6 +1546,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
             document.getElementById("printBlock").innerHTML = "";
             writeBtn.style.display = "none";
             SwitchToIncotex230();
+            btnСheckUncheckAll.innerText = '◻︎ Отменить всё';
         }
         
         const modelName = document.getElementById("modelName");
@@ -1572,18 +1573,27 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         const incotexMeterSeries = document.getElementById("incotexMeterSeries");
         incotexMeterSeries.addEventListener("change", incotexMeterSeriesChange);
         
-        var btn = document.getElementById('checkAll');
+        var btnСheckUncheckAll = document.getElementById('СheckUncheckAll');
+        btnСheckUncheckAll.addEventListener("click", checkUncheckAll);
 
         function checkUncheckAll(e) {
             e.preventDefault();
             var container = document.getElementById('incotexProp');
             var inputs = container.getElementsByTagName('input');
-            for(var i = 0, inputs_len = inputs.length; i < inputs_len; i++) {
-                inputs[i].checked = inputs[i].checked ? false : true;
+            if (btnСheckUncheckAll.innerText == '☑︎ Выбрать всё') {
+                btnСheckUncheckAll.innerText = '◻︎ Отменить всё';
+                for(var i = 0, inputs_len = inputs.length; i < inputs_len; i++) {
+                    inputs[i].checked = true;
+                }
+            } else {
+                btnСheckUncheckAll.innerText = '☑︎ Выбрать всё';
+                for(var i = 0, inputs_len = inputs.length; i < inputs_len; i++) {
+                    inputs[i].checked = false;
+                }
             }
         }
 
-        btn.addEventListener("click", checkUncheckAll);
+        
     </script>
     <script>
         function changeAppToMeterCheckForm() {
@@ -1624,8 +1634,8 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
 
         function startMeterCheck(e) {
             if (impNumMeterCheck.value != '' && impsMeterCheck.value != '' && voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
-                (!threePhaseMeterCheckBox.checked ||
-                (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
+                    (!threePhaseMeterCheckBox.checked ||
+                    (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
                 e.preventDefault();
                 if (StartMeterCheckBtn.innerText == 'Старт▶') {
                     if (сurrentTransformerTransformationRatio.value == 0) {
@@ -1727,9 +1737,9 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         }
 
         function calcMeterAccuracyAndShowRes(e) {
-            if (seconds == 0.0 && minutes == 0 && hours == 0.0) {
+            /*if (seconds == 0.0 && minutes == 0 && hours == 0.0) {
                 alert('Нажмите \"Старт\"');
-            }
+            }*/
             if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' && impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
                 if (!threePhaseMeterCheckBox.checked ||
                     (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != '')) {
