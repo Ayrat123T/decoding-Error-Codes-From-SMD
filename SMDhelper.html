@@ -417,26 +417,26 @@
         </form>
         <form name="MeterCheck">
             <p class="header">✔️ Проверка ИПУ</p>
-            <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт, [о.е.] = </label>
+            <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт = </label>
                 <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" value="1" required min="0"/></td></tr></table>
-            <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos φ, [о.е.] = </label>
+            <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos(φ) = </label>
                 <input id="PowerFactor" type="number" class="inputMeterCheck" name="PowerFactor" placeholder="1" value="1" required min="0" max="1" step="0.1"/></td></tr></table>
             <table class="input"><tr><td><input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-х фазный режим</input></td></tr></table>
-            <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U, [В] = </label>
+            <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U[В] = </label>
                 <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
-                <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I, [А] = </label>
+                <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I[А] = </label>
                     <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></td></tr></table></p>
             <div id="ThreePhaseMeter" style="display: none">
-                <p><table class="input"><tr><td><label for="VoltageMeterCheck_B" class="labelMeterCheck">Ub, [В] = </label>
+                <p><table class="input"><tr><td><label for="VoltageMeterCheck_B" class="labelMeterCheck">Ub[В] = </label>
                     <input id="VoltageMeterCheck_B" type="number" class="inputMeterCheck" name="VoltageMeterCheck_B" placeholder="220" value="220" required min="0"/></td></tr></table>
-                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ib, [А] = </label>
+                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ib[А] = </label>
                         <input id="CurrentMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentMeterCheck_B" placeholder="1" required min="0"/></td></tr></table></p>
-                <p><table class="input"><tr><td><label for="VoltageMeterCheck_C" class="labelMeterCheck">Uc, [В] = </label>
+                <p><table class="input"><tr><td><label for="VoltageMeterCheck_C" class="labelMeterCheck">Uc[В] = </label>
                     <input id="VoltageMeterCheck_C" type="number" class="inputMeterCheck" name="VoltageMeterCheck_C" placeholder="220" value="220" required min="0"/></td></tr></table>
-                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic, [А] = </label>
+                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic[А] = </label>
                         <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"/></td></tr></table></p>     
             </div>
-            <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A, [имп/кВ*ч] = </label>
+            <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A[имп/кВ*ч] = </label>
                 <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></td></tr></table>
                 <datalist id="impsList">
                     <option value="250"></option>
@@ -447,7 +447,7 @@
                     <option value="5000"></option>
                     <option value="10000"></option>
             </datalist>
-            <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n, [имп] = </label>
+            <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n[имп] = </label>
                 <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0"/>
                 <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
             </td></tr></table></p>
@@ -1620,26 +1620,39 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
         threePhaseMeterCheckBox.addEventListener("click", () => {
             if (threePhaseMeterCheckBox.checked) {
                 threePhaseMeterBlock.style["display"] = "";
-                document.getElementById('FirstVoltageMeterLabel').innerText = 'Ua, [В] = ';
-                document.getElementById('FirstCurrentMeterLabel').innerText = 'Ia, [А] = ';
+                document.getElementById('FirstVoltageMeterLabel').innerText = 'Ua[В] = ';
+                document.getElementById('FirstCurrentMeterLabel').innerText = 'Ia[А] = ';
             } else {
                 threePhaseMeterBlock.style["display"] = "none";
-                document.getElementById('FirstVoltageMeterLabel').innerText = 'U, [В] = ';
-                document.getElementById('FirstCurrentMeterLabel').innerText = 'I, [А] = ';
+                document.getElementById('FirstVoltageMeterLabel').innerText = 'U[В] = ';
+                document.getElementById('FirstCurrentMeterLabel').innerText = 'I[А] = ';
             }
         });
 
         const StartMeterCheckBtn = document.MeterCheck.StartMeterCheck;
         StartMeterCheckBtn.addEventListener('click', startMeterCheck);
 
-        function startMeterCheck(e) {
-            if (impNumMeterCheck.value != '' && impsMeterCheck.value != '' && voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
+        function CheckAllInputs() {
+            if (impNumMeterCheck.value != '' && impsMeterCheck.value != '' &&
+                voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
+                сurrentTransformerTransformationRatio.value >= 0 && powerFactor.value >= 0 &&
+                сurrentTransformerTransformationRatio.value != '' && powerFactor.value != '' &&
                     (!threePhaseMeterCheckBox.checked ||
-                    (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
-                e.preventDefault();
+                    (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' &&
+                    voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
+                        return true;
+                    }
+                    return false;
+        }
+
+        function startMeterCheck(e) {
+            if (CheckAllInputs()) {
+                //e.preventDefault();
                 if (StartMeterCheckBtn.innerText == 'Старт▶') {
-                    if (сurrentTransformerTransformationRatio.value == 0) {
+                    if (сurrentTransformerTransformationRatio.value <= 0) {
                         alert('Ктт не должен быть равен 0');
+                    } else if (powerFactor.value == 0) {
+                        alert('cos(φ) не должен быть равен 0');
                     } else {
                         seconds = 0.0;
                         minutes = 0;
