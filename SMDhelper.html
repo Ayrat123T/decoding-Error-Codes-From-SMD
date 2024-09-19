@@ -1647,7 +1647,7 @@ n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
 
         function startMeterCheck(e) {
             if (CheckAllInputs()) {
-                //e.preventDefault();
+                e.preventDefault();
                 if (StartMeterCheckBtn.innerText == 'Старт▶') {
                     if (сurrentTransformerTransformationRatio.value <= 0) {
                         alert('Ктт не должен быть равен 0');
