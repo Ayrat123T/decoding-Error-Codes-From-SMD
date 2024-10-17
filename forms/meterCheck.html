@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <link rel="icon" href="https://img.icons8.com/?size=100&id=bJv0DqLMJT71&format=png&color=000000" type="image/x-icon">
+        <title>Проверка ИПУ</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+        <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body class="main_body">
+        <div class="dropdown">
+            <button class="dropbtn">📱 Меню</button>
+            <div class="dropdown-content">
+                <a href="#" id="showMeterCheckForm">✔️ Проверка ИПУ</a>
+                <a href="errorDecoding.html" id="showErrorDecodingForm">🔑 Расшифровка кодов ошибок ИПУ</a>
+                <a href="modelDecoding.html" id="showModelDecodingForm">📟 Расшифровка модели ИПУ</a>
+            </div>
+        </div>
+
+        <form name="MeterCheck">
+            <p class="header">✔️ Проверка ИПУ</p>
+            <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт = </label>
+                <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" value="1" required min="0"/></td></tr></table>
+            <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos(φ) = </label>
+                <input id="PowerFactor" type="number" class="inputMeterCheck" name="PowerFactor" placeholder="1" value="1" required min="0" max="1" step="0.1"/></td></tr></table>
+            <table class="input"><tr><td><input type="checkbox" class="input" name="ThreePhaseMeterCheckBox">3-х фазный режим</input></td></tr></table>
+            <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U[В] = </label>
+                <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0"/></td></tr></table>
+                <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I[А] = </label>
+                    <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0"/></td></tr></table></p>
+            <div id="ThreePhaseMeter" style="display: none">
+                <p><table class="input"><tr><td><label for="VoltageMeterCheck_B" class="labelMeterCheck">Ub[В] = </label>
+                    <input id="VoltageMeterCheck_B" type="number" class="inputMeterCheck" name="VoltageMeterCheck_B" placeholder="220" value="220" required min="0"/></td></tr></table>
+                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ib[А] = </label>
+                        <input id="CurrentMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentMeterCheck_B" placeholder="1" required min="0"/></td></tr></table></p>
+                <p><table class="input"><tr><td><label for="VoltageMeterCheck_C" class="labelMeterCheck">Uc[В] = </label>
+                    <input id="VoltageMeterCheck_C" type="number" class="inputMeterCheck" name="VoltageMeterCheck_C" placeholder="220" value="220" required min="0"/></td></tr></table>
+                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic[А] = </label>
+                        <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"/></td></tr></table></p>     
+            </div>
+            <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A[имп/кВ*ч] = </label>
+                <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></td></tr></table>
+                <datalist id="impsList">
+                    <option value="250"></option>
+                    <option value="500"></option>
+                    <option value="1000"></option>
+                    <option value="1600"></option>
+                    <option value="3200"></option>
+                    <option value="5000"></option>
+                    <option value="10000"></option>
+            </datalist>
+            <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n[имп] = </label>
+                <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0"/>
+                <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
+            </td></tr></table></p>
+                        <p><button id="StartMeterCheck" type="submit" class="button" name="StartMeterCheck">Старт▶</button>
+                <button type="reset" onclick="clearALL()" class="button" id="resetMeterCheck">↩︎ Сброс</button></p>
+                <p><span id="timer" class="input">00:00:00.0</span></p>
+                <p><span id="CalcPower" class="input">Pрасч = 0.0 Вт;   </span>
+                    <span id="CalcEnergy" class="input">Wрасч = 0.0 кВт*ч</span></p>
+                        <!--<p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>-->
+                <div id = "resultMeterCheck" style="display: none">
+                    <span id="RealMeterPower" class="input"></span>
+                        <span id="MeterAccuracy" class="input"></span>
+                </div>
+        </form>
+
+        <button id = "copyResultButton"
+        name = "copyResultButton"
+        class = "button"
+        style="display: none">📋 Скопировать результат</button>
+        <br>
+        <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
+            <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
+        <div class="output" id="printBlock"></div>
+    </body>
+    <script src="../scripts/meterCheckScript.js"></script>
+</html>

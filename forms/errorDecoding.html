@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <link rel="icon" href="https://img.icons8.com/?size=100&id=bJv0DqLMJT71&format=png&color=000000" type="image/x-icon">
+        <title>Расшифровка кодов ошибок ИПУ</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
+        <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body class="main_body">
+        <div class="dropdown">
+            <button class="dropbtn">📱 Меню</button>
+            <div class="dropdown-content">
+                <a href="meterCheck.html" id="showMeterCheckForm">✔️ Проверка ИПУ</a>
+                <a href="#" id="showErrorDecodingForm">🔑 Расшифровка кодов ошибок ИПУ</a>
+                <a href="modelDecoding.html" id="showModelDecodingForm">📟 Расшифровка модели ИПУ</a>
+            </div>
+        </div>
+        <form name="ErrorDecoding">
+            <p class="header">🔑 Расшифровка кодов ошибок ИПУ</p>
+            <p><label for="model" class="input">модель: </label>
+                <select id="model" name="model" class="input" type="text">
+                    <option value="Iskraemeco" label="Iskraemeco" selected="selected"></option>
+                    <option value="mir_C04" label="МИР С-04"></option>
+                    <optgroup label="Меркурий">
+                        <option value="incotex_204_208_234_238" label="204/208/234/238">
+                        <option value="incotex_230" label="230/236">
+                    </optgroup>
+                    <optgroup label="Энергомера">
+                        <option value="energomera_CE_208" label="CE 208">
+                        <option value="energomera_CE_303" label="CE 303">>
+                        <option value="energomera_CE_308" label="CE 308">
+                    </optgroup>
+                    <optgroup label="Милур">
+                        <option value="milur_107s" label="107s">
+                        <option value="milur_307" label="307">
+                    </optgroup>
+                </select></p>
+                <p><div id="VPO" class="inputRadio" style="display: none">
+                    <input type = "radio" name= "VPO" value="VPO_6x" label="Iskraemeco" >ВПО 6.x</radio>
+                    <input type = "radio" name= "VPO" value="VPO_9_10x">ВПО 9/10.x</radio>
+                </div></p>
+                    <select id="ErrorTypeSelectCE" class="input" name = 'ErrorTypeSelect' style="display: none">
+                        <option value="Err" label="Err" selected="selected">
+                        <option value="At" label="At">
+                        <option value="Info" label="Info">
+                    </select>
+                    <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
+                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required/></p>
+                <p><button id="send" type="submit" onclick="printForm()" class="button" name="send">🔐 Расшифровать</button>
+                    <button type="reset" onclick="clearALL()" class="button">↩︎ Сброс</button></p>
+        </form>
+        <button id = "copyResultButton"
+        name = "copyResultButton"
+        class = "button"
+        style="display: none">📋 Скопировать результат</button>
+        <br>
+        <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
+            <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
+        <div class="output" id="printBlock"></div>
+    </body>
+    <script src="../scripts/errorDecodingScript.js"></script>
+</html>
