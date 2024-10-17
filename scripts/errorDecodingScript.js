@@ -525,7 +525,7 @@ function PrintResult(textResult) {
     const pElement = document.createElement("p"); // создаем новый параграф
     pElement.textContent = textResult; // устанавливаем у него текст
     printBlock.appendChild(pElement); // добавляем параграф в printBlock
-    document.getElementById("errorCode").value = "";
+    writeBtn.style.display = "";
 }
 
 function PrintErrorDecode(arrayErrorDecode, error_code) {
@@ -543,7 +543,6 @@ function PrintErrorDecode(arrayErrorDecode, error_code) {
         if (errorDecode.Recommendations != '') {
             PrintResult('\n(' + errorDecode.Recommendations + ')');
         }
-        writeBtn.style.display = "";
     } else {
         alert('Ошибки не существует');
     }
@@ -551,11 +550,14 @@ function PrintErrorDecode(arrayErrorDecode, error_code) {
 
 const modelsSelect = document.getElementById("model"); // получаем значение поля model
 
-function printForm() {
+const sendBtn = document.getElementById("send");
+sendBtn.addEventListener("click", printForm);
+
+function printForm(e) {
     error_code = document.getElementById("errorCode").value;
     document.getElementById("printBlock").innerHTML = "";
-    if (error_code !="") {
-        writeBtn.style.display = "";
+    if (error_code) {
+        e.preventDefault();
         if (modelsSelect.value == "Iskraemeco") {
             let ErrorCodeToPrint = 'Ошибка 0x' + error_code;
             const bin_error_code = parseInt(error_code, 16).toString(2);
@@ -650,6 +652,7 @@ function changeOptionCodeTypeEnergomera() {
 
 function clearALL() {
     document.getElementById("printBlock").innerHTML = "";
+    document.getElementById("preErrorCode_Meter_Model").textContent = "";
     writeBtn.style.display = "none";
     document.getElementById("VPO").style["display"] = "none";
     document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
