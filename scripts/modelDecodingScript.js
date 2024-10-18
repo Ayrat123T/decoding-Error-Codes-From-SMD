@@ -1,8 +1,22 @@
 function PrintResult(textResult) {
-    const printBlock = document.getElementById("printBlock"); // получаем элемент printBlock
+    /*const printBlock = document.getElementById("printBlock"); // получаем элемент printBlock
     const pElement = document.createElement("p"); // создаем новый параграф
     pElement.textContent = textResult; // устанавливаем у него текст
-    printBlock.appendChild(pElement); // добавляем параграф в printBlock
+    printBlock.appendChild(pElement); // добавляем параграф в printBlock*/
+    
+    const list = document.querySelector('.output');
+    const template = document.querySelector('#templatePrintBlock');
+
+    // Клонируем содержимое тега <template>
+    const item = template.content.cloneNode(true);
+
+    // Находим тег <li> и помещаем текст внутрь
+    item.querySelector('li').textContent = textResult;
+
+    // Вставляем склонированный контент на страницу
+    list.append(item);
+
+    writeBtn.style.display = "";
 }
 
 function showMeterProp() {
@@ -24,8 +38,8 @@ const getbrandByModelName = (array, ModelName) => {
             }
         }
     }
-    return null
-}
+    return null;
+};
 
 function PrintIncotexMeterSeries() {
     let SelectedIncotexMeterSeries = document.ModelDecoding.incotexMeterSeries.options[document.ModelDecoding.incotexMeterSeries.selectedIndex].value;
@@ -46,7 +60,7 @@ function PrintIncotexMeterSeries() {
             PrintResult("238 – трехфазный счетчик для наружной установки");
             break;
     }
-}
+};
 
 function PrintNot230ModelInput() {
     PrintResult(getbrandByModelName(brandToModelName, modelName.value).brand + '-'
@@ -78,7 +92,7 @@ function PrintNot230ModelInput() {
         + (document.ModelDecoding.Cnot230.checked ? 'C' :'')
         + (document.ModelDecoding.Qnot230multi.checked ? 'Q' + document.ModelDecoding.MultiModNums.options[document.ModelDecoding.MultiModNums.selectedIndex].value:'')
     );
-}
+};
 
 function PrintNot230ModeldecodeResult() {
     PrintNot230ModelInput();
@@ -327,7 +341,8 @@ function Print230ModeldecodeResult() {
 
 function decodMeterModel(e) {
     e.preventDefault();
-    document.getElementById("printBlock").innerHTML = "";
+    //document.getElementById("printBlock").innerHTML = "";
+    document.querySelector('.output').innerHTML = "";
     if (modelName.value == "incotex") {
         document.ModelDecoding.incotexMeterSeries.value == '230' ? Print230ModeldecodeResult() : PrintNot230ModeldecodeResult();
     }
@@ -339,7 +354,8 @@ decodModelBtn.addEventListener("click", decodMeterModel);
 
 function hideAll () {
     incotexMeterSeries.value = "230";
-    document.getElementById("printBlock").innerHTML = "";
+    //document.getElementById("printBlock").innerHTML = "";
+    document.querySelector('.output').innerHTML = "";
     writeBtn.style.display = "none";
     SwitchToIncotex230();
     btnСheckUncheckAll.innerText = '◻︎ Отменить всё';
@@ -390,7 +406,8 @@ function checkUncheckAll(e) {
 }
 
 function clearALL() {
-    document.getElementById("printBlock").innerHTML = "";
+    //document.getElementById("printBlock").innerHTML = "";
+    document.querySelector('.output').innerHTML = "";
     writeBtn.style.display = "none";
 }
 

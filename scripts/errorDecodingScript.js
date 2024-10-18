@@ -521,10 +521,23 @@ const getErrorByID = (array, id) => {
 }
 
 function PrintResult(textResult) {
-    const printBlock = document.getElementById("printBlock"); // получаем элемент printBlock
+    /*const printBlock = document.getElementById("printBlock"); // получаем элемент printBlock
     const pElement = document.createElement("p"); // создаем новый параграф
     pElement.textContent = textResult; // устанавливаем у него текст
-    printBlock.appendChild(pElement); // добавляем параграф в printBlock
+    printBlock.appendChild(pElement); // добавляем параграф в printBlock*/
+    
+    const list = document.querySelector('.output');
+    const template = document.querySelector('#templatePrintBlock');
+
+    // Клонируем содержимое тега <template>
+    const item = template.content.cloneNode(true);
+
+    // Находим тег <li> и помещаем текст внутрь
+    item.querySelector('li').textContent = textResult;
+
+    // Вставляем склонированный контент на страницу
+    list.append(item);
+
     writeBtn.style.display = "";
 }
 
@@ -555,7 +568,8 @@ sendBtn.addEventListener("click", printForm);
 
 function printForm(e) {
     error_code = document.getElementById("errorCode").value;
-    document.getElementById("printBlock").innerHTML = "";
+    //document.getElementById("printBlock").innerHTML = "";
+    document.querySelector('.output').innerHTML = "";
     if (error_code) {
         e.preventDefault();
         if (modelsSelect.value == "Iskraemeco") {
@@ -567,10 +581,12 @@ function printForm(e) {
             for (let i =  0; i < bin_error_code.length; i++) {
                 if (bin_error_code[i] == 1) {
                     isError = true;
-                    PrintResult('Бит ' + i + ': ' + IskraemecoErrors[i].Description + '\n\r');
-                    if (IskraemecoErrors[i].Recommendations != '') {
+                    PrintResult('Бит ' + i + ': ' + IskraemecoErrors[i].Description + '\n\r'
+                        + (IskraemecoErrors[i].Recommendations != '' ? '(' + IskraemecoErrors[i].Recommendations + ')\n\r' :'')
+                    );
+                    /*if (IskraemecoErrors[i].Recommendations != '') {
                         PrintResult('(' + IskraemecoErrors[i].Recommendations + ')\n\r');
-                    }
+                    }*/
                 }
             }
             if (!isError) {
@@ -651,7 +667,8 @@ function changeOptionCodeTypeEnergomera() {
 }
 
 function clearALL() {
-    document.getElementById("printBlock").innerHTML = "";
+    //document.getElementById("printBlock").innerHTML = "";
+    document.querySelector('.output').innerHTML = "";
     document.getElementById("preErrorCode_Meter_Model").textContent = "";
     writeBtn.style.display = "none";
     document.getElementById("VPO").style["display"] = "none";
@@ -663,25 +680,6 @@ writeBtn.addEventListener("click", copyResult);
 
 function copyResult(e) {
     e.preventDefault();
-    /*//для десктопов
-    const writeBtn = document.getElementById('buttonId');
-    const inputEl = document.querySelector('.output');
-    const inputValue = inputEl.innerText;
-    if (inputValue) {
-        navigator.clipboard.writeText(inputValue)
-        .then(() => {
-            if (writeBtn.innerText !== 'Скопировано!') {
-            const originalText = writeBtn.innerText;
-            writeBtn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                writeBtn.innerText = originalText;
-            }, 1500);
-            }
-        })
-        .catch(err => {
-            console.log('Something went wrong', err);
-        })
-    }*/
     var inp = document.createElement('input')
     inp.value = document.querySelector('.output').innerText;
     document.body.appendChild(inp)

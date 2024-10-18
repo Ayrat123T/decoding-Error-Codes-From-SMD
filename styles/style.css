@@ -27,12 +27,10 @@ body {
     color: #ffffff;
     text-align: center;
     display: inline-block;
-    position: relative;
 }
 
 .output {
     font-size: 18pt;
-    height: 100px;
     text-align: left;
 }
 

@@ -13,9 +13,9 @@
         <div class="dropdown">
             <button class="dropbtn">📱 Меню</button>
             <div class="dropdown-content">
-                <a href="meterCheck.html" id="showMeterCheckForm">✔️ Проверка ИПУ</a>
-                <a href="errorDecoding.html" id="showErrorDecodingForm">🔑 Расшифровка кодов ошибок ИПУ</a>
-                <a href="#" id="showModelDecodingForm">📟 Расшифровка модели ИПУ</a>
+                <a href="meterCheck.html">✔️ Проверка ИПУ</a>
+                <a href="errorDecoding.html">🔑 Расшифровка кодов ошибок ИПУ</a>
+                <a href="#">📟 Расшифровка модели ИПУ</a>
             </div>
         </div>
         <form name="ModelDecoding">
@@ -217,9 +217,18 @@
         class = "button"
         style="display: none">📋 Скопировать результат</button>
         <br>
+            <div>
+                <ul class="output">
+                </ul>
+                <template id="templatePrintBlock">
+                    <li></li>
+                </template>
+            </div>
+
+        <!--<div class="output" id="printBlock"></div>-->
+
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
-        <div class="output" id="printBlock"></div>
     </body>
     <script src="../scripts/modelDecodingScript.js"></script>
 </html>
