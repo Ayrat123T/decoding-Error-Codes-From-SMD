@@ -29,6 +29,10 @@ body {
     display: inline-block;
 }
 
+.footer:hover {
+    opacity: 0.7;
+  }
+
 .output {
     font-size: 18pt;
     text-align: left;
