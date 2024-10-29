@@ -520,13 +520,44 @@ const getErrorByID = (array, id) => {
     return null;
 }
 
-function PrintResult(textResult) {
-    /*const printBlock = document.getElementById("printBlock"); // получаем элемент printBlock
+// Темплейт карточки результатов
+const resultTemplate = document.querySelector("#result-template");
+
+// DOM узлы для карточки результатов
+let resultListSectionUl = document.querySelector('form');
+
+const writeBtn = document.getElementById("copyResultButton");
+writeBtn.addEventListener("click", copyResult); 
+
+// Функция создания карточки результатов
+function PrintResult(items, header) {
+    const resultElement = resultTemplate.content.cloneNode(true);
+    const toDOOMoutput = resultElement.querySelector('.output')
+    items.forEach(element => {
+        let li = document.createElement('li');
+        li.innerHTML = (items.length > 1 ? '№ '+ element.id + ': ' : '') 
+        + element.Description
+        + (element.Recommendations != '' ? ' \n\r(' + element.Recommendations + ')\n\r' :'');
+        toDOOMoutput.append(li);
+    });
+    resultElement.querySelector("h2").textContent = header;
+    resultListSectionUl.append(resultElement);
+    writeBtn.style.display = "";
+}
+
+// Функция удаления карточки результатов
+function cardDelete(evt) {
+    const listItem = evt.target.closest("#resultList");
+    listItem.remove();
+}
+
+/*function PrintResult(textResult) {
+    const printBlock = document.getElementById("printBlock"); // получаем элемент printBlock
     const pElement = document.createElement("p"); // создаем новый параграф
     pElement.textContent = textResult; // устанавливаем у него текст
     printBlock.appendChild(pElement); // добавляем параграф в printBlock*/
     
-    const list = document.querySelector('.output');
+    /*const list = document.querySelector('.output');
     const template = document.querySelector('#templatePrintBlock');
 
     // Клонируем содержимое тега <template>
@@ -539,23 +570,38 @@ function PrintResult(textResult) {
     list.append(item);
 
     writeBtn.style.display = "";
-}
+}*/
 
 function PrintErrorDecode(arrayErrorDecode, error_code) {
     const errorDecode = getErrorByID(arrayErrorDecode, error_code);
-    if (errorDecode) {
-        if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
-            PrintResult ('Ошибка ' + document.getElementById("ErrorTypeSelectCE").value + ' ' + error_code + ': ' + errorDecode.Description + '\n');
-        } else if (modelsSelect.value == "incotex_230" || modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "energomera_CE_303") {
-            PrintResult('Ошибка ' + document.getElementById("preErrorCode_Meter_Model").innerHTML + error_code + ': ' + errorDecode.Description + '\n');
-        } else if (modelsSelect.value == "milur_107s" || modelsSelect.value == "milur_307") {
-            PrintResult('Ошибка ' + error_code +'(dec) / 0xb' + parseInt(error_code, 10).toString(2) + ': ' + errorDecode.Description);
-        } else {
-            PrintResult('Ошибка ' + error_code + ': ' + errorDecode.Description);
+    let checkedArrayErrorDecode = [];
+    let headerErrorCodeToPrint = 'Ошибка';
+    if (errorDecode || modelsSelect.value == "Iskraemeco") {
+        if (modelsSelect.value == "Iskraemeco") {
+            const strBinErrorCode = parseInt(error_code, 16).toString(2);
+            reversedBinErrorCode = strBinErrorCode.split('').reverse().join('');
+            console.log(strBinErrorCode);
+            headerErrorCodeToPrint += ' 0x' + error_code + '(0b' + strBinErrorCode +')';
+            var isError = false;
+            for (let i =  0; i < reversedBinErrorCode.length; i++) {
+                if (reversedBinErrorCode[i] == 1) {
+                    isError = true;
+                    checkedArrayErrorDecode.push(IskraemecoErrors[i]);
+                }
+            }
+        }  else {
+            checkedArrayErrorDecode.push(errorDecode);
+            if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
+                headerErrorCodeToPrint += document.getElementById("ErrorTypeSelectCE").value + error_code;
+            } else if (modelsSelect.value == "incotex_230" || modelsSelect.value == "incotex_204_208_234_238" || modelsSelect.value == "energomera_CE_303") {
+                headerErrorCodeToPrint += document.getElementById("preErrorCode_Meter_Model").innerHTML + error_code;
+            } else if (modelsSelect.value == "milur_107s" || modelsSelect.value == "milur_307") {
+                headerErrorCodeToPrint += error_code +'(dec) / 0xb' + parseInt(error_code, 10).toString(2);
+            } else {
+                headerErrorCodeToPrint += error_code;
+            }
         }
-        if (errorDecode.Recommendations != '') {
-            PrintResult('\n(' + errorDecode.Recommendations + ')');
-        }
+        PrintResult(checkedArrayErrorDecode, headerErrorCodeToPrint);
     } else {
         alert('Ошибки не существует');
     }
@@ -567,31 +613,14 @@ const sendBtn = document.getElementById("send");
 sendBtn.addEventListener("click", printForm);
 
 function printForm(e) {
+    if (document.querySelector('.output')) {
+        document.querySelector('.output').remove();
+    }
     error_code = document.getElementById("errorCode").value;
-    //document.getElementById("printBlock").innerHTML = "";
-    document.querySelector('.output').innerHTML = "";
     if (error_code) {
         e.preventDefault();
         if (modelsSelect.value == "Iskraemeco") {
-            let ErrorCodeToPrint = 'Ошибка 0x' + error_code;
-            const bin_error_code = parseInt(error_code, 16).toString(2);
-            PrintResult(ErrorCodeToPrint + '(0b' + bin_error_code + ')\n');
-            error_code = bin_error_code.split('').reverse().join('');
-            var isError = false;
-            for (let i =  0; i < bin_error_code.length; i++) {
-                if (bin_error_code[i] == 1) {
-                    isError = true;
-                    PrintResult('Бит ' + i + ': ' + IskraemecoErrors[i].Description + '\n\r'
-                        + (IskraemecoErrors[i].Recommendations != '' ? '(' + IskraemecoErrors[i].Recommendations + ')\n\r' :'')
-                    );
-                    /*if (IskraemecoErrors[i].Recommendations != '') {
-                        PrintResult('(' + IskraemecoErrors[i].Recommendations + ')\n\r');
-                    }*/
-                }
-            }
-            if (!isError) {
-                alert('Ошибки не существует');
-            }
+            PrintErrorDecode(IskraemecoErrors, error_code);
         } else if (modelsSelect.value == "milur_307") {
             PrintErrorDecode(milur_307_Err, error_code);
         } else if (modelsSelect.value == "milur_107s") {
@@ -667,16 +696,12 @@ function changeOptionCodeTypeEnergomera() {
 }
 
 function clearALL() {
-    //document.getElementById("printBlock").innerHTML = "";
-    document.querySelector('.output').innerHTML = "";
+    document.querySelector('.output').remove();
     document.getElementById("preErrorCode_Meter_Model").textContent = "";
     writeBtn.style.display = "none";
     document.getElementById("VPO").style["display"] = "none";
     document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
 }
-
-const writeBtn = document.getElementById("copyResultButton");
-writeBtn.addEventListener("click", copyResult);
 
 function copyResult(e) {
     e.preventDefault();

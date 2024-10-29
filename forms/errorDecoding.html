@@ -51,22 +51,16 @@
                     <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required/></p>
                 <p><button id="send" type="submit" class="button" name="send">🔐 Расшифровать</button>
                     <button type="reset" onclick="clearALL()" class="button">↩︎ Сброс</button></p>
+            <button id = "copyResultButton"
+            name = "copyResultButton"
+            class = "button"
+            style="display: none">📋 Скопировать результат</button>
+            <br>
         </form>
-        <button id = "copyResultButton"
-        name = "copyResultButton"
-        class = "button"
-        style="display: none">📋 Скопировать результат</button>
-        <br>
         
-            <div style="height: auto">
-                <ul class="output">
-                </ul>
-                <template id="templatePrintBlock">
-                    <li></li>
-                </template>
-            </div>
-
-        <!--<div class="output" id="printBlock"></div>-->
+        <template id="result-template">
+            <ul class="output"><h2></h2></ul>
+        </template>
 
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
