@@ -11,7 +11,7 @@ The error code is decoded in accordance with the current operating manual for th
 Go to the website https://ayrat123t.github.io/decoding-Error-Codes-From-SMD/#
 
 Rus:
-# Помощник умного прибоа учёта электроэнергии
+# Помощник умного прибора учёта электроэнергии
 Выполнено без использования api, backend и framework. Работает без доступа в интернет
 
 1) Форма для проверки корректности учёта электроэнергии прибором учёта
