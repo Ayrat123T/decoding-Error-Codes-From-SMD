@@ -2,7 +2,7 @@ const singlePhaseMeterBlock = document.getElementById('SinglePhaseMeter');
 const threePhaseMeterBlock = document.getElementById('ThreePhaseMeter');
 const threePhaseMeterCheckBox = document.MeterCheck.ThreePhaseMeterCheckBox;
 
-const сurrentTransformerTransformationRatio = document.getElementById('CurrentTransformerTransformationRatio');
+const currentTransformerTransformationRatio = document.getElementById('CurrentTransformerTransformationRatio');
 const powerFactor = document.getElementById('PowerFactor');
 const voltageMeterCheck = document.getElementById('VoltageMeterCheck');
 const currentMeterCheck = document.getElementById('CurrentMeterCheck');
@@ -31,8 +31,8 @@ StartMeterCheckBtn.addEventListener('click', startMeterCheck);
 function CheckAllInputs() {
     if (impNumMeterCheck.value != '' && impsMeterCheck.value != '' &&
         voltageMeterCheck.value != '' && currentMeterCheck.value != '' &&
-        сurrentTransformerTransformationRatio.value >= 0 && powerFactor.value >= 0 &&
-        сurrentTransformerTransformationRatio.value != '' && powerFactor.value != '' &&
+        currentTransformerTransformationRatio.value >= 0 && powerFactor.value >= 0 &&
+        currentTransformerTransformationRatio.value != '' && powerFactor.value != '' &&
             (!threePhaseMeterCheckBox.checked ||
             (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' &&
             voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != ''))) {
@@ -45,7 +45,7 @@ function startMeterCheck(e) {
     if (CheckAllInputs()) {
         e.preventDefault();
         if (StartMeterCheckBtn.innerText == 'Старт▶') {
-            if (сurrentTransformerTransformationRatio.value <= 0) {
+            if (currentTransformerTransformationRatio.value <= 0) {
                 alert('Ктт не должен быть равен 0');
             } else if (powerFactor.value == 0) {
                 alert('cos(φ) не должен быть равен 0');
@@ -101,7 +101,7 @@ function updatePower() {
         power += voltageMeterCheck_B.value * currentMeterCheck_B.value + 
         voltageMeterCheck_C.value * currentMeterCheck_C.value;
     }
-    power *= сurrentTransformerTransformationRatio.value * powerFactor.value;
+    power *= currentTransformerTransformationRatio.value * powerFactor.value;
     calcPower.textContent = 'Pрасч = ' +  power.toFixed(1).toString() + ' Вт;  ';
 }
 
@@ -128,7 +128,7 @@ resetBtn.addEventListener('click', () => {
 //const calcMeterAccuracyBtn = document.MeterCheck.CalcMeterAccuracy;
 //calcMeterAccuracyBtn.addEventListener('click', calcMeterAccuracyAndShowRes);
 powerFactor.addEventListener("change", calcMeterAccuracy);
-сurrentTransformerTransformationRatio.addEventListener("change", calcMeterAccuracy);
+currentTransformerTransformationRatio.addEventListener("change", calcMeterAccuracy);
 voltageMeterCheck.addEventListener("change", calcMeterAccuracy);
 currentMeterCheck.addEventListener("change", calcMeterAccuracy);
 voltageMeterCheck_B.addEventListener("change", calcMeterAccuracy);
@@ -141,7 +141,7 @@ impNumMeterCheck.addEventListener("change", calcMeterAccuracy);
 function calcMeterAccuracy(e) {
     updatePower();
     const realPower = impNumMeterCheck.value / impsMeterCheck.value / (hours + minutes / 60 + seconds / 3600) * 1000;
-    const accuracy = (realPower - power) / power * 100;
+    const accuracy = (power - realPower) / power * 100;
     document.getElementById('RealMeterPower').textContent = 'Pфакт = ' + realPower.toFixed(1).toString() + ' Вт;';
     document.getElementById('MeterAccuracy').textContent = 'Погрешность = ' + accuracy.toFixed(1).toString() + ' %';
 }
@@ -201,7 +201,7 @@ function copyResult(e) {
         inp.value = now + ';    \n\r\
 Номер ИПУ: ' + document.getElementById('SMDSerialNumMeterCheck').value + ';    \n\r\
 Время: ' + timer.textContent + ';    \n\r\
-Ктт = ' + сurrentTransformerTransformationRatio.value + ' о.е.;    \n\r'
+Ктт = ' + currentTransformerTransformationRatio.value + ' о.е.;    \n\r'
 + (threePhaseMeterCheckBox.checked ? (
 'Ua = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
 Ia = ' + currentMeterCheck.value.toString() + ' A;    \n\r\
