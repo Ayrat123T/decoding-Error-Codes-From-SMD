@@ -141,7 +141,7 @@ impNumMeterCheck.addEventListener("change", calcMeterAccuracy);
 function calcMeterAccuracy(e) {
     updatePower();
     const realPower = impNumMeterCheck.value / impsMeterCheck.value / (hours + minutes / 60 + seconds / 3600) * 1000;
-    const accuracy = Math.abs(realPower - power) / power * 100;
+    const accuracy = (realPower - power) / power * 100;
     document.getElementById('RealMeterPower').textContent = 'Pфакт = ' + realPower.toFixed(1).toString() + ' Вт;';
     document.getElementById('MeterAccuracy').textContent = 'Погрешность = ' + accuracy.toFixed(1).toString() + ' %';
 }
