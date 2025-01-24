@@ -3,7 +3,7 @@
     "name": "Помощник умного учёта",
     "icons": [
         {
-            "src":"images",
+            "src":"images/favico.png",
             "sizes": "16x16",
             "type": "image/x-icon"
         }
@@ -14,5 +14,14 @@
     "background_color": "#7ACCE5",
     "theme_color": "#7ACCE5",
     "orientation": "any",
-    "display": "standalone"
+    "description": "Помощник для умного прибора учёта электроэнергии",
+    "display": "standalone",
+    "screenshots": [
+        {
+          "src": "/images/screenshot1.jpg",
+          "type": "image/png",
+          "sizes": "579x1280",
+          "form_factor": "narrow"
+        }
+    ]
 }
