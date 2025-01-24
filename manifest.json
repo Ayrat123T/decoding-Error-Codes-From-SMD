@@ -1,0 +1,17 @@
+{
+    "short_name": "Помощник умного учёта",
+    "name": "Помощник умного учёта",
+    "icons": [
+        {
+            "src":"images",
+            "sizes": "16x16",
+            "type": "image/x-icon"
+        }
+    ],
+    
+    "start_url": "/app/",
+    "background_color": "#7ACCE5",
+    "theme_color": "#7ACCE5",
+    "orientation": "any",
+    "display": "standalone"
+   }
