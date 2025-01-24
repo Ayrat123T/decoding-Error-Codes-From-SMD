@@ -4,7 +4,6 @@
         <link rel="icon" href="images/favico.png" type="image/x-icon">
         <title>Помощник умного учёта</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
         <link rel="stylesheet" href="styles/style.css">
@@ -22,7 +21,24 @@
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
     </body>
-    <script src="scripts/script.js"></script>
+    <script src="../scripts/service-worker..js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('../scripts/service-worker.js').then(function(registration) {
+                    // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              }, function(err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+              }).catch(function(err) {
+                console.log(err)
+              });
+            });
+          } else {
+            console.log('service worker is not supported');
+          }
+    </script>
     <script src="scripts/meterCheckScript.js"></script>
     <script src="scripts/errorDecodingScript.js"></script>
     <script src="scripts/modelDecodingScript.js"></script>
