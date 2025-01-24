@@ -35,10 +35,10 @@ self.addEventListener('install', function(event) {
                        // Открываем и кэшируем нужные страницы и файлы
                            const urlsToCache = [
                                'images/favico.png',
-                               'scripts/meterCheckScript.js',
-                               'scripts/errorDecodingScript.js',
-                               'scripts/modelDecodingScript.js'
-
+                               'meterCheckScript.js',
+                               'errorDecodingScript.js',
+                               'modelDecodingScript.js',
+                               '../styles/style.css'
                            ]
                            cache.addAll(urlsToCache)
                            console.log('cached');

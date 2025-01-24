@@ -22,11 +22,11 @@
         <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
             <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
     </body>
-    <script src="service-worker.js"></script>
+    <script src="scripts/service-worker.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                navigator.serviceWorker.register('scripts/service-worker.js').then(function(registration) {
                     // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
               }, function(err) {
