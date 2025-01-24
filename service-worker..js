@@ -36,6 +36,9 @@ self.addEventListener('install', function(event) {
                            const urlsToCache = [
                                'images/favico.png',
                                'scripts/meterCheckScript.js',
+                               'scripts/errorDecodingScript.js',
+                               'scripts/modelDecodingScript.js'
+
                            ]
                            cache.addAll(urlsToCache)
                            console.log('cached');

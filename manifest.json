@@ -9,7 +9,8 @@
         }
     ],
 
-    "start_url": "/",
+    "id": "https://ayrat123t.github.io/decoding-Error-Codes-From-SMD/",
+    "start_url": "https://ayrat123t.github.io/decoding-Error-Codes-From-SMD/#",
     "background_color": "#7ACCE5",
     "theme_color": "#7ACCE5",
     "orientation": "any",
