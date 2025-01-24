@@ -8,8 +8,8 @@
             "type": "image/x-icon"
         }
     ],
-
-    "start_url": "./",
+    "id":"/decoding-Error-Codes-From-SMD/",
+    "start_url": "/decoding-Error-Codes-From-SMD/",
     "scope": ".",
     "background_color": "#7ACCE5",
     "theme_color": "#7ACCE5",
