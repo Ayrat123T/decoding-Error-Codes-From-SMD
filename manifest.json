@@ -4,7 +4,7 @@
     "icons": [
         {
             "src":"images/favico.png",
-            "sizes": "16x16",
+            "sizes": "691x684",
             "type": "image/x-icon"
         }
     ],
@@ -18,7 +18,7 @@
     "display": "standalone",
     "screenshots": [
         {
-          "src": "/images/screenshot1.jpg",
+          "src": "images/screenshot1.png",
           "type": "image/png",
           "sizes": "579x1280",
           "form_factor": "narrow"
