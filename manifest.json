@@ -6,16 +6,21 @@
             "src":"images/favico.png",
             "sizes": "421x421",
             "type": "image/x-icon"
+        },
+        {
+            "src":"images/favicoSmall.png",
+            "sizes": "144x144",
+            "type": "image/x-icon"
         }
     ],
     "id":"/decoding-Error-Codes-From-SMD/",
     "start_url": "/decoding-Error-Codes-From-SMD/",
     "scope": ".",
-    "background_color": "#7ACCE5",
-    "theme_color": "#7ACCE5",
+    "background_color": "#323131",
+    "theme_color": "#323131",
     "orientation": "any",
     "description": "Помощник для умного прибора учёта электроэнергии",
-    "display": "standalone",
+    "display": "fullscreen",
     "screenshots": [
         {
           "src": "images/screenshot1.png",
