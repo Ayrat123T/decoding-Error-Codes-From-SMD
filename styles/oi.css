@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+
 .output {
     font-size: 18pt;
     text-align: left;
@@ -7,7 +9,7 @@
     font-size: 20pt;
     height: 100%;
     display: inline-table;
-    font-family: 'bahnschrift';
+    font-family: 'Exo 2';
 }
 
 input[type="checkbox"] {
@@ -29,7 +31,7 @@ input:hover {
     font-size: 20pt;
     height: 100%;
     display: inline-table;
-    font-family: 'bahnschrift';
+    font-family: 'Exo 2';
 }
 
 .inputMeterCheck {
@@ -38,7 +40,7 @@ input:hover {
     width: 30vw;
     font-size: 22pt;
     display: inline-table;
-    font-family: 'bahnschrift';
+    font-family: 'Exo 2';
 }
 
 .inputErr {
@@ -47,7 +49,7 @@ input:hover {
     height: 100%;
     width: 200px;
     display: inline-block;
-    font-family: 'bahnschrift';
+    font-family: 'Exo 2';
     margin: 5px;
 }
 
