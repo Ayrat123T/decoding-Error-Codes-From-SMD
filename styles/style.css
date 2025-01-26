@@ -11,6 +11,7 @@ body {
     position: relative;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
+    text-align: center;
     transition: .5s;
     background-size: cover;
     background-position: center;
