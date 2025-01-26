@@ -22,6 +22,11 @@
                         <ion-icon name="menu-outline" class="nav-toggle" id="nav-toggle"></ion-icon>
                         <a href="#" class="nav-logo">МЕНЮ</a>
                     </div>
+
+                    <a href="../index.html" class="nav-link active">
+                        <ion-icon name="home-outline" class="nav-icon"></ion-icon>
+                        <span class="nav-name">Главная</span>
+                    </a>
     
                     <div class="nav-list">
 
@@ -65,7 +70,7 @@
         <script src="../scripts/menu.js"></script>
 
         <form name="ErrorDecoding">
-            <p class="header">🔑 Расшифровка кодов ошибок ИПУ</p>
+            <p class="header">Расшифровка кодов ошибок ИПУ</p>
             <p><label for="model" class="input">модель: </label>
                 <select id="model" name="model" class="input" type="text">
                     <option value="Iskraemeco" label="Iskraemeco" selected="selected"></option>
@@ -94,11 +99,11 @@
                         <option value="Info" label="Info">
                     </select>
                     <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
-                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required/></p>
+                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required title="введите код ошибки с дисплея ПУ"/></p>
             <br>
                 <div id="bottomNavbar">
-                    <button id="send" type="submit" name="send">🔐 Расшифровать</button>
-                    <button type="reset" onclick="clearALL()">↩︎ Сброс</button>
+                    <button id="send" type="submit" name="send" title="Расшифровать код ошибки">🔐Расшифровать</button>
+                    <button type="reset" onclick="clearALL()">↩︎Сброс</button>
         </div>
     </form>
     <br>

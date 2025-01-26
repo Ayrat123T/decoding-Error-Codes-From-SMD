@@ -22,6 +22,11 @@
                         <ion-icon name="menu-outline" class="nav-toggle" id="nav-toggle"></ion-icon>
                         <a href="#" class="nav-logo">МЕНЮ</a>
                     </div>
+
+                    <a href="../index.html" class="nav-link active">
+                        <ion-icon name="home-outline" class="nav-icon"></ion-icon>
+                        <span class="nav-name">Главная</span>
+                    </a>
     
                     <div class="nav-list">
 
@@ -68,26 +73,26 @@
         <form name="MeterCheck">
             <p class="header">Проверка ИПУ</p>
             <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт = </label>
-                <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" required min="0"/></td></tr></table>
+                <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" required min="0" title="коэффициент трансформации трансформатора тока"/></td></tr></table>
             <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos(φ) = </label>
-                <input id="PowerFactor" type="number" class="inputMeterCheck" name="PowerFactor" placeholder="1" required min="0" max="1" step="0.001"/></td></tr></table>
+                <input id="PowerFactor" type="number" class="inputMeterCheck" name="PowerFactor" placeholder="1" required min="0" max="1" step="0.001" title="коэффициент мощности"/></td></tr></table>
             <table class="input"><tr><td><input type="checkbox" class="input" id="ThreePhaseMeterCheckBox">3-х фазный режим</input></td></tr></table>
             <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U[В] = </label>
-                <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0" step="0.001"/></td></tr></table>
+                <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0" step="0.001" title="напряжение фазы А"/></td></tr></table>
                 <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I[А] = </label>
-                    <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0" step="0.001"/></td></tr></table></p>
+                    <input id="CurrentMeterCheck" type="number" class="inputMeterCheck" name="CurrentMeterCheck" placeholder="1" required min="0" step="0.001" title="ток фазы А"/></td></tr></table></p>
             <div id="ThreePhaseMeter" style="display: none">
                 <p><table class="input"><tr><td><label for="VoltageMeterCheck_B" class="labelMeterCheck">Ub[В] = </label>
-                    <input id="VoltageMeterCheck_B" type="number" class="inputMeterCheck" name="VoltageMeterCheck_B" placeholder="220" value="220" required min="0"/></td></tr></table>
+                    <input id="VoltageMeterCheck_B" type="number" class="inputMeterCheck" name="VoltageMeterCheck_B" placeholder="220" value="220" required min="0" title="напряжение фазы B"/></td></tr></table>
                     <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ib[А] = </label>
-                        <input id="CurrentMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentMeterCheck_B" placeholder="1" required min="0"/></td></tr></table></p>
+                        <input id="CurrentMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentMeterCheck_B" placeholder="1" required min="0" title="ток фазы B"/></td></tr></table></p>
                 <p><table class="input"><tr><td><label for="VoltageMeterCheck_C" class="labelMeterCheck">Uc[В] = </label>
-                    <input id="VoltageMeterCheck_C" type="number" class="inputMeterCheck" name="VoltageMeterCheck_C" placeholder="220" value="220" required min="0"/></td></tr></table>
+                    <input id="VoltageMeterCheck_C" type="number" class="inputMeterCheck" name="VoltageMeterCheck_C" placeholder="220" value="220" required min="0" title="напряжение фазы C"/></td></tr></table>
                     <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic[А] = </label>
-                        <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"/></td></tr></table></p>     
+                        <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"  title="ток фазы C"/></td></tr></table></p>     
             </div>
             <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A[имп/кВ*ч] = </label>
-                <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0"/></td></tr></table>
+                <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0" title="постоянная счётчика"/></td></tr></table>
                 <datalist id="impsList">
                     <option value="250"></option>
                     <option value="500"></option>
@@ -98,7 +103,7 @@
                     <option value="10000"></option>
             </datalist>
             <table class="input"><tr><td><label for="ImpNumMeterCheck" class="labelMeterCheck">n[имп] = </label>
-                <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0"/>
+                <input id="ImpNumMeterCheck" type="number" class="inputMeterCheck" name="ImpNumMeterCheck" required min="0" title="Кол-во последовательных импульсов, которые будут учитываться при расчёте погрешности"/>
                 <input id="SMDSerialNumMeterCheck" class="inputErr" name="SMDSerialNumMeterCheck" placeholder="Номер ИПУ"/>
             </td></tr></table></p>
                 <p><span id="timer" class="input">00:00:00.0</span></p>

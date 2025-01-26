@@ -22,6 +22,11 @@
                         <ion-icon name="menu-outline" class="nav-toggle" id="nav-toggle"></ion-icon>
                         <a href="#" class="nav-logo">МЕНЮ</a>
                     </div>
+
+                    <a href="../index.html" class="nav-link active">
+                        <ion-icon name="home-outline" class="nav-icon"></ion-icon>
+                        <span class="nav-name">Главная</span>
+                    </a>
     
                     <div class="nav-list">
 
@@ -65,7 +70,7 @@
         <script src="../scripts/menu.js"></script>
 
         <form name="ModelDecoding">
-            <p class="header">📟 Расшифровка модели ИПУ</p>
+            <p class="header">Расшифровка модели ИПУ</p>
             <select id="modelName" name="modelName" class="input" type="text">
                 <!--<option value="Iskraemeco" selected="selected">Iskraemeco</option>-->
                 <option value="incotex" selected>Меркурий</option>
@@ -267,9 +272,9 @@
         <br>
             <br>
             <div id="bottomNavbar">
-                <button id="СheckUncheckAll">◻︎ Отменить всё</button>
-                <button id="decodModel" type="submit">📜 Расшифровать</button>
-                <button type="reset" onclick="hideAll()">↩︎ Сброс</button>
+                <button id="decodModel" type="submit" title="Расшифровать модель ПУ"> 📜 </button>
+                <button id="СheckUncheckAll" title="Отменить выбранные поля">◻Отменить</button>
+                <button type="reset" onclick="hideAll()" title="Сброс">↩︎Сброс</button>
             </div>
         <!--<div class="output" id="printBlock"></div>-->
     </body>
