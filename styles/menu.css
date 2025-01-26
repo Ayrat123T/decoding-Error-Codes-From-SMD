@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@200;300;400;500;700;800&display=swap');
+
+:root {
+    --nav-width: 92px;
+
+    --first-color: #0C5DF4;
+    --bg-color: #12192C;
+    --sub-color: #B6CEFC;
+    --white-color: #FFFFFF;
+
+    --body-font: 'Poppins', sans-serif;
+    --logo-font: 'Turret Road', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+
+    --z-fixed: 100;
+}
+
+*,::before,::after { box-sizing: border-box; }
+
+.l-navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--nav-width);
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--white-color);
+    padding: 1.5rem 1.5rem 2rem;
+    transition: .5s;
+    z-index: var(--z-fixed);
+}
+
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.nav-brand {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.nav-toggle { font-size: 1.25rem; padding: 0.75rem; cursor: pointer; }
+.nav-logo { color: var(--white-color); font-weight: 600; font-family: var(--logo-font); }
+
+.nav-link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: 0.75rem;
+    color: var(--white-color);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.nav-link:hover { background-color: var(--first-color); }
+
+.nav-icon { font-size: 1.25rem; }
+.nav-name { font-size: var(--small-font-size); }
+.expander { width: calc(var(--nav-width) + 9.25rem); }
+.body-pd { padding: 2rem 0 0 16rem; }
+.active { background-color: var(--first-color); }
+
+.collapse { grid-template-columns: 20px max-content 1fr; }
+.collapse-link { justify-self: flex-end; transition: .5s; }
+.collapse-menu { display: none; padding: 0.75rem 2.25rem; }
+.collapse-sublink { color: var(--sub-color); font-size: var(--small-font-size); }
+    .collapse-sublink:hover { color: var(--white-color); }
+
+.showCollapse { display: block; }
+.rotate { transform: rotate(180deg); transition: .5s; }
+
+
+/* Style the navbar */
+#bottomNavbar {
+    overflow: hidden;
+    background-color: #979696;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  /* The sticky class is added to the navbar with JS when it reaches its scroll position */
+  .sticky {
+    position: fixed;
+    top: 0;
+    padding-bottom: 100px;
+
+  }

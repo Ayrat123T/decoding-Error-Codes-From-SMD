@@ -349,7 +349,7 @@ function decodMeterModel(e) {
     writeBtn.style.display = "";
 }
 
-const decodModelBtn = document.ModelDecoding.decodModel;
+const decodModelBtn = document.getElementById('decodModel');
 decodModelBtn.addEventListener("click", decodMeterModel);
 
 function hideAll () {

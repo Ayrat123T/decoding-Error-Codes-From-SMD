@@ -7,21 +7,75 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles/buttons.css">
         <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="styles/menu.css">
+        <link rel="stylesheet" href="styles/oi.css">
     </head>
-    <body class="main_body">
-        <div class="dropdown">
-            <button class="dropbtn">📱 Меню</button>
-            <div class="dropdown-content" style="display:block">
-                <a href="forms/meterCheck.html">✔️ Проверка ИПУ</a>
-                <a href="forms/errorDecoding.html">🔑 Расшифровка кодов ошибок ИПУ</a>
-                <a href="forms/modelDecoding.html">📟 Расшифровка модели ИПУ</a>
-            </div>
-        </div>
-        <br>
-        <div class="footer" id="CopyRights"><p><a href="https://gridcom-rt.ru/" class="footer">© 2024 GridCom</a></p>
-            <a href="mailto:airattu@mail.ru" class="footer">📧 airattu@mail.ru</a></div>
+    <body id="body-pd">
+
+
+      <div class="l-navbar" id="navbar">
+          <nav class="nav">
+              <div>
+                  <div class="nav-brand">
+                      <ion-icon name="menu-outline" class="nav-toggle" id="nav-toggle"></ion-icon>
+                      <a href="#" class="nav-logo">МЕНЮ</a>
+                  </div>
+  
+                  <div class="nav-list">
+
+                      <div href="#" class="nav-link collapse">
+                          <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
+                          <span class="nav-name">Приложения</span>
+  
+                          <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
+  
+                          <ul class="collapse-menu">
+                              <a href="forms/meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a>
+                              <a href="forms/errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
+                              <a href="forms/modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
+                          </ul>
+                      </div>
+  
+                      <a href="#" class="nav-link">
+                          <ion-icon name="copy" class="nav-icon"></ion-icon>
+                          <span class="nav-name" id="copyResultButton">Скопировать вывод</span>
+                      </a>
+
+                  </div>
+              </div>
+
+              <div>
+                  <a href="https://gridcom-rt.ru/" class="nav-link">
+                      <ion-icon name="globe" class="nav-icon"></ion-icon>
+                      <span class="nav-name">© 2024 GridCom</span>
+                  </a>
+      
+                  <a href="mailto:airattu@mail.ru" class="nav-link">
+                      <ion-icon name="mail" class="nav-icon"></ion-icon>
+                      <span class="nav-name">airattu@mail.ru</span>
+                  </a>
+              </div>
+          </nav>
+      </div>
+
+      <form>
+        <p class="header">Помощник для умного прибора учёта электроэнергии</p>
+        
+        <span>Выполнено без использования api, backend. Работает без доступа в интернет.</span>
+        <ul>
+        <li>1 - Форма для проверки корректности учёта электроэнергии прибором учёта.</li>
+        <li>2 - Форма для расшифровки кода ошибки прибора учёта электроэнергии, которая отображается на его экране, в текстовый вид.</li>
+        Расшифровка кода ошибки производится в соответствии с актуальным руководством по эксплуатации соответствующего прибора учёта.
+        <li>3 - Форма для расшифровки обозначения модели пробора учёта.</li>
+        </ul>
+        <a href="https://github.com/Ayrat123T/decoding-Error-Codes-From-SMD" style="text-decoration:underline" class="footer">Репозиторий проекта</a>
+      </form>
     </body>
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+      <script src="scripts/menu.js"></script>
     <script src="scripts/service-worker.js"></script>
     <script>
         if ('serviceWorker' in navigator) {

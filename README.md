@@ -1,7 +1,7 @@
 Eng:
 # Smart electricity metering device assistant
 
-Done without using api, backend and framework. Works without internet access
+Done without using api, backend. Works without internet access
 
 1) Form for checking the correctness of electricity metering
 2) Form for decoding the error code of the electricity meter, which is displayed on its screen, in text form.
@@ -12,7 +12,7 @@ Go to the website https://ayrat123t.github.io/decoding-Error-Codes-From-SMD/#
 
 Rus:
 # Помощник умного прибора учёта электроэнергии
-Выполнено без использования api, backend и framework. Работает без доступа в интернет
+Выполнено без использования api, backend. Работает без доступа в интернет
 
 1) Форма для проверки корректности учёта электроэнергии прибором учёта
 2) Форма для расшифровки кода ошибки прибора учёта электроэнергии, которая отображается на его экране, в текстовый вид.
