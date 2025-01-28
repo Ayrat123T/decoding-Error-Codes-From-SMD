@@ -35,6 +35,14 @@ self.addEventListener('install', function(event) {
                        // Открываем и кэшируем нужные страницы и файлы
                            const urlsToCache = [
                                 '../images/favico.png',
+                                '../images/favicoSmall.png',
+                                '../images/screenshot-1.png',
+                                '../images/screenshot-2.png',
+                                '../images/screenshot-3.png',
+                                '../images/screenshot-4.png',
+                                '../images/screenshot-5.png',
+                                '../images/screenshot-6.png',
+                                '../images/screenshot-7.png',
                                 'meterCheckScript.js',
                                 'errorDecodingScript.js',
                                 'modelDecodingScript.js',
