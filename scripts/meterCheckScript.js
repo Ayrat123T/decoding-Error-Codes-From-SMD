@@ -154,7 +154,6 @@ function calcMeterAccuracyAndShowRes(e) {
             (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != '')) {
             e.preventDefault();
             document.getElementById('resultMeterCheck').style["display"] = "";
-            writeBtn.style["display"] = "";
         }
     }
     clearInterval(interval);
@@ -167,7 +166,6 @@ function clearALL() {
     threePhaseMeterBlock.style["display"] = "none";
     document.getElementById('FirstVoltageMeterLabel').innerText = 'U[В] = ';
     document.getElementById('FirstCurrentMeterLabel').innerText = 'I[А] = ';
-    writeBtn.style.display = "none";
 }
 
 const writeBtn = document.getElementById("copyResultButton");

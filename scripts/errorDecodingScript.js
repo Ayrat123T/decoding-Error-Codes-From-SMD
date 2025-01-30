@@ -542,7 +542,6 @@ function PrintResult(items, header) {
     });
     resultElement.querySelector("h2").textContent = header;
     resultListSectionUl.append(resultElement);
-    writeBtn.style.display = "";
 }
 
 // Функция удаления карточки результатов
@@ -568,8 +567,6 @@ function cardDelete(evt) {
 
     // Вставляем склонированный контент на страницу
     list.append(item);
-
-    writeBtn.style.display = "";
 }*/
 
 function PrintErrorDecode(arrayErrorDecode, error_code) {
@@ -698,7 +695,6 @@ function changeOptionCodeTypeEnergomera() {
 function clearALL() {
     document.querySelector('.output').remove();
     document.getElementById("preErrorCode_Meter_Model").textContent = "";
-    writeBtn.style.display = "none";
     document.getElementById("VPO").style["display"] = "none";
     document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
 }

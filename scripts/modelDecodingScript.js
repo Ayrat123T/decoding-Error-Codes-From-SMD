@@ -16,7 +16,6 @@ function PrintResult(textResult) {
     // Вставляем склонированный контент на страницу
     list.append(item);
 
-    writeBtn.style.display = "";
 }
 
 function showMeterProp() {
@@ -346,7 +345,6 @@ function decodMeterModel(e) {
     if (modelName.value == "incotex") {
         document.ModelDecoding.incotexMeterSeries.value == '230' ? Print230ModeldecodeResult() : PrintNot230ModeldecodeResult();
     }
-    writeBtn.style.display = "";
 }
 
 const decodModelBtn = document.getElementById('decodModel');
@@ -356,7 +354,6 @@ function hideAll () {
     incotexMeterSeries.value = "230";
     //document.getElementById("printBlock").innerHTML = "";
     document.querySelector('.output').innerHTML = "";
-    writeBtn.style.display = "none";
     SwitchToIncotex230();
     btnСheckUncheckAll.innerText = '◻︎ Отменить всё';
 }
@@ -392,13 +389,13 @@ function checkUncheckAll(e) {
     e.preventDefault();
     var container = document.getElementById('incotexProp');
     var inputs = container.getElementsByTagName('input');
-    if (btnСheckUncheckAll.innerText == '☑︎ Выбрать всё') {
-        btnСheckUncheckAll.innerText = '◻︎ Отменить всё';
+    if (btnСheckUncheckAll.innerText == '☑︎Выбрать') {
+        btnСheckUncheckAll.innerText = '◻︎Отменить';
         for(var i = 0, inputs_len = inputs.length; i < inputs_len; i++) {
             inputs[i].checked = true;
         }
     } else {
-        btnСheckUncheckAll.innerText = '☑︎ Выбрать всё';
+        btnСheckUncheckAll.innerText = '☑︎Выбрать';
         for(var i = 0, inputs_len = inputs.length; i < inputs_len; i++) {
             inputs[i].checked = false;
         }
@@ -408,7 +405,6 @@ function checkUncheckAll(e) {
 function clearALL() {
     //document.getElementById("printBlock").innerHTML = "";
     document.querySelector('.output').innerHTML = "";
-    writeBtn.style.display = "none";
 }
 
 const writeBtn = document.getElementById("copyResultButton");
