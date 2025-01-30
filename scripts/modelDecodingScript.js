@@ -355,7 +355,7 @@ function hideAll () {
     //document.getElementById("printBlock").innerHTML = "";
     document.querySelector('.output').innerHTML = "";
     SwitchToIncotex230();
-    btnСheckUncheckAll.innerText = '◻︎ Отменить всё';
+    btnСheckUncheckAll.innerText = '◻︎Отменить';
 }
 
 const modelName = document.getElementById("modelName");

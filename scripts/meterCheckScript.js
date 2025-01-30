@@ -44,7 +44,7 @@ function CheckAllInputs() {
 function startMeterCheck(e) {
     if (CheckAllInputs()) {
         e.preventDefault();
-        if (StartMeterCheckBtn.innerText == 'Старт ▶') {
+        if (StartMeterCheckBtn.innerText == 'Старт▶') {
             if (currentTransformerTransformationRatio.value <= 0) {
                 alert('Ктт не должен быть равен 0');
             } else if (powerFactor.value == 0) {
@@ -55,13 +55,13 @@ function startMeterCheck(e) {
                 hours = 0;
                 energy = 0.0;
                 interval = setInterval(updateTimeAndEnergy, 100);
-                StartMeterCheckBtn.innerText = 'Стоп ⛔️';
+                StartMeterCheckBtn.innerText = 'Стоп⛔️';
                 StartMeterCheckBtn.style["background-color"] = "red";
                 document.getElementById('resultMeterCheck').style["display"] = "none";
             }
         } else {
             clearInterval(interval);
-            StartMeterCheckBtn.innerText = 'Старт ▶';
+            StartMeterCheckBtn.innerText = 'Старт▶';
             StartMeterCheckBtn.style["background-color"] = "#77dd77";
             calcMeterAccuracyAndShowRes(e);
         }
@@ -119,7 +119,7 @@ resetBtn.addEventListener('click', () => {
     energy = 0.0;
     calcEnergy.textContent ='Wрасч = ' +  energy.toFixed(1).toString() + ' кВт*ч';
     timer.textContent = '00:00:00.0';
-    StartMeterCheckBtn.innerText = 'Старт ▶';
+    StartMeterCheckBtn.innerText = 'Старт▶';
     StartMeterCheckBtn.style["background-color"] = "#77dd77";
     document.getElementById('resultMeterCheck').style["display"] = "none";
 });
@@ -157,7 +157,7 @@ function calcMeterAccuracyAndShowRes(e) {
         }
     }
     clearInterval(interval);
-    StartMeterCheckBtn.innerText = 'Старт ▶';
+    StartMeterCheckBtn.innerText = 'Старт▶';
     StartMeterCheckBtn.style["background-color"] = "#77dd77";
     calcMeterAccuracy(e);
 }
