@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+@import url("include.css");
 
 button {
     border: 0px;
-    text-align: center;
+    text-align: left;
     cursor: pointer;
     color: white;
     background-color: rgb(0,145,215);
     font-family: 'Exo 2';
-    font-size: 20px;
-    padding: 16px;
+    font-size: 20pt;
+    padding: auto;
 }
 
 button:hover {

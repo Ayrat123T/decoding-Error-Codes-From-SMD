@@ -1,20 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
-
-:root {
-    --nav-width: 92px;
-
-    --first-color: #0C5DF4;
-    --bg-color: #12192C;
-    --sub-color: #B6CEFC;
-    --white-color: #FFFFFF;
-
-    --body-font: 'Exo 2', sans-serif;
-    --logo-font: 'Exo 2', sans-serif;
-    --normal-font-size: 1rem;
-    --small-font-size: .875rem;
-
-    --z-fixed: 100;
-}
+@import url("include.css");
 
 *,::before,::after { box-sizing: border-box; }
 
@@ -84,10 +68,11 @@
 /* Style the navbar */
 #bottomNavbar {
     overflow: hidden;
-    background-color: #979696;
+    background-color: #12192C;
     position: fixed;
     bottom: 0;
     width: 100%;
+    text-align: left;
   }
 
   /* The sticky class is added to the navbar with JS when it reaches its scroll position */
@@ -95,5 +80,4 @@
     position: fixed;
     top: 0;
     padding-bottom: 100px;
-
   }

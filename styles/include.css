@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+
+:root {
+    --nav-width: 92px;
+
+    --first-color: #0C5DF4;
+    --bg-color: #12192C;
+    --sub-color: #B6CEFC;
+    --white-color: #FFFFFF;
+
+    --body-font: 'Exo 2', sans-serif;
+    --logo-font: 'Exo 2', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+
+    --z-fixed: 100;
+}

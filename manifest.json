@@ -26,37 +26,37 @@
           "src": "images/screenshot-1.png",
           "type": "image/png",
           "sizes": "1280x579",
-          "form_factor": "narrow"
+          "form_factor": "wide"
         },
         {
             "src": "images/screenshot-2.png",
             "type": "image/png",
             "sizes": "579x1280",
-            "form_factor": "wide"
+            "form_factor": "narrow"
         },
         {
             "src": "images/screenshot-3.png",
             "type": "image/png",
             "sizes": "579x1280",
-            "form_factor": "wide"
+            "form_factor": "narrow"
         },
         {
             "src": "images/screenshot-4.png",
             "type": "image/png",
             "sizes": "579x1280",
-            "form_factor": "wide"
+            "form_factor": "narrow"
         },
         {
             "src": "images/screenshot-5.png",
             "type": "image/png",
             "sizes": "579x1280",
-            "form_factor": "wide"
+            "form_factor": "narrow"
         },
         {
             "src": "images/screenshot-6.png",
             "type": "image/png",
             "sizes": "579x1280",
-            "form_factor": "wide"
+            "form_factor": "narrow"
         }
     ]
 }
