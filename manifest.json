@@ -5,7 +5,7 @@
         {
             "src":"images/favico.png",
             "sizes": "421x421",
-            "type": "image/png"
+            "type": "image/x-icon"
         },
         {
             "src":"images/favicoSmall.png",
@@ -54,6 +54,12 @@
         },
         {
             "src": "images/screenshot-6.png",
+            "type": "image/png",
+            "sizes": "579x1280",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "images/screenshot-7.png",
             "type": "image/png",
             "sizes": "579x1280",
             "form_factor": "narrow"
