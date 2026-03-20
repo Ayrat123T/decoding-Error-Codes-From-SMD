@@ -9,7 +9,10 @@
 */
 
 body {
-    padding: 0 0 0 5.5rem;
+    /* Content padding is reserved only for the collapsed sidebar width.
+       The expanded menu must NOT change this padding (see menu.js) */
+    /* Keep the same visual offset as the old fixed 5.5rem, but tied to --nav-width. */
+    padding: 0 0 0 calc(var(--nav-width) - 0.2rem);
     position: relative;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
@@ -51,3 +54,18 @@ a { text-decoration: none; }
   form {
     padding-bottom: 2rem;
   }
+
+@media (max-width: 480px) {
+    body {
+        font-size: 0.95rem;
+    }
+    .header {
+        font-size: clamp(1.25rem, 6vw, 1.6rem);
+    }
+    .footer {
+        font-size: 0.9rem;
+    }
+    form {
+        padding-bottom: 1.25rem;
+    }
+}

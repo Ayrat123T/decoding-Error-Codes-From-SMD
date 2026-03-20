@@ -63,3 +63,29 @@ input:hover {
 .inputRadio {
     font-size: 20pt;
 }
+
+@media (max-width: 480px) {
+    .output {
+        font-size: clamp(1rem, 4vw, 1.15rem);
+    }
+
+    .input,
+    .labelMeterCheck,
+    .inputMeterCheck,
+    .inputErr,
+    .inputModelDecoding,
+    .inputRadio {
+        font-size: clamp(0.95rem, 4.5vw, 1.1rem);
+    }
+
+    .inputMeterCheck {
+        width: 65vw;
+        max-width: 180px;
+    }
+
+    /* Keeps checkbox blocks from dominating small screens. */
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+}

@@ -73,6 +73,7 @@
     bottom: 0;
     width: 100%;
     text-align: left;
+    z-index: 50;
   }
 
   /* The sticky class is added to the navbar with JS when it reaches its scroll position */
@@ -81,3 +82,14 @@
     top: 0;
     padding-bottom: 100px;
   }
+
+@media (max-width: 480px) {
+    /* Make the sidebar narrower on phones so content still fits. */
+    :root {
+        --nav-width: 72px;
+    }
+
+    .expander {
+        width: calc(var(--nav-width) + 6.5rem);
+    }
+}

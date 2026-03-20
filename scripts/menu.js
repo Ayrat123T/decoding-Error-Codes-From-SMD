@@ -1,20 +1,19 @@
 //Enabling Sidebar Toggling with Padding body
 
-const showMenu = (toggleId, navbarId, bodyId) => {
+const showMenu = (toggleId, navbarId) => {
     const toggle = document.getElementById(toggleId);
     const navbar = document.getElementById(navbarId);
-    const bodypadding = document.getElementById(bodyId);
+    // Important: we do NOT change page padding on open.
 
     if(toggle && navbar) {
         toggle.addEventListener('click', () => {
             navbar.classList.toggle('expander');
 
-            bodypadding.classList.toggle('body-pd');
         })
     }
 }
 
-showMenu('nav-toggle','navbar', 'body-pd');
+showMenu('nav-toggle','navbar');
 
 // Changing Active Link
 

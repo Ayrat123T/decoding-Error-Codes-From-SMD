@@ -510,15 +510,13 @@ let mir_C04_Err = [
     { id: 9, Description: 'Неисправен модуль RF', Recommendations: '' }];
 
 const getErrorByID = (array, id) => {
-    if (array) {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].id == id) {
-                return array[i];
-            }
-        }
+    if (!array) return null;
+    // Lazy map cache: avoids O(n) scans on every decode.
+    if (!array.__errorMap) {
+        array.__errorMap = new Map(array.map(e => [Number(e.id), e]));
     }
-    return null;
-}
+    return array.__errorMap.get(Number(id)) ?? null;
+};
 
 // Темплейт карточки результатов
 const resultTemplate = document.querySelector("#result-template");
@@ -576,14 +574,12 @@ function PrintErrorDecode(arrayErrorDecode, error_code) {
     if (errorDecode || modelsSelect.value == "Iskraemeco") {
         if (modelsSelect.value == "Iskraemeco") {
             const strBinErrorCode = parseInt(error_code, 16).toString(2);
-            reversedBinErrorCode = strBinErrorCode.split('').reverse().join('');
-            console.log(strBinErrorCode);
+            const reversedBinErrorCode = strBinErrorCode.split('').reverse().join('');
             headerErrorCodeToPrint += ' 0x' + error_code + '(0b' + strBinErrorCode +')';
-            var isError = false;
             for (let i =  0; i < reversedBinErrorCode.length; i++) {
                 if (reversedBinErrorCode[i] == 1) {
-                    isError = true;
-                    checkedArrayErrorDecode.push(IskraemecoErrors[i]);
+                    const err = IskraemecoErrors[i];
+                    if (err) checkedArrayErrorDecode.push(err);
                 }
             }
         }  else {
@@ -613,9 +609,16 @@ function printForm(e) {
     if (document.querySelector('.output')) {
         document.querySelector('.output').remove();
     }
-    error_code = document.getElementById("errorCode").value;
+    // Button is inside a form: prevent accidental page reload.
+    e.preventDefault();
+
+    const error_code = document.getElementById("errorCode").value;
+    if (!error_code) {
+        alert('Введите код ошибки');
+        return;
+    }
+
     if (error_code) {
-        e.preventDefault();
         if (modelsSelect.value == "Iskraemeco") {
             PrintErrorDecode(IskraemecoErrors, error_code);
         } else if (modelsSelect.value == "milur_307") {
@@ -663,7 +666,7 @@ function printForm(e) {
                 PrintErrorDecode(energomeraAt, error_code);
             }
         }
-    } 
+    }
 }
 
 modelsSelect.addEventListener("change", changeOption);
@@ -683,13 +686,21 @@ function changeOption() {
 }
 
 function changeOptionCodeTypeEnergomera() {
-    if (modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308") {
-        function changeOptionCodeTypeEnergomera2() {
-            if (document.getElementById("ErrorTypeSelectCE").value != 'At') document.getElementById("VPO").style["display"] = "";
-            else document.getElementById("VPO").style["display"] = "none";
-        }
-        document.getElementById("ErrorTypeSelectCE").addEventListener("change", changeOptionCodeTypeEnergomera2);
+    const isEnergomera = modelsSelect.value == "energomera_CE_208" || modelsSelect.value == "energomera_CE_308";
+    if (!isEnergomera) return;
+
+    const codeTypeSelect = document.getElementById("ErrorTypeSelectCE");
+
+    if (!changeOptionCodeTypeEnergomera._bound) {
+        codeTypeSelect.addEventListener("change", () => {
+            document.getElementById("VPO").style["display"] =
+                codeTypeSelect.value != 'At' ? "" : "none";
+        });
+        changeOptionCodeTypeEnergomera._bound = true;
     }
+
+    document.getElementById("VPO").style["display"] =
+        codeTypeSelect.value != 'At' ? "" : "none";
 }
 
 function clearALL() {
@@ -699,22 +710,38 @@ function clearALL() {
     document.getElementById("ErrorTypeSelectCE").style["display"] = "none";
 }
 
-function copyResult(e) {
+async function copyResult(e) {
     e.preventDefault();
-    var inp = document.createElement('input')
-    inp.value = document.querySelector('.output').innerText;
-    document.body.appendChild(inp)
-    inp.select()
-    if (document.execCommand('copy')) {
-        if (writeBtn.innerText !== 'Скопировано!') {
-            const originalText = writeBtn.innerText;
-            writeBtn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                writeBtn.innerText = originalText;
-            }, 1500);
+
+    const textToCopy = document.querySelector('.output')?.innerText ?? '';
+    let ok = false;
+
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(textToCopy);
+            ok = true;
         }
-    } else {
-        console.log("Failed...")
+    } catch (err) {
+        ok = false;
     }
-    document.body.removeChild(inp)
+
+    if (!ok) {
+        const ta = document.createElement('textarea');
+        ta.value = textToCopy;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+
+    if (ok && writeBtn.innerText !== 'Скопировано!') {
+        const originalText = writeBtn.innerText;
+        writeBtn.innerText = 'Скопировано!';
+        setTimeout(() => {
+            writeBtn.innerText = originalText;
+        }, 1500);
+    }
 }

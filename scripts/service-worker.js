@@ -2,7 +2,7 @@
 var doCache = true;
 
 // Имя кэша
-var CACHE_NAME = 'my-pwa-cache-v2';
+var CACHE_NAME = 'my-pwa-cache-v3';
 
 // Очищает старый кэш
 self.addEventListener('activate', event => {

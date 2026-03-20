@@ -410,22 +410,39 @@ function clearALL() {
 const writeBtn = document.getElementById("copyResultButton");
 writeBtn.addEventListener("click", copyResult);
 
-function copyResult(e) {
+async function copyResult(e) {
     e.preventDefault();
-    var inp = document.createElement('input')
-    inp.value = document.querySelector('.output').innerText;
-    document.body.appendChild(inp)
-    inp.select()
-    if (document.execCommand('copy')) {
-        if (writeBtn.innerText !== 'Скопировано!') {
-            const originalText = writeBtn.innerText;
-            writeBtn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                writeBtn.innerText = originalText;
-            }, 1500);
+    const textToCopy = document.querySelector('.output')?.innerText ?? '';
+
+    let ok = false;
+    // Clipboard API when available (recommended).
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(textToCopy);
+            ok = true;
         }
-    } else {
-        console.log("Failed...")
+    } catch (err) {
+        ok = false;
     }
-    document.body.removeChild(inp)
+
+    // Fallback for non-secure contexts / older browsers.
+    if (!ok) {
+        const ta = document.createElement('textarea');
+        ta.value = textToCopy;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+
+    if (ok && writeBtn.innerText !== 'Скопировано!') {
+        const originalText = writeBtn.innerText;
+        writeBtn.innerText = 'Скопировано!';
+        setTimeout(() => {
+            writeBtn.innerText = originalText;
+        }, 1500);
+    }
 }

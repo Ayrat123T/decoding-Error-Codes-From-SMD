@@ -42,29 +42,30 @@ function CheckAllInputs() {
 }
 
 function startMeterCheck(e) {
-    if (CheckAllInputs()) {
-        e.preventDefault();
-        if (StartMeterCheckBtn.innerText == 'Старт▶') {
-            if (currentTransformerTransformationRatio.value <= 0) {
-                alert('Ктт не должен быть равен 0');
-            } else if (powerFactor.value == 0) {
-                alert('cos(φ) не должен быть равен 0');
-            } else {
-                seconds = 0.0;
-                minutes = 0;
-                hours = 0;
-                energy = 0.0;
-                interval = setInterval(updateTimeAndEnergy, 100);
-                StartMeterCheckBtn.innerText = 'Стоп⛔️';
-                StartMeterCheckBtn.style["background-color"] = "red";
-                document.getElementById('resultMeterCheck').style["display"] = "none";
-            }
-        } else {
-            clearInterval(interval);
-            StartMeterCheckBtn.innerText = 'Старт▶';
-            StartMeterCheckBtn.style["background-color"] = "#77dd77";
-            calcMeterAccuracyAndShowRes(e);
-        }
+    // Button is inside a form: prevent accidental page reload.
+    e.preventDefault();
+
+    // If the timer is running, allow stopping even if inputs become invalid.
+    if (StartMeterCheckBtn.innerText !== 'Старт▶') {
+        calcMeterAccuracyAndShowRes(e);
+        return;
+    }
+
+    if (!CheckAllInputs()) return;
+
+    if (currentTransformerTransformationRatio.value <= 0) {
+        alert('Ктт не должен быть равен 0');
+    } else if (powerFactor.value == 0) {
+        alert('cos(φ) не должен быть равен 0');
+    } else {
+        seconds = 0.0;
+        minutes = 0;
+        hours = 0;
+        energy = 0.0;
+        interval = setInterval(updateTimeAndEnergy, 100);
+        StartMeterCheckBtn.innerText = 'Стоп⛔️';
+        StartMeterCheckBtn.style["background-color"] = "red";
+        document.getElementById('resultMeterCheck').style["display"] = "none";
     }
 }
 
@@ -138,9 +139,37 @@ impsMeterCheck.addEventListener("change", calcMeterAccuracy);
 impNumMeterCheck.addEventListener("change", calcMeterAccuracy);
 
 function calcMeterAccuracy(e) {
+    const requiredValuesExist =
+        impNumMeterCheck.value !== '' &&
+        impsMeterCheck.value !== '' &&
+        voltageMeterCheck.value !== '' &&
+        currentMeterCheck.value !== '' &&
+        currentTransformerTransformationRatio.value !== '' &&
+        powerFactor.value !== '' &&
+        (!threePhaseMeterCheckBox.checked ||
+            (voltageMeterCheck_B.value !== '' &&
+                currentMeterCheck_B.value !== '' &&
+                voltageMeterCheck_C.value !== '' &&
+                currentMeterCheck_C.value !== ''));
+
+    if (!requiredValuesExist) {
+        document.getElementById('RealMeterPower').textContent = '';
+        document.getElementById('MeterAccuracy').textContent = '';
+        return;
+    }
+
     updatePower();
-    const realPower = impNumMeterCheck.value / impsMeterCheck.value / (hours + minutes / 60 + seconds / 3600) * 1000;
+
+    const timeHours = hours + minutes / 60 + seconds / 3600;
+    if (!isFinite(timeHours) || timeHours <= 0) return;
+    if (!isFinite(power) || power === 0) return;
+
+    const realPower = impNumMeterCheck.value / impsMeterCheck.value / timeHours * 1000;
+    if (!isFinite(realPower)) return;
+
     const accuracy = (power - realPower) / power * 100;
+    if (!isFinite(accuracy)) return;
+
     document.getElementById('RealMeterPower').textContent = 'Pфакт = ' + realPower.toFixed(1).toString() + ' Вт;';
     document.getElementById('MeterAccuracy').textContent = 'Погрешность = ' + accuracy.toFixed(1).toString() + ' %';
 }
@@ -149,10 +178,11 @@ function calcMeterAccuracyAndShowRes(e) {
     /*if (seconds == 0.0 && minutes == 0 && hours == 0.0) {
         alert('Нажмите \"Старт\"');
     }*/
+    e.preventDefault();
+
     if (voltageMeterCheck.value != '' && currentMeterCheck.value != '' && impNumMeterCheck.value != '' && impsMeterCheck.value != '') {
         if (!threePhaseMeterCheckBox.checked ||
             (voltageMeterCheck_B.value != '' && currentMeterCheck_B.value != '' && voltageMeterCheck_C.value != '' && currentMeterCheck_C.value != '')) {
-            e.preventDefault();
             document.getElementById('resultMeterCheck').style["display"] = "";
         }
     }
@@ -171,61 +201,58 @@ function clearALL() {
 const writeBtn = document.getElementById("copyResultButton");
 writeBtn.addEventListener("click", copyResult);
 
-function copyResult(e) {
+async function copyResult(e) {
     e.preventDefault();
-    /*//для десктопов
-    const writeBtn = document.getElementById('buttonId');
-    const inputEl = document.querySelector('.output');
-    const inputValue = inputEl.innerText;
-    if (inputValue) {
-        navigator.clipboard.writeText(inputValue)
-        .then(() => {
-            if (writeBtn.innerText !== 'Скопировано!') {
-            const originalText = writeBtn.innerText;
-            writeBtn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                writeBtn.innerText = originalText;
-            }, 1500);
-            }
-        })
-        .catch(err => {
-            console.log('Something went wrong', err);
-        })
-    }*/
-    var inp = document.createElement('input')
-    
-        var now = new Date();
-        inp.value = now + ';    \n\r\
-Номер ИПУ: ' + document.getElementById('SMDSerialNumMeterCheck').value + ';    \n\r\
-Время: ' + timer.textContent + ';    \n\r\
-Ктт = ' + currentTransformerTransformationRatio.value + ' о.е.;    \n\r'
-+ (threePhaseMeterCheckBox.checked ? (
-'Ua = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
-Ia = ' + currentMeterCheck.value.toString() + ' A;    \n\r\
-Ub = ' + voltageMeterCheck_B.value.toString() + ' В;    \n\r\
-Ib = ' + currentMeterCheck_B.value.toString() + ' A;    \n\r\
-Uc = ' + voltageMeterCheck_C.value.toString() + ' В;    \n\r\
-Ic = ' + currentMeterCheck_C.value.toString() + ' A;    \n\r') : ('U = ' + voltageMeterCheck.value.toString() + ' В;    \n\r\
-I = ' + currentMeterCheck.value.toString() + ' A;    \n\r'))
-+ calcPower.textContent + '    \n\r'
-+ calcEnergy.textContent + ';    \n\r\
-A = ' + impsMeterCheck.value.toString() + ' имп/кВ*ч;   \n\r\
-n = ' + impNumMeterCheck.value.toString() + ' имп;    \n\r'
-+ document.getElementById('RealMeterPower').textContent + '    \n\r'
-+ document.getElementById('MeterAccuracy').textContent;
-    
-    document.body.appendChild(inp)
-    inp.select()
-    if (document.execCommand('copy')) {
-        if (writeBtn.innerText !== 'Скопировано!') {
-            const originalText = writeBtn.innerText;
-            writeBtn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                writeBtn.innerText = originalText;
-            }, 1500);
+
+    const now = new Date();
+    const meterNumber = document.getElementById('SMDSerialNumMeterCheck').value;
+    const timeText = timer.textContent;
+
+    const voltageBlock = threePhaseMeterCheckBox.checked
+        ? `Ua = ${voltageMeterCheck.value} В;  \n\rIa = ${currentMeterCheck.value} A;  \n\rUb = ${voltageMeterCheck_B.value} В;  \n\rIb = ${currentMeterCheck_B.value} A;  \n\rUc = ${voltageMeterCheck_C.value} В;  \n\rIc = ${currentMeterCheck_C.value} A;`
+        : `U = ${voltageMeterCheck.value} В;  \n\rI = ${currentMeterCheck.value} A;`;
+
+    const textToCopy =
+        `${now};\n\r` +
+        `Номер ИПУ: ${meterNumber};\n\r` +
+        `Время: ${timeText};\n\r` +
+        `Ктт = ${currentTransformerTransformationRatio.value} о.е.;\n\r` +
+        `${voltageBlock}\n\r` +
+        `${calcPower.textContent}\n\r` +
+        `${calcEnergy.textContent};\n\r` +
+        `A = ${impsMeterCheck.value} имп/кВ*ч;  \n\r` +
+        `n = ${impNumMeterCheck.value} имп;  \n\r` +
+        `${document.getElementById('RealMeterPower').textContent}\n\r` +
+        `${document.getElementById('MeterAccuracy').textContent}`;
+
+    let ok = false;
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(textToCopy);
+            ok = true;
         }
-    } else {
-        console.log("Failed...")
+    } catch (err) {
+        ok = false;
     }
-    document.body.removeChild(inp)
+
+    // Fallback for non-secure contexts / older browsers.
+    if (!ok) {
+        const ta = document.createElement('textarea');
+        ta.value = textToCopy;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+
+    if (ok && writeBtn.innerText !== 'Скопировано!') {
+        const originalText = writeBtn.innerText;
+        writeBtn.innerText = 'Скопировано!';
+        setTimeout(() => {
+            writeBtn.innerText = originalText;
+        }, 1500);
+    }
 }
