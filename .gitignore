@@ -1,0 +1,20 @@
+__pycache__/
+build/
+**/build/
+**/install/
+dist/
+*.egg-info/
+.git/
+camera_node/src/NewStatus.txt
+.vpn/
+
+auth.json
+*.gitignore.*
+
+###> The others
+/.env
+/.vscode
+/.vs
+/.idea
+/.history
+###> The others
