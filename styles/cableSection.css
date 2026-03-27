@@ -1,0 +1,56 @@
+@import url("include.css");
+
+/* Keep ElementUI but align typography/colors with the host app */
+html, body {
+  font-family: var(--body-font);
+}
+
+.cable-header {
+  margin: 0 0 1rem 0;
+}
+
+.cable-app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem 1rem;
+  text-align: left;
+}
+
+.cable-hint {
+  opacity: 0.9;
+}
+
+/* ElementUI tweaks to match the dark theme */
+.el-table,
+.el-table__expanded-cell {
+  background-color: transparent;
+  color: var(--white-color);
+}
+
+.el-table th,
+.el-table tr {
+  background-color: rgba(255,255,255,0.04);
+}
+
+.el-input__inner,
+.el-textarea__inner {
+  background-color: rgba(255,255,255,0.06);
+  color: var(--white-color);
+  border-color: rgba(255,255,255,0.18);
+}
+
+.el-radio__label,
+.el-switch__label,
+.el-form-item__label {
+  color: var(--white-color);
+}
+
+.el-message-box {
+  max-width: 92vw;
+}
+
+@media (max-width: 480px) {
+  .cable-app {
+    padding: 0 0.75rem 4.5rem 0.75rem;
+  }
+}

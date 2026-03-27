@@ -53,7 +53,10 @@ self.addEventListener('install', function(event) {
                                 '../styles/style.css',
                                 '../forms/meterCheck.html',
                                 '../forms/errorDecoding.html',
-                                '../forms/modelDecoding.html'
+                                '../forms/modelDecoding.html',
+                                '../forms/cableSection.html',
+                                '../styles/cableSection.css',
+                                'cableSection.js'
                            ]
                            cache.addAll(urlsToCache)
                            console.log('cached');

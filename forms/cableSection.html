@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <link rel="icon" href="../images/favico.png" type="image/x-icon">
+    <title>Расчёт сечения кабеля</title>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="../manifest.json">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
+
+    <!-- Host styles/fonts -->
+    <link rel="stylesheet" href="../styles/buttons.css">
+    <link rel="stylesheet" href="../styles/menu.css">
+    <link rel="stylesheet" href="../styles/oi.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/cableSection.css">
+
+    <!-- External UI libs (required by this demo) -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  </head>
+
+  <body id="body-pd">
+    <div class="l-navbar" id="navbar">
+      <nav class="nav">
+        <div>
+          <div class="nav-brand">
+            <ion-icon name="menu-outline" class="nav-toggle" id="nav-toggle"></ion-icon>
+            <a href="#" class="nav-logo">МЕНЮ</a>
+          </div>
+
+          <a href="../index.html" class="nav-link active">
+            <ion-icon name="home-outline" class="nav-icon"></ion-icon>
+            <span class="nav-name">Главная</span>
+          </a>
+
+          <div class="nav-list">
+            <div href="#" class="nav-link collapse">
+              <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
+              <span class="nav-name">Приложения</span>
+
+              <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
+
+              <ul class="collapse-menu">
+                <a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a>
+                <a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
+                <a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
+                <a href="#" class="collapse-sublink">Расчёт сечения кабеля 🧮</a>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <a href="https://portat.ru/" class="nav-link">
+            <ion-icon name="globe" class="nav-icon"></ion-icon>
+            <span class="nav-name">© 2025 PorTat</span>
+          </a>
+
+          <a href="mailto:airattu@mail.ru" class="nav-link">
+            <ion-icon name="mail" class="nav-icon"></ion-icon>
+            <span class="nav-name">airattu@mail.ru</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="../scripts/menu.js"></script>
+
+    <main class="cable-app">
+      <p class="header cable-header">Расчёт сечения кабеля</p>
+
+      <div id="cable-app">
+        <section class="advice cable-hint">
+          <span>Напряжение</span>
+          <el-switch v-model="nominalVoltage" active-color="#ff4949" inactive-color="#13ce66" active-value="380"
+            inactive-value="220" active-text="380 В" inactive-text="220 В">
+          </el-switch>
+          <span style="margin-left: 1rem">Мощность</span>
+          <el-radio v-model="loadDimension" label="кВт">кВт</el-radio>
+          <el-radio v-model="loadDimension" label="Вт" disabled>Вт</el-radio>
+          <el-radio v-model="loadDimension" label="А" disabled>А</el-radio>
+        </section>
+
+        <br>
+
+        <form v-on:submit.prevent="addNewRoom">
+          <div class="grid-content bg-purple-dark">
+            <el-row class="inline-input" :span="1">
+              <el-col class="inline-input" :span="10">
+                <label for="new-room">Название помещения</label>
+                <el-autocomplete v-model="roomName" id="new-room" :fetch-suggestions="querySearch"
+                  placeholder="Введите название"></el-autocomplete>
+              </el-col>
+              <el-col class="inline-input" :span="9">
+                <span>Мощность нагрузки</span>
+                <el-input v-model="power" placeholder="Введите значение" maxlength="10" type="number"></el-input>
+              </el-col>
+            </el-row>
+            <el-col class="inline-input" :span="1">
+              <br><el-button type="primary" native-type="submit">Добавить</el-button>
+            </el-col>
+          </div>
+        </form>
+
+        <br>
+        <br>
+        
+        <ul>
+          <li is="room-item" v-for="(room, index) in roomsToLoad" v-bind:key="room.id" v-bind:title="room.title"
+            v-bind:pow="room.pow" v-bind:ld="room.ld" v-on:remove="roomsToLoad.splice(index, 1)"></li>
+        </ul>
+
+        <br>
+
+        <el-row>
+          <el-button type="primary" plain v-on:click="cableCalc" :loading="loading" :disabled="roomsToLoad.length == 0">
+            Расчёт
+          </el-button>
+          <el-button type="warning" plain v-on:click="deleteText">Сброс</el-button>
+        </el-row>
+
+        <br>
+
+        <p>Результат</p>
+        <el-table :data="tableResult" style="width: 100%" empty-text="Нет данных">
+          <el-table-column prop="roomName" label="Помещение" width="180"></el-table-column>
+          <el-table-column prop="electricalPower" label="Нагрузка, кВт" width="180"></el-table-column>
+          <el-table-column prop="cuprum" label="Медь, кв.мм"></el-table-column>
+          <el-table-column prop="aluminum" label="Алюминий, кв.мм"></el-table-column>
+        </el-table>
+
+        <br>
+        <i class="el-icon-info"></i>
+        <span>Минимальное сечение медного провода для жилых помещений: <br> 1.5 кв.мм для освещения <br> 2.5 кв.мм для розеточной группы</span>
+
+        <br><br>
+
+        <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2025 Простые системы</a>
+      </div>
+    </main>
+
+    <!-- Vue2 + ElementUI2 + Axios (this demo uses Vue2 APIs) -->
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/element-ui@2.15.14/lib/index.js"></script>
+    <script src="../scripts/cableSection.js"></script>
+  </body>
+</html>
+
