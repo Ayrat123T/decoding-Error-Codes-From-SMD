@@ -1,10 +1,8 @@
 // Должно быть true в production
 var doCache = true;
 
-// Имя кэша
-var CACHE_NAME = 'my-pwa-cache-v3';
+var CACHE_NAME = 'my-pwa-cache-v4';
 
-// Очищает старый кэш
 self.addEventListener('activate', event => {
    const cacheWhitelist = [CACHE_NAME];
    event.waitUntil(
@@ -12,7 +10,6 @@ self.addEventListener('activate', event => {
            .then(keyList =>
                Promise.all(keyList.map(key => {
                    if (!cacheWhitelist.includes(key)) {
-                       console.log('Deleting cache: ' + key)
                        return caches.delete(key);
                    }
                }))
@@ -20,59 +17,54 @@ self.addEventListener('activate', event => {
    );
 });
 
-// 'install' вызывается, как только пользователь впервые открывает PWA 
+var CDN_ASSETS = [
+    'https://unpkg.com/vue@2/dist/vue.js',
+    'https://unpkg.com/element-ui@2.15.14/lib/index.js',
+    'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
+    'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js',
+    'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js',
+    'https://fonts.googleapis.com/css2?family=Exo+2&display=swap',
+];
+
 self.addEventListener('install', function(event) {
-   if (doCache) {
-       event.waitUntil(
-           caches.open(CACHE_NAME)
-               .then(function(cache) {
-                   // Получаем данные из манифеста (они кэшируются)
-                   fetch('../manifest.json')
-                       .then(response => {
-                           response.json()
-                       })
-                       .then(assets => {
-                       // Открываем и кэшируем нужные страницы и файлы
-                           const urlsToCache = [
-                                '../images/favico.png',
-                                '../images/favicoSmall.png',
-                                '../images/screenshot-1.png',
-                                '../images/screenshot-2.png',
-                                '../images/screenshot-3.png',
-                                '../images/screenshot-4.png',
-                                '../images/screenshot-5.png',
-                                '../images/screenshot-6.png',
-                                '../images/screenshot-7.png',
-                                'meterCheckScript.js',
-                                'errorDecodingScript.js',
-                                'modelDecodingScript.js',
-                                'menu.js',
-                                '../styles/menu.css',
-                                '../styles/buttons.css',
-                                '../styles/oi.css',
-                                '../styles/style.css',
-                                '../forms/meterCheck.html',
-                                '../forms/errorDecoding.html',
-                                '../forms/modelDecoding.html',
-                                '../forms/cableSection.html',
-                                '../styles/cableSection.css',
-                                'cableSection.js'
-                           ]
-                           cache.addAll(urlsToCache)
-                           console.log('cached');
-                       })
-               })
-       );
-   }
+   if (!doCache) return;
+   event.waitUntil(
+       caches.open(CACHE_NAME)
+           .then(function(cache) {
+               var urlsToCache = [
+                    '../index.html',
+                    '../manifest.json',
+                    '../images/favico.png',
+                    '../images/favicoSmall.png',
+                    '../styles/include.css',
+                    '../styles/buttons.css',
+                    '../styles/menu.css',
+                    '../styles/oi.css',
+                    '../styles/style.css',
+                    '../styles/cableSection.css',
+                    '../forms/meterCheck.html',
+                    '../forms/errorDecoding.html',
+                    '../forms/modelDecoding.html',
+                    '../forms/cableSection.html',
+                    'menu.js',
+                    'meterCheckScript.js',
+                    'errorDecodingScript.js',
+                    'modelDecodingScript.js',
+                    'cableSection.js',
+                ].concat(CDN_ASSETS);
+               return cache.addAll(urlsToCache);
+           })
+           .catch(function(err) {
+               console.log('Cache install failed', err);
+           })
+   );
 });
 
-// Когда приложение запущено, сервис-воркер перехватывает запросы и отвечает на них данными из кэша, если они есть
 self.addEventListener('fetch', function(event) {
-   if (doCache) {
-       event.respondWith(
-           caches.match(event.request).then(function(response) {
-               return response || fetch(event.request);
-           })
-       );
-   }
+   if (!doCache) return;
+   event.respondWith(
+       caches.match(event.request).then(function(response) {
+           return response || fetch(event.request);
+       })
+   );
 });

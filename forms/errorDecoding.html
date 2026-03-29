@@ -14,6 +14,10 @@
     </head>
     <body id="body-pd">
 
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+            <span class="mobile-menu-btn__glyph" aria-hidden="true">☰</span>
+        </button>
+        <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
         <div class="l-navbar" id="navbar">
             <nav class="nav">
@@ -27,23 +31,23 @@
                         <ion-icon name="home-outline" class="nav-icon"></ion-icon>
                         <span class="nav-name">Главная</span>
                     </a>
-    
+
                     <div class="nav-list">
 
-                        <div href="#" class="nav-link collapse">
+                        <div class="nav-link collapse">
                             <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
                             <span class="nav-name">Приложения</span>
-    
+
                             <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
-    
+
                             <ul class="collapse-menu">
-                                <a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a>
-                                <a href="#" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
-                                <a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
-                                <a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a>
+                                <li><a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a></li>
+                                <li><a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a></li>
+                                <li><a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a></li>
+                                <li><a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a></li>
                             </ul>
                         </div>
-    
+
                         <a href="#" class="nav-link" id="copyResultButton">
                             <ion-icon name="copy" class="nav-icon"></ion-icon>
                             <span class="nav-name">Скопировать вывод</span>
@@ -57,7 +61,7 @@
                         <ion-icon name="globe" class="nav-icon"></ion-icon>
                         <span class="nav-name">© 2026 PorTat</span>
                     </a>
-        
+
                     <a href="mailto:airattu@mail.ru" class="nav-link">
                         <ion-icon name="mail" class="nav-icon"></ion-icon>
                         <span class="nav-name">airattu@mail.ru</span>
@@ -66,52 +70,66 @@
             </nav>
         </div>
 
+        <main class="page-main">
+        <form name="ErrorDecoding">
+            <p class="header">Расшифровка кодов ошибок ИПУ</p>
+            <p>
+                <label for="model" class="input">модель: </label>
+                <select id="model" name="model" class="input">
+                    <option value="Iskraemeco" selected>Iskraemeco</option>
+                    <option value="mir_C04">МИР С-04</option>
+                    <optgroup label="Меркурий">
+                        <option value="incotex_204_208_234_238">204/208/234/238</option>
+                        <option value="incotex_230">230/236</option>
+                    </optgroup>
+                    <optgroup label="Энергомера">
+                        <option value="energomera_CE_208">CE 208</option>
+                        <option value="energomera_CE_303">CE 303</option>
+                        <option value="energomera_CE_308">CE 308</option>
+                    </optgroup>
+                    <optgroup label="Милур">
+                        <option value="milur_107s">107s</option>
+                        <option value="milur_307">307</option>
+                    </optgroup>
+                </select>
+            </p>
+            <div id="VPO" class="inputRadio" style="display: none">
+                <label><input type="radio" name="VPO" value="VPO_6x"> ВПО 6.x</label>
+                <label><input type="radio" name="VPO" value="VPO_9_10x"> ВПО 9/10.x</label>
+            </div>
+            <p>
+                <select id="ErrorTypeSelectCE" class="input" name="ErrorTypeSelect" style="display: none">
+                    <option value="Err" selected>Err</option>
+                    <option value="At">At</option>
+                    <option value="Info">Info</option>
+                </select>
+            </p>
+            <p>
+                <label for="errorCode" id="preErrorCode_Meter_Model" class="input"></label>
+                <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required title="введите код ошибки с дисплея ПУ"/>
+            </p>
+            <br>
+            <div id="bottomNavbar">
+                <button id="send" type="submit" name="send" title="Расшифровать код ошибки">🔐Расшифровать</button>
+                <button type="reset" onclick="clearALL()">↩︎Сброс</button>
+            </div>
+        </form>
+        <br>
+        <template id="result-template">
+            <div class="output">
+                <h2></h2>
+                <ul></ul>
+            </div>
+        </template>
+        </main>
+
+        <footer class="page-footer">
+            <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2026 Простые системы. Версия: 2.0</a>
+        </footer>
+
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <script src="../scripts/menu.js"></script>
-
-        <form name="ErrorDecoding">
-            <p class="header">Расшифровка кодов ошибок ИПУ</p>
-            <p><label for="model" class="input">модель: </label>
-                <select id="model" name="model" class="input" type="text">
-                    <option value="Iskraemeco" label="Iskraemeco" selected="selected"></option>
-                    <option value="mir_C04" label="МИР С-04"></option>
-                    <optgroup label="Меркурий">
-                        <option value="incotex_204_208_234_238" label="204/208/234/238">
-                        <option value="incotex_230" label="230/236">
-                    </optgroup>
-                    <optgroup label="Энергомера">
-                        <option value="energomera_CE_208" label="CE 208">
-                        <option value="energomera_CE_303" label="CE 303">>
-                        <option value="energomera_CE_308" label="CE 308">
-                    </optgroup>
-                    <optgroup label="Милур">
-                        <option value="milur_107s" label="107s">
-                        <option value="milur_307" label="307">
-                    </optgroup>
-                </select></p>
-                <p><div id="VPO" class="inputRadio" style="display: none">
-                    <input type = "radio" name= "VPO" value="VPO_6x" label="Iskraemeco" >ВПО 6.x</radio>
-                    <input type = "radio" name= "VPO" value="VPO_9_10x">ВПО 9/10.x</radio>
-                </div></p>
-                    <select id="ErrorTypeSelectCE" class="input" name = 'ErrorTypeSelect' style="display: none">
-                        <option value="Err" label="Err" selected="selected">
-                        <option value="At" label="At">
-                        <option value="Info" label="Info">
-                    </select>
-                    <label for="errorCode" id = "preErrorCode_Meter_Model" class="input"></label>
-                    <input id="errorCode" type="number" class="inputErr" name="errorCode" placeholder="код ошибки" min="0" size="18" required title="введите код ошибки с дисплея ПУ"/></p>
-            <br>
-                <div id="bottomNavbar">
-                    <button id="send" type="submit" name="send" title="Расшифровать код ошибки">🔐Расшифровать</button>
-                    <button type="reset" onclick="clearALL()">↩︎Сброс</button>
-        </div>
-    </form>
-    <br>
-        <template id="result-template">
-            <ul class="output"><h2></h2></ul>
-        </template>
-        <br>
+        <script src="../scripts/errorDecodingScript.js"></script>
     </body>
-    <script src="../scripts/errorDecodingScript.js"></script>
 </html>

@@ -57,8 +57,20 @@
 
 .collapse { grid-template-columns: 20px max-content 1fr; }
 .collapse-link { justify-self: flex-end; transition: .5s; }
-.collapse-menu { display: none; padding: 0.75rem 2.25rem; }
-.collapse-sublink { color: var(--sub-color); font-size: var(--small-font-size); }
+.collapse-menu {
+    display: none;
+    padding: 0.75rem 2.25rem;
+    list-style: none;
+    margin: 0;
+}
+
+.collapse-menu li {
+    list-style: none;
+    margin: 0.2rem 0;
+    text-align: left;
+}
+
+.collapse-sublink { color: var(--sub-color); font-size: var(--small-font-size); display: inline-block; }
     .collapse-sublink:hover { color: var(--white-color); }
 
 .showCollapse { display: block; }
@@ -83,13 +95,83 @@
     padding-bottom: 100px;
   }
 
-@media (max-width: 480px) {
-    /* Make the sidebar narrower on phones so content still fits. */
+/* Mobile: panel fully off-screen until opened; hamburger is outside (see .mobile-menu-btn) */
+@media (max-width: 768px) {
     :root {
         --nav-width: 72px;
     }
 
+    body {
+        padding-left: 0 !important;
+    }
+
+    .nav-brand .nav-toggle {
+        display: none;
+    }
+
+    .l-navbar {
+        width: min(280px, 86vw);
+        transform: translateX(-100%);
+        box-shadow: none;
+        z-index: var(--z-navbar-mobile);
+    }
+
+    .l-navbar.nav-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
+    }
+
     .expander {
-        width: calc(var(--nav-width) + 6.5rem);
+        width: min(280px, 86vw);
+    }
+
+    .mobile-menu-btn {
+        position: fixed;
+        left: 0.75rem;
+        top: 0.75rem;
+        z-index: var(--z-mobile-menu-btn);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        border: 0;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        color: var(--white-color);
+        background-color: var(--bg-color);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .mobile-menu-btn__glyph {
+        font-size: 1.35rem;
+        line-height: 1;
+    }
+
+    .nav-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: var(--z-nav-backdrop);
+        background: rgba(0, 0, 0, 0.45);
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-backdrop[hidden] {
+        display: none !important;
     }
 }
+
+@media (min-width: 769px) {
+    .mobile-menu-btn,
+    .nav-backdrop {
+        display: none !important;
+    }
+
+    .l-navbar {
+        transform: none !important;
+    }
+}
+

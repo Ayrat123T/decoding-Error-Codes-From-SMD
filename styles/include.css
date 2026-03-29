@@ -14,4 +14,7 @@
     --small-font-size: .875rem;
 
     --z-fixed: 100;
+    --z-nav-backdrop: 1000;
+    --z-navbar-mobile: 1001;
+    --z-mobile-menu-btn: 1002;
 }

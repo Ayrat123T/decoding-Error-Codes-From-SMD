@@ -14,6 +14,10 @@
     </head>
     <body id="body-pd">
 
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+            <span class="mobile-menu-btn__glyph" aria-hidden="true">☰</span>
+        </button>
+        <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
       <div class="l-navbar" id="navbar">
           <nav class="nav">
@@ -27,20 +31,20 @@
                     <ion-icon name="home-outline" class="nav-icon"></ion-icon>
                     <span class="nav-name">Главная</span>
                 </a>
-  
+
                   <div class="nav-list">
 
-                      <div href="#" class="nav-link collapse">
+                      <div class="nav-link collapse">
                           <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
                           <span class="nav-name">Приложения</span>
-  
+
                           <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
-  
+
                           <ul class="collapse-menu">
-                              <a href="forms/meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a>
-                              <a href="forms/errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
-                              <a href="forms/modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
-                              <a href="forms/cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a>
+                              <li><a href="forms/meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a></li>
+                              <li><a href="forms/errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a></li>
+                              <li><a href="forms/modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a></li>
+                              <li><a href="forms/cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a></li>
                           </ul>
                       </div>
 
@@ -53,7 +57,7 @@
                         <ion-icon name="globe" class="nav-icon"></ion-icon>
                         <span class="nav-name">© 2026 PorTat</span>
                   </a>
-      
+
                   <a href="mailto:airattu@mail.ru" class="nav-link">
                       <ion-icon name="mail" class="nav-icon"></ion-icon>
                       <span class="nav-name">airattu@mail.ru</span>
@@ -62,36 +66,53 @@
           </nav>
       </div>
 
-      <form>
+      <main class="page-main">
         <p class="header">Помощник для умного прибора учёта электроэнергии</p>
-        
-        <span>Выполнено без использования api, backend. Работает без доступа в интернет. Подключен service-worker: можно добавить на главный экран в качестве приложения</span>
-        <ul>
-          <br>
-        <li>1 - Форма для проверки корректности учёта электроэнергии прибором учёта.</li>
-        <br>
-        <li>2 - Форма для расшифровки кода ошибки прибора учёта электроэнергии, которая отображается на его экране, в текстовый вид.
-        Расшифровка кода ошибки производится в соответствии с актуальным руководством по эксплуатации соответствующего прибора учёта.</li>
-        <br>
-        <li>3 - Форма для расшифровки обозначения модели прибора учёта.</li>
-        <br>
+
+        <nav class="app-launch-grid" aria-label="Приложения">
+            <a href="forms/meterCheck.html" class="app-launch-card">
+                <ion-icon name="speedometer-outline" class="app-launch-card__icon"></ion-icon>
+                <span class="app-launch-card__text">Проверка ИПУ</span>
+            </a>
+            <a href="forms/errorDecoding.html" class="app-launch-card">
+                <ion-icon name="key-outline" class="app-launch-card__icon"></ion-icon>
+                <span class="app-launch-card__text">Расшифровка кодов ошибок ИПУ</span>
+            </a>
+            <a href="forms/modelDecoding.html" class="app-launch-card">
+                <ion-icon name="hardware-chip-outline" class="app-launch-card__icon"></ion-icon>
+                <span class="app-launch-card__text">Расшифровка модели ИПУ</span>
+            </a>
+            <a href="forms/cableSection.html" class="app-launch-card">
+                <ion-icon name="calculator-outline" class="app-launch-card__icon"></ion-icon>
+                <span class="app-launch-card__text">Расчёт сечения кабеля</span>
+            </a>
+        </nav>
+
+        <p class="intro-text">Выполнено без использования api, backend. Работает без доступа в интернет. Подключен service-worker: можно добавить на главный экран в качестве приложения</p>
+
+        <ul class="home-feature-list">
+          <li>Форма для проверки корректности учёта электроэнергии прибором учёта</li>
+          <li>Форма для расшифровки кода ошибки прибора учёта электроэнергии, которая отображается на его экране, в текстовый вид. Расшифровка кода ошибки производится в соответствии с актуальным руководством по эксплуатации соответствующего прибора учёта</li>
+          <li>Форма для расшифровки обозначения модели прибора учёта</li>
+          <li>Расчёт сечения кабеля по введённым нагрузкам (локальный расчёт, без обращения к серверу)</li>
         </ul>
-        <br>
+
+        <p class="home-repo"><a href="https://github.com/Ayrat123T/decoding-Error-Codes-From-SMD" class="footer" style="text-decoration:underline">Репозиторий проекта</a></p>
+      </main>
+
+      <footer class="page-footer">
         <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2026 Простые системы. Версия: 2.0</a>
-      </form>
-    </body>
+      </footer>
+
       <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
       <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
       <script src="scripts/menu.js"></script>
-    <script src="scripts/service-worker.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('scripts/service-worker.js').then(function(registration) {
-                    // Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
               }, function(err) {
-                // registration failed :(
                 console.log('ServiceWorker registration failed: ', err);
               }).catch(function(err) {
                 console.log(err)
@@ -101,4 +122,5 @@
             console.log('service worker is not supported');
           }
     </script>
+</body>
 </html>

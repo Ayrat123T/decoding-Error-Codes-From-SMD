@@ -14,6 +14,10 @@
     </head>
     <body id="body-pd">
 
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+            <span class="mobile-menu-btn__glyph" aria-hidden="true">☰</span>
+        </button>
+        <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
         <div class="l-navbar" id="navbar">
             <nav class="nav">
@@ -30,17 +34,17 @@
     
                     <div class="nav-list">
 
-                        <div href="#" class="nav-link collapse">
+                        <div class="nav-link collapse">
                             <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
                             <span class="nav-name">Приложения</span>
     
                             <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
     
                             <ul class="collapse-menu">
-                                <a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a>
-                                <a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
-                                <a href="#" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
-                                <a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a>
+                                <li><a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a></li>
+                                <li><a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a></li>
+                                <li><a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a></li>
+                                <li><a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a></li>
                             </ul>
                         </div>
     
@@ -70,35 +74,36 @@
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <script src="../scripts/menu.js"></script>
 
+        <main class="page-main">
         <form name="ModelDecoding">
             <p class="header">Расшифровка модели ИПУ</p>
-            <select id="modelName" name="modelName" class="input" type="text">
+            <select id="modelName" name="modelName" class="input">
                 <!--<option value="Iskraemeco" selected="selected">Iskraemeco</option>-->
                 <option value="incotex" selected>Меркурий</option>
             </select>
             <span id = "incotexProp" name="incotexProp">
-                <select id="incotexMeterSeries" name="incotexMeterSeries" class="input" type="text">
+                <select id="incotexMeterSeries" name="incotexMeterSeries" class="input">
                     <option value="204" label="204"></option>
                     <option value="208" label="208"></option>
                     <option value="234" label="234"></option>
-                    <option value="230" label="230"selected="selected"></option>
+                    <option value="230" selected>230</option>
                     <option value="238" label="238"></option>
-                </select>--
+                </select>
                 <span id="incotex230Prop">
                     <table class="input" id="incotexFunc">
                         <tr>
                             <td>A</td> <td>R</td> <td>T</td><td>2</td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="A" checked></input></td>
-                            <td><input type="checkbox" name="R" checked></input></td>
-                            <td><input type="checkbox" name="T" checked></input></td>
-                            <td><input type="checkbox" name="TO" checked></input></td>
+                            <td><input type="checkbox" name="A" checked></td>
+                            <td><input type="checkbox" name="R" checked></td>
+                            <td><input type="checkbox" name="T" checked></td>
+                            <td><input type="checkbox" name="TO" checked></td>
                         </tr>
-                    </table>--
-                    <section id="incotexDenomination" class="input">
-                        <text id="incotexDenomination" class="input">0</text>
-                        <select name="incotexDenomination" type="text" class="input">
+                    </table>
+                    <section id="incotexDenominationSection" class="input">
+                        <span class="input">0</span>
+                        <select name="incotexDenomination" class="input">
                             <option value="0" label="0" selected="selected"></option>
                             <option value="1" label="1"></option>
                             <option value="2" label="2"></option>
@@ -110,7 +115,7 @@
                                 <option value="8" label="8" id="incotexDenomination8" style="display: none"></option>
                                 <option value="9" label="9" id="incotexDenomination9" style="display: none"></option>
                         </select>
-                    </section>--
+                    </section>
                     <table class="input" id="incotex230MainFunc">
                         <tr>
                             <td>F</td>
@@ -118,37 +123,37 @@
                             <td>Q</td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="F" checked></input></td>
-                            <td><input type="checkbox" name="P" checked></input></td>
-                            <td><input type="checkbox" name="Q" checked></input></td>
+                            <td><input type="checkbox" name="F" checked></td>
+                            <td><input type="checkbox" name="P" checked></td>
+                            <td><input type="checkbox" name="Q" checked></td>
                         </tr>
-                    </table>--
+                    </table>
                     <table class="input" id="incotex230Interface">
                         <tr>
                             <td>C</td> <td>R</td> <td>S</td> <td>I</td> <td>L</td> <td>G</td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="C" checked></input></td>
-                            <td><input type="checkbox" name="RS" checked></input></td>
-                            <td><input type="checkbox" name="S" checked></input></td>
-                            <td><input type="checkbox" name="I" checked></input></td>
-                            <td><input type="checkbox" name="L" checked></input></td>
-                            <td><input type="checkbox" name="G" checked></input></td>
+                            <td><input type="checkbox" name="C" checked></td>
+                            <td><input type="checkbox" name="RS" checked></td>
+                            <td><input type="checkbox" name="S" checked></td>
+                            <td><input type="checkbox" name="I" checked></td>
+                            <td><input type="checkbox" name="L" checked></td>
+                            <td><input type="checkbox" name="G" checked></td>
                         </tr>
-                    </table>--
+                    </table>
                     <table class="input" id="incotexAdditFunc">
                         <tr>
                             <td>D</td> <td>N</td> <td>B</td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="D" checked></input></td>
-                            <td><input type="checkbox" name="N" checked></input></td>
-                            <td><input type="checkbox" name="B" checked></input></td>
+                            <td><input type="checkbox" name="D" checked></td>
+                            <td><input type="checkbox" name="N" checked></td>
+                            <td><input type="checkbox" name="B" checked></td>
                         </tr>
                     </table>
                 </span>
                 <span id="incotexNot230Prop" style="display: none">
-                    <table class="input" id="incotexFunc">
+                    <table class="input" id="incotexFuncNot230">
                         <tr>
                             <td>A</td> <td>R</td> <td>T</td>
                             <td>M</td>
@@ -156,17 +161,17 @@
                             <td>2</td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="Anot230" checked></input></td>
-                            <td><input type="checkbox" name="Rnot230" checked></input></td>
-                            <td><input type="checkbox" name="Tnot230" checked></input></td>
-                            <td><input type="checkbox" name="Mnot230" checked></input></td>
-                            <td><input type="checkbox" name="Xnot230" checked></input></td>
-                            <td><input type="checkbox" name="TOnot230" checked></input></td>
+                            <td><input type="checkbox" name="Anot230" checked></td>
+                            <td><input type="checkbox" name="Rnot230" checked></td>
+                            <td><input type="checkbox" name="Tnot230" checked></td>
+                            <td><input type="checkbox" name="Mnot230" checked></td>
+                            <td><input type="checkbox" name="Xnot230" checked></td>
+                            <td><input type="checkbox" name="TOnot230" checked></td>
                         </tr>
-                    </table>--
+                    </table>
                     <section class="input">
-                        <text class="input">0</text>
-                        <select name="incotexNot230Denomination" type="text" class="input">
+                        <span class="input">0</span>
+                        <select name="incotexNot230Denomination" class="input">
                             <option value="0" label="0" selected></option>
                             <option value="1" label="1"></option>
                             <option value="2" label="2"></option>
@@ -178,11 +183,11 @@
                             <option value="8" label="8"></option>
                             <option value="9" label="9"></option>
                         </select>
-                    </section>--
+                    </section>
                     <table class="input" id="incotexNo230Func">
                         <tr>
                             <td>D</td> <td>P</td> <td>O</td> <td>K</td>
-                            <td><select name="ModNumber" type="text" class="input">
+                            <td><select name="ModNumber" class="input">
                                 <option value="1" label="1" selected></option>
                                 <option value="2" label="2"></option>
                                 <option value="3" label="3"></option>
@@ -196,25 +201,25 @@
                             <td>B</td> <td>H</td> <td>W</td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="Dnot230" checked></input></td>
-                            <td><input type="checkbox" name="Pnot230" checked></input></td>
-                            <td><input type="checkbox" name="Onot230" checked></input></td>
-                            <td><input type="checkbox" name="Knot230" checked></input></td>
+                            <td><input type="checkbox" name="Dnot230" checked></td>
+                            <td><input type="checkbox" name="Pnot230" checked></td>
+                            <td><input type="checkbox" name="Onot230" checked></td>
+                            <td><input type="checkbox" name="Knot230" checked></td>
                             <td></td>
-                            <td><input type="checkbox" name="Bnot230" checked></input></td>
-                            <td><input type="checkbox" name="Hnot230" checked></input></td>
-                            <td><input type="checkbox" name="Wnot230" checked></input></td>
+                            <td><input type="checkbox" name="Bnot230" checked></td>
+                            <td><input type="checkbox" name="Hnot230" checked></td>
+                            <td><input type="checkbox" name="Wnot230" checked></td>
                         </tr>
-                    </table>--
+                    </table>
                     <table class="input" id="incotexNot230Interface">
                         <tr>
                             <td>R</td>
-                            <td>L</td><td><select name="PLSstandart" type="text" class="input">
+                            <td>L</td><td><select name="PLSstandart" class="input">
                                 <option value="2" label="2" selected></option>
                                 <option value="3" label="3"></option>
                                 <option value="4" label="4"></option>
                             </select></td>
-                            <td>G</td><td><select name="MobileStandart" type="text" class="input">
+                            <td>G</td><td><select name="MobileStandart" class="input">
                                 <option value="0" label="-" selected></option>
                                 <option value="1" label="1"></option>
                                 <option value="3" label="3"></option>
@@ -226,7 +231,7 @@
                             <td>e</td>
                             <td>s</td>
                             <td>E</td>
-                            <td>F</td><td><select name="RFstandart" type="text" class="input">
+                            <td>F</td><td><select name="RFstandart" class="input">
                                 <option value="03" label="03" selected></option>
                                 <option value="04" label="04"></option>
                                 <option value="05" label="05"></option>
@@ -237,31 +242,36 @@
                                 <option value="10" label="10"></option>
                             </select></td>
                             <td>C</td>
-                            <td>Q</td><td><select name="MultiModNums" type="text" class="input">
+                            <td>Q</td><td><select name="MultiModNums" class="input">
                                 <option value="1" label="1" selected></option>
                             </select></td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" name="RSnot230" checked></input></td>
-                            <td><input type="checkbox" name="Lnot230" checked></input></td>
+                            <td><input type="checkbox" name="RSnot230" checked></td>
+                            <td><input type="checkbox" name="Lnot230" checked></td>
                             <td></td>
-                            <td><input type="checkbox" name="Gnot230" checked></input></td>
+                            <td><input type="checkbox" name="Gnot230" checked></td>
                             <td></td>
-                            <td><input type="checkbox" name="enot230" checked></input></td>
-                            <td><input type="checkbox" name="snot230" checked></input></td>
-                            <td><input type="checkbox" name="Enot230" checked></input></td>
-                            <td><input type="checkbox" name="Fnot230" checked></input></td>
+                            <td><input type="checkbox" name="enot230" checked></td>
+                            <td><input type="checkbox" name="snot230" checked></td>
+                            <td><input type="checkbox" name="Enot230" checked></td>
+                            <td><input type="checkbox" name="Fnot230" checked></td>
                             <td></td>
-                            <td><input type="checkbox" name="Cnot230" checked></input></td>
-                            <td><input type="checkbox" name="Qnot230multi" checked></input></td>
+                            <td><input type="checkbox" name="Cnot230" checked></td>
+                            <td><input type="checkbox" name="Qnot230multi" checked></td>
                             <td></td>
                         </tr>
                     </table>
                 </span>
             </span>
 
+            <div id="bottomNavbar">
+                <button id="decodModel" type="button" title="Расшифровать модель ПУ">✔️📜 </button>
+                <button type="button" id="СheckUncheckAll" title="Отменить выбранные поля">◻Отменить</button>
+                <button type="reset" onclick="hideAll()" title="Сброс">↩︎</button>
+            </div>
+
         </form>
-        <br>
             <div>
                 <ul class="output">
                 </ul>
@@ -269,15 +279,12 @@
                     <li></li>
                 </template>
             </div>
-        <br>
-        <br>
-            <br>
-            <div id="bottomNavbar">
-                <button id="decodModel" type="submit" title="Расшифровать модель ПУ">✔️📜 </button>
-                <button id="СheckUncheckAll" title="Отменить выбранные поля">◻Отменить</button>
-                <button type="reset" onclick="hideAll()" title="Сброс">↩︎</button>
-            </div>
-        <!--<div class="output" id="printBlock"></div>-->
+        </main>
+
+        <footer class="page-footer">
+            <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2026 Простые системы. Версия: 2.0</a>
+        </footer>
+
+        <script src="../scripts/modelDecodingScript.js"></script>
     </body>
-    <script src="../scripts/modelDecodingScript.js"></script>
 </html>

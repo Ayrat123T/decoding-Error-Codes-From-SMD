@@ -1,19 +1,70 @@
-//Enabling Sidebar Toggling with Padding body
+// Sidebar: desktop — expand/collapse width; mobile — slide-in panel + backdrop + FAB outside panel
 
-const showMenu = (toggleId, navbarId) => {
-    const toggle = document.getElementById(toggleId);
-    const navbar = document.getElementById(navbarId);
-    // Important: we do NOT change page padding on open.
+const navbar = document.getElementById('navbar');
+const navToggle = document.getElementById('nav-toggle');
+const mobileToggle = document.getElementById('mobile-menu-toggle');
+const backdrop = document.getElementById('nav-backdrop');
+const mqMobile = window.matchMedia('(max-width: 768px)');
 
-    if(toggle && navbar) {
-        toggle.addEventListener('click', () => {
-            navbar.classList.toggle('expander');
-
-        })
-    }
+function isMobileNav() {
+    return mqMobile.matches;
 }
 
-showMenu('nav-toggle','navbar');
+function closeMobileNav() {
+    if (!navbar) return;
+    navbar.classList.remove('nav-open');
+    document.body.classList.remove('nav-open');
+    if (backdrop) backdrop.hidden = true;
+    if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
+}
+
+function openMobileNav() {
+    if (!navbar) return;
+    navbar.classList.add('nav-open');
+    document.body.classList.add('nav-open');
+    if (backdrop) backdrop.hidden = false;
+    if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
+}
+
+function toggleMobileNav() {
+    if (!navbar) return;
+    if (navbar.classList.contains('nav-open')) closeMobileNav();
+    else openMobileNav();
+}
+
+if (navToggle && navbar) {
+    navToggle.addEventListener('click', () => {
+        if (isMobileNav()) toggleMobileNav();
+        else navbar.classList.toggle('expander');
+    });
+}
+
+if (mobileToggle && navbar) {
+    mobileToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileNav();
+    });
+}
+
+if (backdrop) {
+    backdrop.addEventListener('click', closeMobileNav);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobileNav();
+});
+
+mqMobile.addEventListener('change', () => {
+    if (!isMobileNav()) closeMobileNav();
+});
+
+if (navbar) {
+    navbar.querySelectorAll('a[href]').forEach((a) => {
+        a.addEventListener('click', () => {
+            if (isMobileNav()) closeMobileNav();
+        });
+    });
+}
 
 // Changing Active Link
 
@@ -25,39 +76,18 @@ function colorLink() {
 
 linkColor.forEach(l => l.addEventListener('click', colorLink));
 
-//Activating Submenus
+// Activating Submenus
 
 const linkCollapse = document.getElementsByClassName('collapse-link');
-var i
+var i;
 
-for(i = 0; i <linkCollapse.length; i++) {
+for (i = 0; i < linkCollapse.length; i++) {
     linkCollapse[i].addEventListener('click', function() {
         const collapseMenu = this.nextElementSibling;
+        if (!collapseMenu) return;
         collapseMenu.classList.toggle('showCollapse');
 
         const rotate = collapseMenu.previousElementSibling;
-        rotate.classList.toggle('rotate');
-    })
+        if (rotate) rotate.classList.toggle('rotate');
+    });
 }
-
-
-
-
-
-// When the user scrolls the page, execute myFunction
-/*window.onscroll = function() {myFunction()};
-
-// Get the navbar
-var bottomNavbar = document.getElementById("bottomNavbar");
-
-// Get the offset position of the navbar
-var sticky = bottomNavbar.offsetTop;
-
-// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    bottomNavbar.classList.add("sticky")
-  } else {
-    bottomNavbar.classList.remove("sticky");
-  }
-}*/

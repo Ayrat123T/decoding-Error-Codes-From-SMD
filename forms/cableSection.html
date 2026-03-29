@@ -8,18 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
 
-    <!-- Host styles/fonts -->
     <link rel="stylesheet" href="../styles/buttons.css">
     <link rel="stylesheet" href="../styles/menu.css">
     <link rel="stylesheet" href="../styles/oi.css">
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/cableSection.css">
 
-    <!-- External UI libs (required by this demo) -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   </head>
 
   <body id="body-pd">
+
+    <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+      <span class="mobile-menu-btn__glyph" aria-hidden="true">☰</span>
+    </button>
+    <div class="nav-backdrop" id="nav-backdrop" hidden></div>
+
     <div class="l-navbar" id="navbar">
       <nav class="nav">
         <div>
@@ -34,17 +38,17 @@
           </a>
 
           <div class="nav-list">
-            <div href="#" class="nav-link collapse">
+            <div class="nav-link collapse">
               <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
               <span class="nav-name">Приложения</span>
 
               <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
 
               <ul class="collapse-menu">
-                <a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a>
-                <a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
-                <a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
-                <a href="#" class="collapse-sublink">Расчёт сечения кабеля 🧮</a>
+                <li><a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a></li>
+                <li><a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a></li>
+                <li><a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a></li>
+                <li><a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a></li>
               </ul>
             </div>
           </div>
@@ -64,12 +68,9 @@
       </nav>
     </div>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="../scripts/menu.js"></script>
-
-    <main class="cable-app">
+    <main class="page-main cable-page-wrap">
       <p class="header cable-header">Расчёт сечения кабеля</p>
+      <p class="cable-offline-hint">Расчёт выполняется локально в браузере (без запросов к серверу). Результат ориентировочный; для проектной документации используйте нормы и таблицы из актуальных ПУЭ/ГОСТ.</p>
 
       <div id="cable-app">
         <section class="advice cable-hint">
@@ -77,14 +78,12 @@
           <el-switch v-model="nominalVoltage" active-color="#ff4949" inactive-color="#13ce66" active-value="380"
             inactive-value="220" active-text="380 В" inactive-text="220 В">
           </el-switch>
-          <span style="margin-left: 1rem">Мощность</span>
+          <span class="cable-inline-gap">Мощность</span>
           <el-radio v-model="loadDimension" label="кВт">кВт</el-radio>
           <el-radio v-model="loadDimension" label="Вт" disabled>Вт</el-radio>
           <el-radio v-model="loadDimension" label="А" disabled>А</el-radio>
         </section>
-
         <br>
-
         <form v-on:submit.prevent="addNewRoom">
           <div class="grid-content bg-purple-dark">
             <el-row class="inline-input" :span="1">
@@ -103,16 +102,11 @@
             </el-col>
           </div>
         </form>
-
-        <br>
-        <br>
-
+        <br><br>
         <ul>
           <li is="room-item" v-for="(room, index) in roomsToLoad" v-bind:key="room.id" v-bind:title="room.title"
             v-bind:pow="room.pow" v-bind:ld="room.ld" v-on:remove="roomsToLoad.splice(index, 1)"></li>
         </ul>
-
-        <br>
 
         <el-row>
           <el-button type="primary" plain v-on:click="cableCalc" :loading="loading" :disabled="roomsToLoad.length == 0">
@@ -120,8 +114,6 @@
           </el-button>
           <el-button type="warning" plain v-on:click="deleteText">Сброс</el-button>
         </el-row>
-
-        <br>
 
         <p>Результат</p>
         <el-table :data="tableResult" style="width: 100%" empty-text="Нет данных">
@@ -131,21 +123,23 @@
           <el-table-column prop="aluminum" label="Алюминий, кв.мм"></el-table-column>
         </el-table>
 
-        <br>
-        <i class="el-icon-info"></i>
-        <span>Минимальное сечение медного провода для жилых помещений: <br> 1.5 кв.мм для освещения <br> 2.5 кв.мм для розеточной группы</span>
-
-        <br><br>
-
-        <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2026 Простые системы. Версия: 2.0</a>
+        <p class="cable-footnote">
+          <i class="el-icon-info"></i>
+          Минимальное сечение медного провода для жилых помещений: 1.5 кв.мм для освещения; 2.5 кв.мм для розеточной группы.
+        </p>
       </div>
     </main>
 
-    <!-- Vue2 + ElementUI2 + Axios (this demo uses Vue2 APIs) -->
+    <footer class="page-footer">
+      <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2026 Простые системы. Версия: 2.0</a>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="../scripts/menu.js"></script>
+
     <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="https://unpkg.com/element-ui@2.15.14/lib/index.js"></script>
     <script src="../scripts/cableSection.js"></script>
   </body>
 </html>
-

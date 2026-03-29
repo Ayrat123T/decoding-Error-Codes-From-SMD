@@ -5,19 +5,36 @@ html, body {
   font-family: var(--body-font);
 }
 
+.cable-page-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem 1rem 1rem;
+  text-align: left;
+}
+
 .cable-header {
   margin: 0 0 1rem 0;
 }
 
-.cable-app {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 1rem 4rem 1rem;
-  text-align: left;
+.cable-offline-hint {
+  opacity: 0.92;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0 0 1rem 0;
 }
 
 .cable-hint {
   opacity: 0.9;
+}
+
+.cable-inline-gap {
+  margin-left: 1rem;
+}
+
+.cable-footnote {
+  margin-top: 1rem;
+  line-height: 1.45;
+  opacity: 0.95;
 }
 
 /* ElementUI tweaks to match the dark theme */
@@ -50,7 +67,7 @@ html, body {
 }
 
 @media (max-width: 480px) {
-  .cable-app {
-    padding: 0 0.75rem 4.5rem 0.75rem;
+  .cable-page-wrap {
+    padding: 0 0.75rem 0.5rem 0.75rem;
   }
 }

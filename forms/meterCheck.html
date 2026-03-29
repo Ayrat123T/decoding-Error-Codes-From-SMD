@@ -14,6 +14,10 @@
     </head>
     <body id="body-pd">
 
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+            <span class="mobile-menu-btn__glyph" aria-hidden="true">☰</span>
+        </button>
+        <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
         <div class="l-navbar" id="navbar">
             <nav class="nav">
@@ -27,23 +31,23 @@
                         <ion-icon name="home-outline" class="nav-icon"></ion-icon>
                         <span class="nav-name">Главная</span>
                     </a>
-    
+
                     <div class="nav-list">
 
-                        <div href="#" class="nav-link collapse">
+                        <div class="nav-link collapse">
                             <ion-icon name="terminal-outline" class="nav-icon"></ion-icon>
                             <span class="nav-name">Приложения</span>
-    
+
                             <ion-icon name="chevron-down-outline" class="collapse-link"></ion-icon>
-    
+
                             <ul class="collapse-menu">
-                                <a href="#" class="collapse-sublink">Проверка ИПУ ✔️</a>
-                                <a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a>
-                                <a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a>
-                                <a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a>
+                                <li><a href="meterCheck.html" class="collapse-sublink">Проверка ИПУ ✔️</a></li>
+                                <li><a href="errorDecoding.html" class="collapse-sublink">Расшифровка кодов ошибок ИПУ 🔑</a></li>
+                                <li><a href="modelDecoding.html" class="collapse-sublink">Расшифровка модели ИПУ 📟</a></li>
+                                <li><a href="cableSection.html" class="collapse-sublink">Расчёт сечения кабеля 🧮</a></li>
                             </ul>
                         </div>
-    
+
                         <a href="#" class="nav-link" id="copyResultButton">
                             <ion-icon name="copy" class="nav-icon"></ion-icon>
                             <span class="nav-name">Скопировать вывод</span>
@@ -57,7 +61,7 @@
                         <ion-icon name="globe" class="nav-icon"></ion-icon>
                         <span class="nav-name">© 2026 PorTat</span>
                     </a>
-        
+
                     <a href="mailto:airattu@mail.ru" class="nav-link">
                         <ion-icon name="mail" class="nav-icon"></ion-icon>
                         <span class="nav-name">airattu@mail.ru</span>
@@ -66,18 +70,14 @@
             </nav>
         </div>
 
-        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-        <script src="../scripts/menu.js"></script>
-
-
+        <main class="page-main">
         <form name="MeterCheck">
             <p class="header">Проверка ИПУ</p>
             <table class="input"><tr><td><label for="CurrentTransformerTransformationRatio" class="labelMeterCheck">Ктт = </label>
                 <input id="CurrentTransformerTransformationRatio" type="number" class="inputMeterCheck" name="CurrentTransformerTransformationRatio" placeholder="1" required min="0" title="коэффициент трансформации трансформатора тока"/></td></tr></table>
             <table class="input"><tr><td><label for="PowerFactor" class="labelMeterCheck">cos(φ) = </label>
                 <input id="PowerFactor" type="number" class="inputMeterCheck" name="PowerFactor" placeholder="1" required min="0" max="1" step="0.001" title="коэффициент мощности"/></td></tr></table>
-            <table class="input"><tr><td><input type="checkbox" class="input" id="ThreePhaseMeterCheckBox">3-х фазный режим</input></td></tr></table>
+            <table class="input"><tr><td><label><input type="checkbox" class="input" id="ThreePhaseMeterCheckBox"> 3-х фазный режим</label></td></tr></table>
             <p><table class="input"><tr><td><label id="FirstVoltageMeterLabel" for="VoltageMeterCheck" class="labelMeterCheck">U[В] = </label>
                 <input id="VoltageMeterCheck" type="number" class="inputMeterCheck" name="VoltageMeterCheck" placeholder="220" value="220" required min="0" step="0.001" title="напряжение фазы А"/></td></tr></table>
                 <table class="input"><tr><td><label id="FirstCurrentMeterLabel" for="CurrentMeterCheck" class="labelMeterCheck">I[А] = </label>
@@ -89,11 +89,11 @@
                         <input id="CurrentMeterCheck_B" type="number" class="inputMeterCheck" name="CurrentMeterCheck_B" placeholder="1" required min="0" title="ток фазы B"/></td></tr></table></p>
                 <p><table class="input"><tr><td><label for="VoltageMeterCheck_C" class="labelMeterCheck">Uc[В] = </label>
                     <input id="VoltageMeterCheck_C" type="number" class="inputMeterCheck" name="VoltageMeterCheck_C" placeholder="220" value="220" required min="0" title="напряжение фазы C"/></td></tr></table>
-                    <table class="input"><tr><td><label for="CurrentMeterCheck_B" class="labelMeterCheck">Ic[А] = </label>
-                        <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"  title="ток фазы C"/></td></tr></table></p>     
+                    <table class="input"><tr><td><label for="CurrentMeterCheck_C" class="labelMeterCheck">Ic[А] = </label>
+                        <input id="CurrentMeterCheck_C" type="number" class="inputMeterCheck" name="CurrentMeterCheck_C" placeholder="1" required min="0"  title="ток фазы C"/></td></tr></table></p>
             </div>
             <p><table class="input"><tr><td><label for="ImpsMeterCheck" class="labelMeterCheck">A[имп/кВ*ч] = </label>
-                <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list = "impsList" required min="0" title="постоянная счётчика"/></td></tr></table>
+                <input id="ImpsMeterCheck" type="number" class="inputMeterCheck" name="ImpsMeterCheck" list="impsList" required min="0" title="постоянная счётчика"/></td></tr></table>
                 <datalist id="impsList">
                     <option value="250"></option>
                     <option value="500"></option>
@@ -110,12 +110,11 @@
                 <p><span id="timer" class="input">00:00:00.0</span></p>
                 <p><span id="CalcPower" class="input">Pрасч = 0.0 Вт;   </span>
                     <span id="CalcEnergy" class="input">Wрасч = 0.0 кВт*ч</span></p>
-                        <!--<p><button id="CalcMeterAccuracy" class="button" name="CalcMeterAccuracy">Расчёт погрешности</button></p>-->
-                <div id = "resultMeterCheck" style="display: none">
+                <div id="resultMeterCheck" style="display: none">
                     <span id="RealMeterPower" class="input"></span>
                         <span id="MeterAccuracy" class="input"></span>
                 </div>
-        
+
         <br>
 
         <div class="output" id="printBlock"></div>
@@ -124,7 +123,15 @@
             <button type="reset" id="resetMeterCheck" onclick="clearALL()">↩︎Сброс</button>
         </div>
     </form>
-    </body>
+        </main>
 
-    <script src="../scripts/meterCheckScript.js"></script>
+        <footer class="page-footer">
+            <a href="https://ovvio.pro/" class="footer" style="text-decoration: underline">© 2026 Простые системы. Версия: 2.0</a>
+        </footer>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <script src="../scripts/menu.js"></script>
+        <script src="../scripts/meterCheckScript.js"></script>
+    </body>
 </html>

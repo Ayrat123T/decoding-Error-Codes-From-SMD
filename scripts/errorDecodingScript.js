@@ -530,7 +530,7 @@ writeBtn.addEventListener("click", copyResult);
 // Функция создания карточки результатов
 function PrintResult(items, header) {
     const resultElement = resultTemplate.content.cloneNode(true);
-    const toDOOMoutput = resultElement.querySelector('.output')
+    const toDOOMoutput = resultElement.querySelector('.output ul');
     items.forEach(element => {
         let li = document.createElement('li');
         li.innerHTML = (items.length > 1 ? '№ '+ element.id + ': ' : '') 
